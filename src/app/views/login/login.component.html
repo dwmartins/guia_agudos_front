@@ -1,0 +1,42 @@
+<section class="container-fluid mb-5">
+    
+    <div class="container d-flex justify-content-center  my-5">
+        <form [formGroup]="formLogin" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2">
+            <h2 class="fs-1 text-center my-2">Entrar</h2>
+
+            <div class="w-100">
+                <label for="email">E-email</label>
+                <div class="position-relative">
+                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input" formControlName="email" [ngClass]="{'invalid_input': formLogin.get('email')?.invalid && formLogin.get('email')?.touched}">
+                    <i class="bi bi-person position-absolute icon_user fs-4 text-black-50"></i>
+                </div>
+                <div *ngIf="formLogin.get('email')?.hasError('required') && formLogin.get('email')?.touched" class="text-danger ">
+                    Digite seu e-mail.
+                </div>
+            </div>
+            <div class="w-100">
+                <label for="password">Senha</label>
+                <div class="position-relative">
+                    <input [type]="showPassword" name="password" id="password" class="form-control custom_focus" formControlName="password" [ngClass]="{'invalid_input': formLogin.get('password')?.invalid && formLogin.get('password')?.touched}">
+                    <i (click)="viePassword()" [class]="icon_password" class="cursor_pointer position-absolute icon_password fs-4 text-black-50"></i>
+                </div>
+                <div *ngIf="formLogin.get('password')?.hasError('required') && formLogin.get('password')?.touched" class="text-danger">
+                    Digite sua senha.
+                </div>
+            </div>
+
+            <div class="w-100">
+                <button class="btn btn-primary fw-semibold w-100">Entrar</button>
+            </div>
+
+            <div>
+                <hr class="text-secondary">
+            </div>
+
+            <div class="d-flex flex-column text-center gap-1 ">
+                <a [routerLink]="['/recuperacao-senha']" class="link_outline_none ">Esqueci minha senha</a>
+                <p>Não possui conta? <a [routerLink]="['/nova-conta']" class="link_outline_none">Criar conta</a></p>
+            </div>
+        </form>
+    </div>
+</section>
