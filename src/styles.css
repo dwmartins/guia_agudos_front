@@ -1,1 +1,80 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    /* Inputs */
+    --custom-input-box-shadow: 0px 0px 3px 0px rgba(116, 166, 240, 0.788);
+
+    /* Font colors */
+    --custom-titles-black: #2D2E2F;
+}
+
+/* Custom Titles */
+.custom-title-dark {
+    color: var(--custom-titles-black);
+}
+
+/* Custom colors */
+.bg-primary {
+    background-color: #399fff !important;
+}
+
+.text-primary {
+    color: #399fff !important;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #399fff;
+    --bs-btn-border-color: #399fff;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #399fff;
+    --bs-btn-disabled-border-color: #399fff;
+}
+
+/* Helpers */
+.cursor_pointer {
+    cursor: pointer;
+}
+
+.link_outline_none {
+    text-decoration: none;
+}
+
+/* Inputs */
+.custom_focus:focus {
+    box-shadow: var(--custom-input-box-shadow);
+}
+
+.custom_no_feedback {
+    background-image: none !important;
+}
+
+.custom_placeholder::placeholder {
+    color: #b1b1b1 !important;
+}
+
+/* Animations */
+.show-animation {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
