@@ -1,0 +1,13 @@
+.logged_small {
+    display: none;
+}
+
+@media screen and (max-width: 992px) {
+    .logged_small {
+        display: flex;
+    }
+
+    .logged_large {
+        display: none;
+    }
+}

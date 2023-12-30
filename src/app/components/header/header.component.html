@@ -1,1 +1,98 @@
-<p>header works!</p>
+<nav class="navbar navbar-expand-lg bg-body-tertiary mx-0 ">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <div class="my_logo d-flex align-items-center ">
+                <i class="bi bi-geo-alt-fill text-primary fs-3 "></i>
+                <span class="fs-3 fw-bold ">GuiaAgudos</span>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <!-- Logged -->
+                <div *ngIf="userLogged">
+                    <li class="nav-item logged_small">
+                        <i class="bi bi-person-fill me-1 "></i>
+                        <span>Douglas</span>
+                    </li>
+                    <hr>
+                    <li class="nav-item logged_small">
+                        <a class="nav-link" href="#">Painel</a>
+                    </li>
+                    <li class="nav-item logged_small">
+                        <a class="nav-link">
+                            Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item logged_small">
+                        <a href="#" class="nav-link cursor_pointer">Sair</a>
+                    </li>
+                </div>
+                <!-- Logged -->
+                <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Anúncios</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Eventos</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vagas de emprego</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Blog</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contato</a>
+                    </li>
+                <hr>
+                    <li class="nav-item logged_small">
+                        <a class="nav-link" href="#">Anuncie Aqui</a>
+                    </li>
+
+                <hr>
+                <!-- not logged in -->
+                <li *ngIf="!userLogged" class="nav-item logged_small">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Entrar</a>
+                </li>
+                <!-- not logged in -->
+
+            </ul>
+            <div *ngIf="userLogged" class="logged_large">
+                <button class="btn btn-light btn-sm me-2 ps-0">
+                    Anuncie aqui
+                </button>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Douglas
+                    </button>
+                    <ul class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Painel</a>
+                        <a href="#" class="dropdown-item">Perfil</a>
+                        <li class="dropdown-item cursor_pointer">Sair</li>
+                    </ul>
+                </div>
+            </div>
+            <div *ngIf="!userLogged" class="flex-column logged_large">
+                <a href="#" class="btn btn-light btn-sm me-2">Anuncie aqui</a>
+                <button type="button" class="btn btn-primary btn-sm fw-bold rounded-1" data-bs-toggle="modal"
+                    data-bs-target="#modalLogin">Entrar</button>
+            </div>
+        </div>
+    </div>
+</nav>
