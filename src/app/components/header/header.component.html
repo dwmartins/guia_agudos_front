@@ -18,7 +18,7 @@
                 <div *ngIf="userLogged">
                     <li class="nav-item logged_small">
                         <i class="bi bi-person-fill me-1 "></i>
-                        <span>Douglas</span>
+                        <span>{{ user.name }}</span>
                     </li>
                     <hr>
                     <li class="nav-item logged_small">
@@ -30,7 +30,7 @@
                         </a>
                     </li>
                     <li class="nav-item logged_small">
-                        <a href="#" class="nav-link cursor_pointer">Sair</a>
+                        <a (click)="logout()" class="nav-link cursor_pointer">Sair</a>
                     </li>
                 </div>
                 <!-- Logged -->
@@ -79,12 +79,12 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Douglas
+                        {{ user.name }}
                     </button>
                     <ul class="dropdown-menu">
                         <a href="#" class="dropdown-item">Painel</a>
                         <a href="#" class="dropdown-item">Perfil</a>
-                        <li class="dropdown-item cursor_pointer">Sair</li>
+                        <li (click)="logout()" class="dropdown-item cursor_pointer">Sair</li>
                     </ul>
                 </div>
             </div>

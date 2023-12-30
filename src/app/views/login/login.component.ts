@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
+import { HeaderService } from '../../services/header.service';
 
 @Component({
    selector: 'app-login',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit{
    constructor(
       private formBuilder: FormBuilder,
       private router: Router,
-      private userService: UserService
+      private userService: UserService,
+      private headerService: HeaderService
    ) {
       this.formLogin = this.formBuilder.group({
          email: ['', [Validators.required, Validators.email]],
@@ -58,6 +60,7 @@ export class LoginComponent implements OnInit{
             this.alerts('success', 'Login realizado com sucesso.');
 
             setTimeout(() => {
+               this.headerService.update(true);
                this.router.navigate(['/']);
             }, 1500);
          }, (error) => {
