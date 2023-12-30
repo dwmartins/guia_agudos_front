@@ -5,11 +5,12 @@ import { User } from '../../../models/user';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AlertsComponent } from '../../components/alerts/alerts.component';
 
 @Component({
    selector: 'app-login',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent],
    templateUrl: './login.component.html',
    styleUrl: './login.component.css'
 })
@@ -20,6 +21,8 @@ export class LoginComponent implements OnInit{
 
    icon_password: string = 'bi bi-eye';
    showPassword: string = 'password';
+
+   alert: any[] = [];
 
    constructor(
       private formBuilder: FormBuilder,
@@ -46,14 +49,19 @@ export class LoginComponent implements OnInit{
       if(this.formLogin.valid) {
          this.userService.login(this.formLogin.value).subscribe((response) => {
             if('alert' in response) {
-               console.log(response.alert)
+               this.alerts('alert', response.alert);
                return;
             }
 
             this.user = response;
             this.setLocalStorage();
-            // this.router.navigate(['/']);
+            this.alerts('success', 'Login realizado com sucesso.');
+
+            setTimeout(() => {
+               this.router.navigate(['/']);
+            }, 1500);
          }, (error) => {
+            this.alerts('error', 'Falha ao realizar o login');
             console.error('ERROR: ', error);
          })
       } else {
@@ -69,5 +77,12 @@ export class LoginComponent implements OnInit{
    viePassword() {
       this.showPassword = (this.showPassword === "text") ? "password" : (this.showPassword === "password") ? "text" : this.showPassword
       this.icon_password = (this.icon_password === "bi bi-eye") ? "bi bi-eye-slash" : (this.icon_password === "bi bi-eye-slash") ? "bi bi-eye" : this.icon_password;
+   }
+
+   alerts(type: string, description: string) {
+      this.alert.push({
+         type: type,
+         description: description
+      })
    }
 }
