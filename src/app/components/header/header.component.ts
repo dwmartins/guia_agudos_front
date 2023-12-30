@@ -24,12 +24,8 @@ export class HeaderComponent implements OnInit {
 
    checkUserLogged() {
       this.headerService.updateHeader$.subscribe((show) => {
-         if(show) {
-            this.userLogged = true;
-            this.setUserData();
-         }
+         this.setUserData();
       })
-      this.setUserData();
    }
 
    setUserData() {
