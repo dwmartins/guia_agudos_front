@@ -26,7 +26,12 @@
             </div>
 
             <div class="w-100">
-                <button class="btn btn-primary fw-semibold w-100">Entrar</button>
+                <button class="btn btn-primary fw-semibold w-100 d-flex justify-content-center" [disabled]="loadSpinner">
+                    <span *ngIf="!loadSpinner">Entrar</span>
+                    <div *ngIf="loadSpinner" class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
             </div>
 
             <div>

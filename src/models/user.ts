@@ -4,7 +4,7 @@ export interface User {
     lastName: string;
     email: string;
     active: 'Y' | 'N';
-    user_type: 'admin' | 'user';
+    user_type: 'admin' | 'common';
     photo_url: string;
     createdAt: string;
     updatedAt: string;

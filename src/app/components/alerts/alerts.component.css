@@ -1,5 +1,5 @@
 .alert_content {
-    position: absolute;
+    position: fixed;
     left: 15px;
     bottom: 0;
     animation: slideIn 0.3s ease-out;

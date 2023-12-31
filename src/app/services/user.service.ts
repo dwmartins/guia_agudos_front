@@ -19,4 +19,8 @@ export class UserService {
   sendNewPassword(user: User) {
     return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/nova-senha`, user);
   }
+
+  newUser(user:User) {
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/novo`, user);
+  }
 }

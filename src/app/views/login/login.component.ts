@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit{
 
    alert: any[] = [];
 
+   loadSpinner: boolean = false;
+
    constructor(
       private formBuilder: FormBuilder,
       private router: Router,
@@ -49,7 +51,9 @@ export class LoginComponent implements OnInit{
 
    submitForm() {
       if(this.formLogin.valid) {
+         this.loadSpinner = true;
          this.userService.login(this.formLogin.value).subscribe((response) => {
+            this.loadSpinner = false;
             if('alert' in response) {
                this.alerts('alert', response.alert);
                return;
@@ -64,6 +68,7 @@ export class LoginComponent implements OnInit{
                this.router.navigate(['/']);
             }, 1500);
          }, (error) => {
+            this.loadSpinner = false
             this.alerts('error', 'Falha ao realizar o login');
             console.error('ERROR: ', error);
          })

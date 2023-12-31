@@ -1,0 +1,36 @@
+form {
+    max-width: 470px;
+}
+
+.icon_user, .icon_password {
+    right: 7px;
+    top: 2px;
+}
+
+#previewImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.placeholder {
+    background-color: #aaaaaa71;
+    border: 2px dashed #64646471;
+    padding: 3px;
+    text-align: center;
+    cursor: pointer;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.placeholder:hover {
+    border-color: #3a3a3a;
+}
+
+.icon_check {
+    font-size: 60px;
+}
