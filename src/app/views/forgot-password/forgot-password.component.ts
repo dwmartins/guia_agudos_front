@@ -18,6 +18,9 @@ export class ForgotPasswordComponent {
    @ViewChild('success', { static: true }) success!: ElementRef;
    
    modalForgotPassword = inject(NgbModal);
+   formBuilder = inject(FormBuilder);
+   router = inject(Router);
+   userService = inject(UserService);
 
    formForgotPassword: FormGroup;
 
@@ -25,11 +28,7 @@ export class ForgotPasswordComponent {
 
    loadSpinner: boolean = false;
 
-   constructor(
-      private formBuilder: FormBuilder,
-      private router: Router,
-      private userService: UserService
-   ) {
+   constructor() {
       this.formForgotPassword = this.formBuilder.group({
          email: ['', [Validators.required, Validators.email]]
       })
@@ -48,7 +47,7 @@ export class ForgotPasswordComponent {
             this.modalForgotPassword.open(this.success, { centered: true });
          }, (error) => {
             this.loadSpinner = false;
-            this.alerts('error', 'Falha buscar o e-mail');
+            this.alerts('error', 'Falha ao buscar o e-mail');
             console.error('ERROR: ', error);
          })
       } else {
