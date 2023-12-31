@@ -15,7 +15,6 @@ export class ListingCategoryService {
   constructor() { }
 
   categories(limit: number | null) {
-    debugger
     return this.httpClient.get<ListingCategory[]>(`${this.API_URL}/anuncios/categorias?limit=${limit}`);
   }
 }
