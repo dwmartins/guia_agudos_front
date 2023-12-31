@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListingCategoryComponent } from '../listing-category/listing-category.component';
+import { ListingCategoryComponent } from '../../components/listing-category/listing-category.component';
 
 @Component({
   selector: 'app-listing-category-all',
