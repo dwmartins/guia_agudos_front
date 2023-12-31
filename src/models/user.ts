@@ -11,7 +11,7 @@ export interface User {
     token: string;
 }
 
-export interface Warnings {
+export interface Responses {
     alert: string;
     error: string;
 }

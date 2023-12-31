@@ -10,7 +10,7 @@
                     <input type="email" name="email" id="email" class="form-control custom_focus invalid_input" formControlName="email" [ngClass]="{'invalid_input': formLogin.get('email')?.invalid && formLogin.get('email')?.touched}">
                     <i class="bi bi-person position-absolute icon_user fs-4 text-black-50"></i>
                 </div>
-                <div *ngIf="formLogin.get('email')?.hasError('required') && formLogin.get('email')?.touched" class="text-danger ">
+                <div *ngIf="formLogin.get('email')?.hasError('required') && formLogin.get('email')?.touched" class="text-danger">
                     Digite seu e-mail.
                 </div>
             </div>

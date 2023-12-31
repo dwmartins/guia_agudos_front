@@ -65,7 +65,7 @@
 }
 
 .invalid_input {
-    background-color: #ff000015;
+    background-color: #ff000010;
     border: 1px solid #ff000031;
 }
 
@@ -82,4 +82,9 @@
     to {
         opacity: 1;
     }
+}
+
+.custom_spinner_btn {
+    height: 22px;
+    width: 22px;
 }
