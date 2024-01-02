@@ -1,0 +1,33 @@
+
+.carousel-item {
+    height: calc(100vh - 78px);
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100vh;
+}
+
+.shadow_img {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(100vh - 68px);
+    top: 0;
+    left: 0;
+    box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    font-size: clamp(40px, 8vw, 65px);
+}
+
+.custom_search:focus {
+    box-shadow: var(--custom-input-box-shadow);
+}
+
+.icon_search_carousel {
+    top: 50%;
+    left: 20px;
+    transform: translate(0%, -50%);
+}
