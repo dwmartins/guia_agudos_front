@@ -2,17 +2,17 @@
     <div id="listing_carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner carousel_field">
 
-            <div>
+            <div *ngIf="!carousel.length">
                 <div class="carousel-item active">
                     <img src="../../../assets/img/carousel/Default.png" class="d-block w-100" alt="...">
                 </div>
             </div>
 
-            <!-- <div>
-                <div class="carousel-item active">
-                    <img :src="image.coverImage" class="d-block w-100" :alt="image.name">
+            <div *ngIf="carousel.length">
+                <div *ngFor="let img of carousel" class="carousel-item active">
+                    <img [src]="img.image" class="d-block w-100" [alt]="img.description">
                 </div>
-            </div> -->
+            </div>
 
             <button class="carousel-control-prev z-3" type="button" data-bs-target="#listing_carousel"
                 data-bs-slide="prev">
