@@ -22,9 +22,9 @@
                 <div class="tab-pane fade container" id="banner" role="tabpanel" aria-labelledby="banner-tab"
                     tabindex="0">
                     <div class="row gap-2 justify-content-center">
-                        <div class="card col-12 col-sm-9 p-4 d-flex flex-column align-content-center plans_item">
-                            <p class="text-black-50 text-center fw-bolder p-1">Banner para pagina inicial</p>
-                            <h2 class="custom_title fw-bolder text-center m-3 ">$50/Mês</h2>
+                        <div *ngFor="let banner of banners" class="card col-12 col-sm-9 p-4 d-flex flex-column align-content-center plans_item">
+                            <p class="text-black-50 text-center fw-bolder p-1">{{ banner.description }}</p>
+                            <h2 class="custom_title fw-bolder text-center m-3 ">${{ banner.price }}/Mês</h2>
                             <button class="btn btn-outline-secondary rounded-1">COMECE HOJE!</button>
                         </div>
                     </div>
