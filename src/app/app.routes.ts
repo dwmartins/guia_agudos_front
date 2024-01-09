@@ -5,6 +5,7 @@ import { ForgotPasswordComponent } from './views/forgot-password/forgot-password
 import { RegisterComponent } from './views/register/register.component';
 import { ListingCategoryAllComponent } from './views/listing-category-all/listing-category-all.component';
 import { PlansComponent } from './views/plans/plans.component';
+import { ListingsComponent } from './views/listings/listings.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -12,5 +13,6 @@ export const routes: Routes = [
     {path: 'nova-conta', component: RegisterComponent},
     {path: 'recuperacao-senha', component: ForgotPasswordComponent},
     {path: 'anuncios/categorias', component: ListingCategoryAllComponent},
-    {path: 'planos', component: PlansComponent}
+    {path: 'planos', component: PlansComponent},
+    {path: 'anunciantes', component: ListingsComponent}
 ];
