@@ -1,1 +1,55 @@
-<p>listings works!</p>
+<section class="container-fluid pt-2 pb-5">
+    <div class="container px-0 ">
+        <h2 class="fs-3 my-4">Anúncios</h2>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <div class="row p-0">
+            <div class="col-xxl-3 col-8 mb-3 border rounded-1 px-2 bg-white bg-opacity-50 card_categories">
+                <div (click)="toggleIconCategories()" class="border-bottom px-2 d-flex justify-content-between " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <p class="m-1 fs-5" >Categorias</p>
+                    <i [class.bi-plus]="!iconCategories" [class.bi-dash]="iconCategories" class="bi fs-4"></i>
+                </div>
+                <div class="collapse px-2 bg-white bg-opacity-50" id="collapseExample">
+                    <p class="m-0 p-1 cursor_pointer text-black-50 list_categories" *ngFor="let category of categories"> {{ category.cat_name }}</p>
+                </div>
+            </div>
+            <div class="col-xxl-9 px-2">
+                <div class="input-group mb-3">
+                    <span class="material-symbols-outlined input-group-text">
+                        search
+                    </span>
+                    <input type="text"
+                        class="form-control custom_search" placeholder="Buscar anúncio...">
+                </div>
+                <hr>
+                <div *ngFor="let r of [].constructor(10); let i = index" class="row mb-4 bg-white bg-opacity-50 py-4 m-0">
+                    <div class="col-md-4 rounded-end-5 px-0 cursor_pointer">
+                        <img class="img-fluid rounded-end-5" src="../../../assets/img/carousel/martins_refrigeracao (1).jpg" alt="">
+                    </div>
+                    <div class="col-md-8 p-2 px-3">
+                        <div class="d-flex flex-column justify-content-between h-100">
+                            <h4 class="fs-5 custom-title-dark">Martins refrigeração</h4>
+                            <div class="d-flex justify-content-between ">
+                                <a class="link_outline_none text-dark" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
+                                    <span class="fs-5 fw-light">14991882505</span>
+                                </a>
+
+                                <div class="text-dark">
+                                    <i class="bi bi-envelope me-2 fs-5"></i>
+                                    <span class="fs-5 fw-light">douglas5422&#64;outlook.com</span>
+                                </div>
+                            </div>
+                            <div class="text-dark">
+                                <i class="bi bi-geo-alt-fill fs-5"></i>
+                                <span class="fs-5 fw-light">Nivaldo Bertolo 542 Agudos SP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

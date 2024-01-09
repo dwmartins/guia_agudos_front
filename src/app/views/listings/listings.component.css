@@ -1,0 +1,21 @@
+.card_categories {
+    max-height: 40px;
+}
+
+@media screen and (max-width: 1400px) {
+    .card_categories {
+        max-height: none;
+    }
+}
+
+.list_categories:hover {
+    color: var(--custom-hover-black) !important;
+}
+
+section {
+    background-color: var(--custom-light-gray);
+}
+
+.custom_search:focus {
+    box-shadow: var(--custom-input-box-shadow);
+}
