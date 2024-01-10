@@ -23,6 +23,7 @@ export class CarouselComponent implements OnInit{
    getCarousel() {
       this.carouselService.carousel('ativo').subscribe((response) => {
          this.carousel = response;
+         console.log(response)
       }, (error) => {
          console.error('ERROR: ', error);
       })

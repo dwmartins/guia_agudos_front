@@ -7,7 +7,7 @@
 
     <div class="container">
         <div class="row p-0">
-            <div class="col-xxl-3 px-0 col-8 mb-3 border rounded-1 bg-white bg-opacity-50 card_categories">
+            <div class="col-xxl-3 px-0 col-8 mb-3 border rounded-1 bg-white bg-opacity-50 card_categories d-none d-xxl-block ">
                 <div (click)="toggleIconCategories()" class="border-bottom px-2 d-flex justify-content-between " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     <p class="m-1 fs-5" >Categorias</p>
                     <i [class.bi-plus]="!iconCategories" [class.bi-dash]="iconCategories" class="bi fs-4"></i>
@@ -25,26 +25,27 @@
                         class="form-control custom_search" placeholder="Buscar anúncio...">
                 </div>
                 <hr>
-                <div *ngFor="let r of [].constructor(10); let i = index" class="row mb-4 bg-white bg-opacity-50 py-4 m-0">
-                    <div class="col-md-4 rounded-end-5 px-0 cursor_pointer">
-                        <img class="img-fluid rounded-end-5" src="../../../assets/img/carousel/martins_refrigeracao (1).jpg" alt="">
+                <div *ngFor="let r of [].constructor(10); let i = index" class="row mb-4 bg-white bg-opacity-50 py-4 m-0 rounded-2">
+                    <div class="col-sm-4 rounded-end-5 px-0 cursor_pointer">
+                        <img class="img-fluid rounded-end-5 img_listing" src="../../../assets/img/carousel/martins_refrigeracao (1).jpg" alt="">
                     </div>
-                    <div class="col-md-8 p-2 px-3">
+                    <div class="col-sm-8 p-2 px-3">
                         <div class="d-flex flex-column justify-content-between h-100">
-                            <h4 class="fs-5 custom-title-dark">Martins refrigeração</h4>
-                            <div class="d-flex justify-content-between ">
+                            <h4 class="fs-3 custom-title-dark">Martins refrigeração</h4>
+                            <p class="fs-6 fw-light mb-3 mb-sm-2">Consertos em maquinas de lavar e geladeiras</p>
+                            <div class="d-flex flex-wrap gap-sm-3 row-gap-0 row-gap-sm-0 gap-3 ">
                                 <a class="link_outline_none text-dark" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                                    <span class="fs-5 fw-light">14991882505</span>
+                                    <span class="fs-6 fw-light">14-991882505</span>
                                 </a>
 
                                 <div class="text-dark">
                                     <i class="bi bi-envelope me-2 fs-5"></i>
-                                    <span class="fs-5 fw-light">douglas5422&#64;outlook.com</span>
+                                    <span class="fs-6 fw-light">douglas5422&#64;outlook.com</span>
                                 </div>
                             </div>
                             <div class="text-dark">
                                 <i class="bi bi-geo-alt-fill fs-5"></i>
-                                <span class="fs-5 fw-light">Nivaldo Bertolo 542 Agudos SP</span>
+                                <span class="fs-6 fw-light">Nivaldo Bertolo 542 Agudos SP</span>
                             </div>
                         </div>
                     </div>
