@@ -21,6 +21,7 @@ export class ListingsComponent implements OnInit{
    testeQtd: number = 10;
 
    ngOnInit(): void {
+      this.goToTheTopWindow();
       this.getCategories();
    }
 
@@ -35,5 +36,9 @@ export class ListingsComponent implements OnInit{
       }, (error) => {
          console.error('ERROR: ', error);
       })
+   }
+
+   goToTheTopWindow() {
+      window.scrollTo(0, 0);
    }
 }

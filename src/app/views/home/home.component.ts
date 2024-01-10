@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ListingCategoryComponent } from '../../components/listing-category/listing-category.component';
 import { CarouselComponent } from '../../components/carousel/carousel.component';
 
@@ -10,6 +10,13 @@ import { CarouselComponent } from '../../components/carousel/carousel.component'
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  
+  ngOnInit(): void {
+    this.goToTheTopWindow();
+  }
 
+  goToTheTopWindow() {
+    window.scrollTo(0, 0);
+ }
 }
