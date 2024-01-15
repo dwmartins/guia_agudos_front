@@ -18,6 +18,12 @@
     color: #ffff00;
 }
 
+@media screen and (max-width: 576px) {
+    .img_logo{
+        max-width: 110px !important;
+    }
+}
+
 @media screen and (max-width: 1200px) {
     .img_logo{
         max-width: 150px;
