@@ -2,7 +2,6 @@
     height: 430px;
     object-fit: cover;
     object-position: center;
-    box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.5);
 }
 
 .shadow_img {
@@ -12,9 +11,15 @@
     height: 430px;
     top: 0;
     left: 0;
-    box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.603);
 }
 
 .assessments i {
     color: #ffff00;
+}
+
+@media screen and (max-width: 1200px) {
+    .img_logo{
+        max-width: 150px;
+    }
 }
