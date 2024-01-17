@@ -29,3 +29,7 @@
         max-width: 150px;
     }
 }
+
+.long_description {
+    text-align: justify;
+}
