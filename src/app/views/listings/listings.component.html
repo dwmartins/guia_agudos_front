@@ -14,20 +14,20 @@
                 </div>
                 <div class="collapse bg-white bg-opacity-50 w-100 px-2" id="collapseExample">
                     <p class="m-0 p-1 cursor_pointer text-black-50 list_categories d-flex align-items-center">
-                        <span class="material-symbols-outlined fs-5 me-1">
+                        <span translate="no" class="material-symbols-outlined fs-5 me-1">
                             apps
                         </span>
                         Todos
                     </p>
                     <p class="m-0 p-1 cursor_pointer text-black-50 list_categories d-flex align-items-center" *ngFor="let category of categories">
-                        <span class="material-symbols-outlined fs-5 me-1 "> {{ category.icon }} </span>
+                        <span translate="no" class="material-symbols-outlined fs-5 me-1 "> {{ category.icon }} </span>
                          {{ category.cat_name }}
                     </p>
                 </div>
             </div>
             <div class="col-xxl-9 px-2">
                 <div class="input-group mb-3">
-                    <span class="material-symbols-outlined input-group-text">
+                    <span translate="no" class="material-symbols-outlined input-group-text">
                         search
                     </span>
                     <input type="text"
