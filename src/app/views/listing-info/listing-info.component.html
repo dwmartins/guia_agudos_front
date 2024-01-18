@@ -52,19 +52,19 @@
         <div class="row gap-1 my-xl-5 justify-content-between">
             <div class="col-12 col-sm-7">
                 <!-- about -->
-                <h5 class="text-dark text-opacity-75 mb-3">Sobre</h5>
+                <h5 class="text-dark text-opacity-50 mb-3">Sobre</h5>
 
                 <div class="long_description">
-                    <p>
+                    <p class="fw-semibold text-dark text-opacity-75">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed diam sed massa mollis facilisis. Aliquam sollicitudin, ligula sit amet egestas lacinia, diam elit vulputate risus
                         nec imperdiet arcu turpis vitae ante. Nunc porta pellentesque felis, a bibendum velit bibendum eu. Etiam ullamcorper ex eros, vitae auctor lorem blandit non. Donec venenatis varius dui in auctor. Donec elit ex, elementum et elementum quis, vulputate sed turpis.
                     </p>
 
-                    <p>
+                    <p class="fw-semibold text-dark text-opacity-75">
                         am et quam nisi. Sed mi elit, imperdiet eu lacus at, viverra gravida nunc. Pellentesque pellentesque vestibulum venenatis. Nullam sapien leo, fermentum dictum dui id, porta tempus turpis. Nullam posuere lorem fermentum, lacinia est in, porttitor nibh. Vestibulum non neque eu sem accumsan dapibus eget ut velit.
                     </p>
 
-                    <p>
+                    <p class="fw-semibold text-dark text-opacity-75">
                         Praesent ullamcorper, nunc nec malesuada pulvinar, est odio maximus ipsum, eget facilisis erat ligula id purus. Quisque tincidunt nisi ipsum, eu rutrum orci ultricies at.
                     </p>
                 </div>
@@ -72,14 +72,26 @@
             </div>
             <div class="col-12 col-sm-4">
                 <!-- hours -->
-                <h5 class="text-dark text-opacity-75 my-3">Horas</h5>
+                <h5 class="text-dark text-opacity-50 my-3">Horas</h5>
                 <div>
-                    Aberto agora
+                    <p (click)="toggleIconOpeningHours()" class="text-danger fw-semibold text-opacity-75 d-flex align-items-center cursor_pointer" data-bs-toggle="collapse" href="#openingHours" role="button" aria-expanded="false" aria-controls="openingHours">
+                        Fechado agora
+                        <i [class.bi-plus]="!iconCategories" [class.bi-dash]="iconCategories" class="bi fs-4 ms-2"></i>
+                    </p>
+                    <div class="collapse bg-white bg-opacity-50 w-100 px-2" id="openingHours">
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">DOM fechado</p>
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">SEG 08:00 - 18:00</p>
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">TER 08:00 - 18:00</p>
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">QUA 08:00 - 18:00</p>
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">QUI 08:00 - 18:00</p>
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">SEX 08:00 - 18:00</p>
+                        <p class="mb-1 fw-semibold text-dark text-opacity-75">SAB 08:00 - 12:00</p>
+                    </div>
                 </div>
                 <hr>
                 <div>
                     <p class="text-dark text-opacity-75">Localização</p>
-                    <p>Nivaldo Bertolo 542 Agudos SP</p>
+                    <p class="fw-semibold text-dark text-opacity-75">Nivaldo Bertolo 542 Agudos SP</p>
                 </div>
                 <hr>
                 <div>
@@ -91,7 +103,17 @@
                         <a href="#" class="rounded-circle bg-primary text-white"><i class="bi bi-youtube"></i></a>
                     </div>
                 </div>
-
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h5 class="text-dark text-opacity-50 my-3">Fotos de destaque</h5>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2" *ngFor="let r of [].constructor(10); let i = index">
+                        <img class="img-fluid" src="./../../../assets/img/carousel/martins_refrigeracao (1).jpg" alt="">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

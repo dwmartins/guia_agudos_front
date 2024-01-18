@@ -14,6 +14,7 @@ export class ListingInfoComponent implements OnInit{
 	router = inject(Router);
 
 	listingId: number = 0;
+	iconCategories: boolean = false;
 
 	ngOnInit(): void {
 		this.getParams(); 
@@ -25,4 +26,8 @@ export class ListingInfoComponent implements OnInit{
 			this.listingId = params['id'];
 		})
 	}
+
+	toggleIconOpeningHours() {
+      this.iconCategories = !this.iconCategories;
+   }
 }
