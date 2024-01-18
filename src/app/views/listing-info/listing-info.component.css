@@ -33,3 +33,15 @@
 .long_description {
     text-align: justify;
 }
+
+.social_media_content {
+    max-width: 220px;
+}
+
+.icon_social_media {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
