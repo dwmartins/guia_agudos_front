@@ -23,7 +23,7 @@
                             <p class="text-white mb-0 ms-2">1 avaliação</p>
                         </span>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-primary rounded-1">Avalie</button>
+                            <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1">Avalie</button>
                             <button class="btn text-white border rounded-1">Contato</button>
                         </div>
                     </div>
@@ -172,4 +172,31 @@
             </div>
         </div>
     </div>
+
+    <ng-template #modalAssessment let-c="close" let-d="dismiss">
+        <div class="position-relative banner_assessment mb-5">
+            <img class="img-fluid rounded-top h-100" src="../../../assets/img/listing-info/martins_refrigeracao.jpg" alt="Capa">
+            <i class="fs-4 bi bi-x-lg position-absolute close_modal_assessment text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
+            <img class="img-fluid rounded-pill position-absolute logo_assessments" src="../../../assets/img/no-image-user.jpg" alt="logo">
+            <div class="shadow_img_assessments"></div>
+        </div>
+
+        <h5 class="fs-3 text-dark fw-semibold opacity-75 text-center">Martins Refrigeração</h5>
+        <h6 class="fs-4 text-dark fw-semibold opacity-75 text-center">Sua nota</h6>
+        <div class="d-flex justify-content-center user_assessments">
+            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
+            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
+            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
+            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
+            <i class="bi bi-star fs-3 cursor_pointer"></i>
+        </div>
+
+        <form class="p-4">
+            <textarea class="form-control custom_focus mb-3" name="" id="" rows="4"></textarea>
+            <div class="d-flex gap-2 justify-content-center">
+                <button class="btn btn-primary rounded-1 fw-semibold">Enviar</button>
+                <button class="btn btn-light rounded-1 text-dark fw-semibold opacity-75 border">Cancelar</button>
+            </div>
+        </form>
+    </ng-template>
 </section>

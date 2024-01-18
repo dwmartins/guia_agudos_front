@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
 
 @Component({
@@ -14,6 +15,9 @@ export class ListingInfoComponent implements OnInit{
 	route = inject(ActivatedRoute);
 	router = inject(Router);
 	lightbox = inject(Lightbox);
+	modal = inject(NgbModal);
+
+	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef
 
 	listingId: number = 0;
 	iconCategories: boolean = false;
@@ -39,7 +43,7 @@ export class ListingInfoComponent implements OnInit{
 
 	toggleIconOpeningHours() {
       this.iconCategories = !this.iconCategories;
-   }
+   	}
 
 	openLightbox(index: number): void {
 		const album = this.galleryImages.map(link => {
@@ -47,5 +51,9 @@ export class ListingInfoComponent implements OnInit{
 		});
   
 		this.lightbox.open(album, index);
-	 }
+	}
+	
+	OpenModalUserAssessment() {
+		this.modal.open(this.modalAssessment, {centered: true});
+	}
 }
