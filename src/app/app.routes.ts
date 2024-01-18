@@ -13,8 +13,8 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'nova-conta', component: RegisterComponent},
     {path: 'recuperacao-senha', component: ForgotPasswordComponent},
+    {path: 'anuncios', component: ListingsComponent},
     {path: 'anuncios/categorias', component: ListingCategoryAllComponent},
+    {path: 'anuncios/:id', component: ListingInfoComponent},
     {path: 'planos', component: PlansComponent},
-    {path: 'anunciantes', component: ListingsComponent},
-    {path: 'anunciantes/anuncio', component: ListingInfoComponent}
 ];
