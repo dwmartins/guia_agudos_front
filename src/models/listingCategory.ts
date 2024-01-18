@@ -5,7 +5,3 @@ export interface ListingCategory {
     createdAt: string;
     updatedAt: string;
 }
-
-export interface Responses {
-    error: string;
-}
