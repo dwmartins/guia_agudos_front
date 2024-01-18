@@ -110,8 +110,8 @@
             <h5 class="text-dark text-opacity-50 my-3">Fotos de destaque</h5>
             <div class="container">
                 <div class="row">
-                    <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2" *ngFor="let r of [].constructor(10); let i = index">
-                        <img class="img-fluid" src="./../../../assets/img/carousel/martins_refrigeracao (1).jpg" alt="">
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2" *ngFor="let img of galleryImages; let i = index" (click)="openLightbox(i)">
+                        <img class="img-fluid" [src]="img" alt="Imagem {{ i + 1 }}">
                     </div>
                 </div>
             </div>
