@@ -38,10 +38,11 @@
     max-width: 220px;
 }
 
-.icon_social_media {
+.social_media_content a {
     width: 40px;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
 }
