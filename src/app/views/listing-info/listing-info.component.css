@@ -14,7 +14,7 @@
     box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.603);
 }
 
-.assessments i {
+.assessments i, .user_assessments i {
     color: #ffff00;
 }
 
@@ -45,4 +45,8 @@
     justify-content: center;
     align-items: center;
     font-size: 20px;
+}
+
+.img_user {
+    max-width: 60px;
 }

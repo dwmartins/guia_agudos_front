@@ -107,11 +107,42 @@
         </div>
         <hr>
         <div>
-            <h5 class="text-dark text-opacity-50 my-3">Fotos de destaque</h5>
+            <h5 class="text-dark text-opacity-50 my-3">Fotos em destaque</h5>
             <div class="container">
                 <div class="row">
                     <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2" *ngFor="let img of galleryImages; let i = index" (click)="openLightbox(i)">
                         <img class="img-fluid" [src]="img" alt="Imagem {{ i + 1 }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h5 class="text-dark text-opacity-50 my-5">Comentários</h5>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="">
+                            <div class="d-flex align-items-center">
+                                <img class="img-fluid rounded-circle img_user" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
+                                <div class="ms-3">
+                                    <h6 class="fs-5 fw-semibold text-primary text-opacity-75 mb-0">Douglas Martins</h6>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-dark opacity-75 ">18 de janeiro 2024</span>
+                                        <div class="ms-2 user_assessments">
+                                            <i class="bi bi-star-fill fs-6"></i>
+                                            <i class="bi bi-star-fill fs-6"></i>
+                                            <i class="bi bi-star-fill fs-6"></i>
+                                            <i class="bi bi-star-fill fs-6"></i>
+                                            <i class="bi bi-star fs-6"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
