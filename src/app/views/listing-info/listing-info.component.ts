@@ -65,6 +65,7 @@ export class ListingInfoComponent implements OnInit{
 	]
 
 	ngOnInit(): void {
+		this.goToTheTopWindow();
 		this.getParams();
 	}
 
@@ -169,5 +170,9 @@ export class ListingInfoComponent implements OnInit{
 		   type: type,
 		   description: description
 		})
+	}
+
+	goToTheTopWindow() {
+		window.scrollTo(0, 0);
 	}
 }
