@@ -11,7 +11,7 @@
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div #navbar class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <!-- Logged -->
@@ -22,10 +22,10 @@
                     </li>
                     <hr>
                     <li class="nav-item logged_small">
-                        <a class="nav-link" href="#">Painel</a>
+                        <a (click)="closeNavbar()" class="nav-link" href="#">Painel</a>
                     </li>
                     <li class="nav-item logged_small">
-                        <a class="nav-link">
+                        <a (click)="closeNavbar()" class="nav-link">
                             Perfil
                         </a>
                     </li>
@@ -36,43 +36,43 @@
                 <!-- Logged -->
                 <hr>
                     <li class="nav-item">
-                        <a translate="no" class="nav-link" aria-current="page" [routerLink]="['/']">Home</a>
+                        <a (click)="closeNavbar()" translate="no" class="nav-link" aria-current="page" [routerLink]="['/']">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/anuncios']">Anúncios</a>
+                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/anuncios']">Anúncios</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Eventos</a>
+                        <a (click)="closeNavbar()" class="nav-link" href="#">Eventos</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Vagas de emprego</a>
+                        <a (click)="closeNavbar()" class="nav-link" href="#">Vagas de emprego</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Blog</a>
+                        <a (click)="closeNavbar()" class="nav-link" href="#">Blog</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contato</a>
+                        <a (click)="closeNavbar()" class="nav-link" href="#">Contato</a>
                     </li>
                 <hr>
                     <li class="nav-item logged_small">
-                        <a class="nav-link" [routerLink]="['/planos']">Anuncie Aqui</a>
+                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/planos']">Anuncie Aqui</a>
                     </li>
 
                 <hr>
                 <!-- not logged in -->
                 <li *ngIf="!userLogged" class="nav-item logged_small">
-                    <a class="nav-link" [routerLink]="['/login']">Entrar</a>
+                    <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/login']">Entrar</a>
                 </li>
                 <!-- not logged in -->
 
             </ul>
             <div *ngIf="userLogged" class="logged_large">
-                <button class="btn btn-light btn-sm me-2 ps-0">
+                <button (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light btn-sm me-2 ps-0">
                     Anuncie aqui
                 </button>
 
@@ -89,8 +89,8 @@
                 </div>
             </div>
             <div *ngIf="!userLogged" class="flex-column logged_large">
-                <a [routerLink]="['/planos']" class="btn btn-light btn-sm me-2">Anuncie aqui</a>
-                <a [routerLink]="['/login']" type="button" class="btn btn-primary btn-sm fw-bold rounded-1">Entrar</a>
+                <a (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light btn-sm me-2">Anuncie aqui</a>
+                <a (click)="closeNavbar()" [routerLink]="['/login']" type="button" class="btn btn-primary btn-sm fw-bold rounded-1">Entrar</a>
             </div>
         </div>
     </div>

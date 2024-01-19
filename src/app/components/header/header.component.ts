@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../../models/user';
 import { HeaderService } from '../../services/header.service';
@@ -12,6 +12,7 @@ import { HeaderService } from '../../services/header.service';
    styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+   @ViewChild('navbar', {static: true}) navbar!: ElementRef;
 
    user: Partial<User> = {};
    userLogged: boolean = false;
@@ -40,6 +41,14 @@ export class HeaderComponent implements OnInit {
       localStorage.removeItem('userData');
       this.userLogged = false;
       this.router.navigate(['/']);
+   }
+
+   closeNavbar(): void {
+      const navbar = this.navbar.nativeElement;
+
+      if(navbar.classList.contains('show')) {
+         navbar.classList.remove('show');
+      }
    }
 
 }
