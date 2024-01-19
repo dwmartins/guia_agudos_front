@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ListingCategoryService } from '../../services/listing-category.service';
 import { ListingCategory } from '../../../models/listingCategory';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
    selector: 'app-listings',
@@ -12,7 +12,9 @@ import { RouterModule } from '@angular/router';
    styleUrl: './listings.component.css'
 })
 export class ListingsComponent implements OnInit{
-   categoryService = inject(ListingCategoryService);
+   categoryService   = inject(ListingCategoryService);
+   route             = inject(ActivatedRoute);
+   router            = inject(Router);
 
    iconCategories: boolean = false;
 
@@ -20,8 +22,11 @@ export class ListingsComponent implements OnInit{
 
    testeQtd: number = 10;
 
+   searchListing: string | null = '';
+
    ngOnInit(): void {
       this.goToTheTopWindow();
+      this.getParams();
       this.getCategories();
    }
 
@@ -40,5 +45,11 @@ export class ListingsComponent implements OnInit{
 
    goToTheTopWindow() {
       window.scrollTo(0, 0);
+   }
+
+   getParams() {
+      this.route.queryParamMap.subscribe((queryParams) => {
+         this.searchListing = queryParams.get('search') || null;
+      });
    }
 }

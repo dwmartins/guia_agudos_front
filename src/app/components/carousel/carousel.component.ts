@@ -3,18 +3,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { Carousel } from '../../../models/carousel';
 import { CarouselService } from '../../services/carousel.service';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
    selector: 'app-carousel',
    standalone: true,
-   imports: [CommonModule, HttpClientModule],
+   imports: [CommonModule, HttpClientModule, FormsModule],
    templateUrl: './carousel.component.html',
    styleUrl: './carousel.component.css'
 })
 export class CarouselComponent implements OnInit{
-   carouselService = inject(CarouselService);
+   carouselService   = inject(CarouselService);
+   route             = inject(ActivatedRoute);
+   router            = inject(Router)
+
 
    carousel: Carousel[] = [];
+   search: string = '';
 
    ngOnInit(): void {
       this.getCarousel();
@@ -27,5 +33,9 @@ export class CarouselComponent implements OnInit{
       }, (error) => {
          console.error('ERROR: ', error);
       })
+   }
+
+   getListings() {
+      this.router.navigate(['/anuncios'], {queryParams: {search: this.search}});
    }
 }
