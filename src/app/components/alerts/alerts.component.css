@@ -9,29 +9,30 @@
 .alert {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 9px;
     padding: 8px;
     border-radius: 5px;
     box-shadow: var(--box-shadow-alerts);
     font-weight: 600;
+    max-width: 300px;
 }
 
 .alert-info {
-    background-color: #f8e7ae;
-    color: #4e5024;
-    border: 1px solid rgb(102, 101, 51);
+    background-color: #e6b927;
+    color: #303030;
+    border: 1px solid #d1a820;
 }
 
 .alert-success {
-    background-color: #b1eeb6;
-    color: #608f57;
-    border: 1px solid #4b6d45;
+    background-color: #34a73d;
+    color: #fff;
+    border: 1px solid #2e9236;
 }
 
 .alert-error {
-    background-color: #fc9b9b;
-    color: #993131;
-    border: 1px solid #ff7a7a;
+    background-color: #d13030;
+    color: #fff;
+    border: 1px solid #b83232;
 }
 
 .alert_content.slideOut {
