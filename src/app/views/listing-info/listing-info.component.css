@@ -79,3 +79,7 @@
     border: 5px solid #fff;
     z-index: 4;
 }
+
+.max_caracter {
+    font-size: 13px;
+}

@@ -23,8 +23,8 @@
                             <p class="text-white mb-0 ms-2">1 avaliação</p>
                         </span>
                         <div class="d-flex gap-2">
-                            <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1">Avalie</button>
-                            <button class="btn text-white border rounded-1">Contato</button>
+                            <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
+                            <button class="btn text-white border rounded-1 fw-semibold">Contato</button>
                         </div>
                     </div>
                     <div class="col-12 col-xl-4 d-none d-xl-block px-3">
@@ -184,19 +184,27 @@
         <h5 class="fs-3 text-dark fw-semibold opacity-75 text-center">Martins Refrigeração</h5>
         <h6 class="fs-4 text-dark fw-semibold opacity-75 text-center">Sua nota</h6>
         <div class="d-flex justify-content-center user_assessments">
-            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
-            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
-            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
-            <i class="bi bi-star-fill fs-3 cursor_pointer"></i>
-            <i class="bi bi-star fs-3 cursor_pointer"></i>
+            <ng-container *ngFor="let _ of [].constructor(totalStars); let i = index">
+              <i [class]="(i + 1 <= (hoverStars || selectedStars) ? hoverIcon : currentIcon) + ' fs-3 cursor_pointer'" 
+                 (click)="selectStars(i + 1)" 
+                 (mouseover)="hoverStar(i + 1)" 
+                 (mouseout)="resetHover()"></i>
+            </ng-container>
         </div>
+        <p *ngIf="notAssessment" class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
 
-        <form class="p-4">
-            <textarea class="form-control custom_focus mb-3" name="" id="" rows="4"></textarea>
-            <div class="d-flex gap-2 justify-content-center">
+        <form [formGroup]="formAssessment" (ngSubmit)="submitAssessment()" class="p-4">
+            <textarea maxlength="130" (input)="countCaracterComment()" #commentAssessment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched}"></textarea>
+            <p class="mt-1 fw-semibold opacity-50 text-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
+            <div *ngIf="formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched" class="text-danger fw-semibold opacity-75">
+                Digite seu comentário.
+            </div>
+            <div class="d-flex gap-2 justify-content-center mt-3">
                 <button class="btn btn-primary rounded-1 fw-semibold">Enviar</button>
-                <button class="btn btn-light rounded-1 text-dark fw-semibold opacity-75 border">Cancelar</button>
+                <button type="button" class="btn btn-light rounded-1 text-dark fw-semibold opacity-75 border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
             </div>
         </form>
     </ng-template>
 </section>
+
+<app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts>
