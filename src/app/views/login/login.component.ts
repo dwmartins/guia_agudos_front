@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { User } from '../../../models/user';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
@@ -16,6 +16,7 @@ import { HeaderService } from '../../services/header.service';
    styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
+   route = inject(ActivatedRoute);
 
    formLogin: FormGroup;
    user: Partial<User> = {};
@@ -26,6 +27,8 @@ export class LoginComponent implements OnInit{
    alert: any[] = [];
 
    loadSpinner: boolean = false;
+
+   params: string | null = null;
 
    constructor(
       private formBuilder: FormBuilder,
@@ -40,6 +43,8 @@ export class LoginComponent implements OnInit{
    }
 
    ngOnInit(): void {
+      this.getParams();
+
       const user = localStorage.getItem('userData');
       if(user) {
          this.user = JSON.parse(user) as User;
@@ -63,6 +68,11 @@ export class LoginComponent implements OnInit{
             this.setLocalStorage();
             this.alerts('success', 'Login realizado com sucesso.');
 
+            if(this.params) {
+               this.router.navigate([this.params]);
+               return;
+            }
+
             setTimeout(() => {
                this.headerService.update(true);
                this.router.navigate(['/']);
@@ -85,6 +95,16 @@ export class LoginComponent implements OnInit{
    viePassword() {
       this.showPassword = (this.showPassword === "text") ? "password" : (this.showPassword === "password") ? "text" : this.showPassword
       this.icon_password = (this.icon_password === "bi bi-eye") ? "bi bi-eye-slash" : (this.icon_password === "bi bi-eye-slash") ? "bi bi-eye" : this.icon_password;
+   }
+
+   getParams() {
+      this.route.queryParamMap.subscribe((queryParams) => {
+         this.params = queryParams.get('redirectTo') || null;
+      });
+
+      if(this.params) {
+         this.alerts('alert', 'Você precisa realizar o login.');
+      }
    }
 
    alerts(type: string, description: string) {

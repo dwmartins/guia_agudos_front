@@ -91,7 +91,8 @@ export class ListingInfoComponent implements OnInit{
 			this.cleanFormAssessment();
 			this.modal.open(this.modalAssessment, {centered: true});
 		} else {
-			this.router.navigate(['/login'])
+			const params = `/anuncios/${this.listingId}`;
+			this.router.navigate(['/login'], {queryParams: {redirectTo: params}})
 		}
 	}
 
@@ -146,7 +147,7 @@ export class ListingInfoComponent implements OnInit{
 			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	maxLengthValidator(maxLength: number) {
