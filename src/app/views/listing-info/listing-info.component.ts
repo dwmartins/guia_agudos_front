@@ -165,7 +165,7 @@ export class ListingInfoComponent implements OnInit{
 		this.currentLengthComment = Math.max(0, this.maxLengthComment - currentLength);
 	}
 
-	alerts(type: string, description: string) {
+	alerts(type: string, description: string | any) {
 		this.alert.push({
 		   type: type,
 		   description: description

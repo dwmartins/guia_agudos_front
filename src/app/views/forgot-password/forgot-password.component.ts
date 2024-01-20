@@ -55,7 +55,7 @@ export class ForgotPasswordComponent {
       }
    }
 
-   alerts(type: string, description: string) {
+   alerts(type: string, description: string | any) {
       this.alert.push({
          type: type,
          description: description

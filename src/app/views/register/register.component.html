@@ -3,7 +3,7 @@
     <h2 class="fs-1 text-center my-4">Criar conta</h2>
     
     <div class="container d-flex justify-content-center  my-5">
-        <form [formGroup]="formRegister" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2">
+        <form [formGroup]="formRegister" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2" enctype="multipart/form-data">
 
             <div class="w-100">
                 <label for="imagemInput" class="d-flex justify-content-center">

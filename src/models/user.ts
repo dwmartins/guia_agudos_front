@@ -9,9 +9,5 @@ export interface User {
     createdAt: string;
     updatedAt: string;
     token: string;
-}
-
-export interface Responses {
-    alert: string;
-    error: string;
+    [key: string]: string | number | boolean | 'Y' | 'N' | 'admin' | 'common';
 }

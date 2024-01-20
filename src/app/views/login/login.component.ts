@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit{
       }
    }
 
-   alerts(type: string, description: string) {
+   alerts(type: string, description: string | any) {
       this.alert.push({
          type: type,
          description: description

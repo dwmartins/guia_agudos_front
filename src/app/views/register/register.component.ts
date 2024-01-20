@@ -34,6 +34,7 @@ export class RegisterComponent {
    alert: any[] = [];
 
    loadSpinner: boolean = false;
+   userPhoto!: File;
 
    constructor() {
       this.formRegister = this.formBuilder.group({
@@ -41,13 +42,12 @@ export class RegisterComponent {
          lastName: ['', [Validators.required]],
          email: ['', [Validators.required, Validators.email]],
          password: ['', [Validators.required]],
-         photo_url: ['']
       })
    }
    submitForm() {
       if (this.formRegister.valid) {
          this.loadSpinner = true;
-         this.userService.newUser(this.formRegister.value).subscribe((response) => {
+         this.userService.newUser(this.formRegister.value, this.userPhoto).subscribe((response) => {
             this.loadSpinner = false;
 
             if ('alert' in response) {
@@ -89,6 +89,7 @@ export class RegisterComponent {
             if (reader.result?.toString().startsWith('data:image/jpeg;base64,')) {
                this.registerData.photo_url = reader.result?.toString();
                this.formRegister.get('photo_url')?.setValue(reader.result?.toString());
+               this.userPhoto = file;
             } else {
                this.alerts('alert', 'A imagem de perfil deve ser do tipo JPG');
                this.registerData.photo_url = null;
@@ -101,7 +102,7 @@ export class RegisterComponent {
       }
    }
 
-   alerts(type: string, description: string) {
+   alerts(type: string, description: string | any) {
       this.alert.push({
          type: type,
          description: description
