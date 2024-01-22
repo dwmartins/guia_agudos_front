@@ -18,7 +18,7 @@
     --custom-light-gray: #66666628;
 }
 
-/* Custom Titles */
+/* Custom text colors */
 .custom-dark-gray {
     color: var(--custom-titles-darkGray);
 }
