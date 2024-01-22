@@ -35,7 +35,9 @@ export class RegisterComponent {
    alert: any[] = [];
 
    loadSpinner: boolean = false;
+
    userPhoto!: File;
+   previewPhoto!: string | null | undefined;
 
    constructor() {
       this.formRegister = this.formBuilder.group({
@@ -79,27 +81,28 @@ export class RegisterComponent {
 
       if (file) {
          if (file.size > 5 * 1024 * 1024) {
-            this.alerts('alert', 'A imagem de perfil deve ter no máximo 5 MB.');
-            this.registerData.photo_url = null;
+            this.alerts('alert', 'A imagem de perfil deve ter no máximo 5MB.');
+            this.previewPhoto = null;
             return;
          }
 
-         const reader = new FileReader();
+         const validExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
 
-         reader.onload = () => {
-            if (reader.result?.toString().startsWith('data:image/jpeg;base64,')) {
-               this.registerData.photo_url = reader.result?.toString();
-               this.formRegister.get('photo_url')?.setValue(reader.result?.toString());
+         if(validExtensions.includes(file.type)) {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+               this.previewPhoto = reader.result?.toString();
                this.userPhoto = file;
-            } else {
-               this.alerts('alert', 'A imagem de perfil deve ser do tipo JPG');
-               this.registerData.photo_url = null;
-            }
-         };
+            };
 
-         reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+         } else {
+            this.alerts('alert', 'O formato da imagem deve ser (png, jpg, jpeg)');
+         }
+
       } else {
-         this.registerData.photo_url = null;
+         this.previewPhoto = null;
       }
    }
 

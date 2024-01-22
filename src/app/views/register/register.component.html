@@ -7,8 +7,8 @@
 
             <div class="w-100">
                 <label for="imagemInput" class="d-flex justify-content-center">
-                  <img id="previewImage" class="img-fluid" *ngIf="registerData.photo_url" [src]="registerData.photo_url" alt="Preview da Imagem" >
-                  <div *ngIf="!registerData.photo_url" class="placeholder z-3" >
+                  <img id="previewImage" class="img-fluid" *ngIf="previewPhoto" [src]="previewPhoto" alt="Preview da Imagem" >
+                  <div *ngIf="!previewPhoto" class="placeholder z-3" >
                     <p class="text-dark m-0">Selecionar imagem</p>
                   </div>
                 </label>
