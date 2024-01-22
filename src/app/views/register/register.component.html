@@ -1,9 +1,9 @@
-<section class="container-fluid mb-5">
+<section class="container-fluid m-0 py-3 bg-primary">
 
-    <h2 class="fs-1 text-center my-4">Criar conta</h2>
+    <!-- <h2 class="fs-1 text-center my-4">Criar conta</h2> -->
     
-    <div class="container d-flex justify-content-center  my-5">
-        <form [formGroup]="formRegister" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2" enctype="multipart/form-data">
+    <div class="container d-flex justify-content-center my-5">
+        <form [formGroup]="formRegister" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2 bg-white shadow show-animation" enctype="multipart/form-data">
 
             <div class="w-100">
                 <label for="imagemInput" class="d-flex justify-content-center">
@@ -17,42 +17,42 @@
             
             <div class="w-100">
                 <div class="position-relative">
-                    <input type="text" name="name" id="name" class="form-control custom_focus invalid_input" formControlName="name" [ngClass]="{'invalid_input': formRegister.get('name')?.invalid && formRegister.get('name')?.touched}" placeholder="Nome">
+                    <input type="text" name="name" id="name" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="name" [ngClass]="{'invalid_input': formRegister.get('name')?.invalid && formRegister.get('name')?.touched}" placeholder="Nome">
                 </div>
-                <div *ngIf="formRegister.get('name')?.hasError('required') && formRegister.get('name')?.touched" class="text-danger">
+                <div *ngIf="formRegister.get('name')?.hasError('required') && formRegister.get('name')?.touched" class="text-danger msg_alert opacity-75">
                     Digite seu nome.
                 </div>
             </div>
 
             <div class="w-100">
                 <div class="position-relative">
-                    <input type="text" name="lastName" id="lastName" class="form-control custom_focus invalid_input" formControlName="lastName" [ngClass]="{'invalid_input': formRegister.get('lastName')?.invalid && formRegister.get('lastName')?.touched}" placeholder="Sobrenome">
+                    <input type="text" name="lastName" id="lastName" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="lastName" [ngClass]="{'invalid_input': formRegister.get('lastName')?.invalid && formRegister.get('lastName')?.touched}" placeholder="Sobrenome">
                 </div>
-                <div *ngIf="formRegister.get('lastName')?.hasError('required') && formRegister.get('lastName')?.touched" class="text-danger">
+                <div *ngIf="formRegister.get('lastName')?.hasError('required') && formRegister.get('lastName')?.touched" class="text-danger msg_alert opacity-75">
                     Digite seu Sobrenome.
                 </div>
             </div>
 
             <div class="w-100">
                 <div class="position-relative">
-                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input" formControlName="email" [ngClass]="{'invalid_input': formRegister.get('email')?.invalid && formRegister.get('email')?.touched}" placeholder="Seu e-mail">
+                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="email" [ngClass]="{'invalid_input': formRegister.get('email')?.invalid && formRegister.get('email')?.touched}" placeholder="Seu e-mail">
                 </div>
-                <div *ngIf="formRegister.get('email')?.hasError('required') && formRegister.get('email')?.touched" class="text-danger">
+                <div *ngIf="formRegister.get('email')?.hasError('required') && formRegister.get('email')?.touched" class="text-danger msg_alert opacity-75">
                     Digite seu e-mail.
                 </div>
             </div>
             <div class="w-100">
                 <div class="position-relative">
-                    <input [type]="showPassword" name="password" id="password" class="form-control custom_focus" formControlName="password" [ngClass]="{'invalid_input': formRegister.get('password')?.invalid && formRegister.get('password')?.touched}" placeholder="Senha">
+                    <input [type]="showPassword" name="password" id="password" class="form-control custom_focus custom_placeholder rounded-1" formControlName="password" [ngClass]="{'invalid_input': formRegister.get('password')?.invalid && formRegister.get('password')?.touched}" placeholder="Senha">
                     <i (click)="viePassword()" [class]="icon_password" class="cursor_pointer position-absolute icon_password fs-4 text-black-50"></i>
                 </div>
-                <div *ngIf="formRegister.get('password')?.hasError('required') && formRegister.get('password')?.touched" class="text-danger">
+                <div *ngIf="formRegister.get('password')?.hasError('required') && formRegister.get('password')?.touched" class="text-danger msg_alert opacity-75">
                     Digite sua senha.
                 </div>
             </div>
 
             <div class="w-100">
-                <button class="btn btn-primary fw-semibold w-100 d-flex justify-content-center" [disabled]="loadSpinner">
+                <button class="btn btn-primary fw-semibold w-100 d-flex justify-content-center rounded-1" [disabled]="loadSpinner">
                     <span *ngIf="!loadSpinner">Criar conta</span>
                     <div *ngIf="loadSpinner" class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -61,11 +61,11 @@
             </div>
 
             <div>
-                <hr class="text-secondary">
+                <hr class="text-secondary m-0">
             </div>
 
             <div class="d-flex flex-column text-center gap-1 ">
-                <p>Já possui conta? <a [routerLink]="['/login']" class="link_outline_none">Entrar</a></p>
+                <p class="custom-dark-gray">Já possui conta? <a [routerLink]="['/login']" class="link_outline_none">Entrar</a></p>
             </div>
         </form>
     </div>
@@ -96,4 +96,5 @@
     </ng-template>
 
 </section>
+<app-footer-2></app-footer-2>
 <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts>

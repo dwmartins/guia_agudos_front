@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Footer2Component } from '../../components/footer-2/footer-2.component';
 
 @Component({
    selector: 'app-register',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component],
    templateUrl: './register.component.html',
    styleUrl: './register.component.css'
 })

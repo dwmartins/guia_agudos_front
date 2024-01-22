@@ -1,6 +1,6 @@
 <section class="container-fluid my-0 py-3 bg-primary">
     <div class="container d-flex justify-content-center  my-5">
-        <form [formGroup]="formLogin" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2 bg-white shadow">
+        <form [formGroup]="formLogin" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2 bg-white shadow show-animation">
             <h2 class="fs-2 text-center custom-dark-gray my-2">Entrar</h2>
 
             <div class="w-100">
@@ -38,7 +38,7 @@
                 <hr class="text-secondary m-0">
             </div>
 
-            <p class="custom-dark-gray opacity-75">Não possui conta? <a [routerLink]="['/nova-conta']" class="fw-semibold opacity-75 link_outline_none">Criar conta</a></p>
+            <p class="custom-dark-gray">Não possui conta? <a [routerLink]="['/nova-conta']" class="fw-semibold opacity-75 link_outline_none">Criar conta</a></p>
         </form>
     </div>
     <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts>
