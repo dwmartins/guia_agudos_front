@@ -1,6 +1,6 @@
-<section class="container-fluid mb-5">
+<section class="container-fluid my-0 py-3 bg-primary">
     <div class="container d-flex justify-content-center  my-5">
-        <form [formGroup]="formLogin" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2">
+        <form [formGroup]="formLogin" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2 bg-white shadow">
             <h2 class="fs-2 text-center custom-dark-gray my-2">Entrar</h2>
 
             <div class="w-100">
@@ -43,3 +43,4 @@
     </div>
     <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts>
 </section>
+<app-footer-2></app-footer-2>

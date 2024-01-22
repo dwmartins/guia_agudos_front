@@ -1,0 +1,16 @@
+.hr_social_media {
+    display: none;
+}
+
+@media screen and (max-width: 768px){
+    .hr_social_media {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .logo_footer {
+        min-width: 200px;
+        width: 100%;
+    }
+}
