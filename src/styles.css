@@ -9,6 +9,7 @@
 
     /* Font colors */
     --custom-titles-black: #2D2E2F;
+    --custom-titles-darkGray: #303f4e;
 
     /* font hover */
     --custom-hover-black: #2D2E2F;
@@ -18,8 +19,8 @@
 }
 
 /* Custom Titles */
-.custom-title-dark {
-    color: var(--custom-titles-black);
+.custom-dark-gray {
+    color: var(--custom-titles-darkGray);
 }
 
 /* Custom colors */
