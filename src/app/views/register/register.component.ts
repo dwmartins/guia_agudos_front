@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Footer2Component } from '../../components/footer-2/footer-2.component';
 
 @Component({
    selector: 'app-register',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component],
    templateUrl: './register.component.html',
    styleUrl: './register.component.css'
 })
@@ -34,6 +35,7 @@ export class RegisterComponent {
    alert: any[] = [];
 
    loadSpinner: boolean = false;
+   userPhoto!: File;
 
    constructor() {
       this.formRegister = this.formBuilder.group({
@@ -41,13 +43,12 @@ export class RegisterComponent {
          lastName: ['', [Validators.required]],
          email: ['', [Validators.required, Validators.email]],
          password: ['', [Validators.required]],
-         photo_url: ['']
       })
    }
    submitForm() {
       if (this.formRegister.valid) {
          this.loadSpinner = true;
-         this.userService.newUser(this.formRegister.value).subscribe((response) => {
+         this.userService.newUser(this.formRegister.value, this.userPhoto).subscribe((response) => {
             this.loadSpinner = false;
 
             if ('alert' in response) {
@@ -89,6 +90,7 @@ export class RegisterComponent {
             if (reader.result?.toString().startsWith('data:image/jpeg;base64,')) {
                this.registerData.photo_url = reader.result?.toString();
                this.formRegister.get('photo_url')?.setValue(reader.result?.toString());
+               this.userPhoto = file;
             } else {
                this.alerts('alert', 'A imagem de perfil deve ser do tipo JPG');
                this.registerData.photo_url = null;
@@ -101,7 +103,7 @@ export class RegisterComponent {
       }
    }
 
-   alerts(type: string, description: string) {
+   alerts(type: string, description: string | any) {
       this.alert.push({
          type: type,
          description: description

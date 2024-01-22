@@ -9,11 +9,12 @@ import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { Assessment } from '../../../models/Assessment';
 import { AssessmentService } from '../../services/assessment.service';
 import { User } from '../../../models/user';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   	selector: 'app-listing-info',
   	standalone: true,
-  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent],
+  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent],
   	templateUrl: './listing-info.component.html',
   	styleUrl: './listing-info.component.css'
 })
@@ -165,7 +166,7 @@ export class ListingInfoComponent implements OnInit{
 		this.currentLengthComment = Math.max(0, this.maxLengthComment - currentLength);
 	}
 
-	alerts(type: string, description: string) {
+	alerts(type: string, description: string | any) {
 		this.alert.push({
 		   type: type,
 		   description: description

@@ -7,11 +7,12 @@ import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { HeaderService } from '../../services/header.service';
+import { Footer2Component } from '../../components/footer-2/footer-2.component';
 
 @Component({
    selector: 'app-login',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component],
    templateUrl: './login.component.html',
    styleUrl: './login.component.css'
 })
@@ -107,7 +108,7 @@ export class LoginComponent implements OnInit{
       }
    }
 
-   alerts(type: string, description: string) {
+   alerts(type: string, description: string | any) {
       this.alert.push({
          type: type,
          description: description

@@ -1,8 +1,16 @@
 form {
-    max-width: 480px;
+    max-width: 440px;
 }
 
 .icon_user, .icon_password {
     right: 7px;
     top: 2px;
+}
+
+.msg_alert {
+    font-size: 13px;
+}
+
+.text-forgot-password {
+    font-size: 13px;
 }
