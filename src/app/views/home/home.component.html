@@ -1,19 +1,36 @@
 <app-carousel></app-carousel>
 <app-listing-category></app-listing-category>
-<section class="container-fluid bg-body-secondary mt-4 py-4 pb-xl-0">
-    <div class="container">
+<app-banner-promover></app-banner-promover>
+<section class="container-fluid">
+    <div class="container py-2 py-sm-5">
+        <h2 class="custom-dark-gray fw-semibold text-center mb-5 fs-3">Pesquisa rápida e fácil</h2>
         <div class="row justify-content-between">
-            <div class="col-12 col-xl-8">
-                <div class="h-100 d-flex flex-column justify-content-center text-center text-xl-start">
-                    <h2 class="text-dark fw-semibold text-opacity-75">Quer promover a sua empresa?</h2>
-                    <p class="text-dark fw-medium text-opacity-75">Junte-se ao guia Agudos para impulsionar de maneira significativa o crescimento dos seus negócios. Ao cadastrar a sua empresa em guia Agudos, você estará não apenas escolhendo uma parceria estratégica, mas também abrindo portas para explorar novos horizontes de sucesso e alcançar resultados excepcionais.</p>
-                    <div>
-                        <button [routerLink]="['/planos']" class="btn btn-light rounded text-dark fw-semibold text-opacity-75">Anunciar agora</button>
+            <div class="col-lg-4 col-md-6 mb-4 ">
+                <div class="card border shadow h-100">
+                    <div class="card-body p-4">
+                        <h5 class="custom-dark-gray fw-semibold">Escolha uma categoria</h5>
+                        <p class="text-dark-emphasis">Personalize sua experiência de descoberta! Selecione uma categoria e explore por anúncios relacionados, tornando a experiência de descoberta mais fácil e eficiente. Encontre o que você procura agora!</p>
+                        <a [routerLink]="['/anuncios/categorias']" class="text-primary link-underline link-underline-opacity-0 link-offset-3-hover link-underline-opacity-50-hover">Veja mais</a>
                     </div>
                 </div>
             </div>
-            <div class="d-none d-xl-block col-xl-4 text-end">
-                <img class="img-fluid" src="../../../assets/img/bannerPromover.png" alt="Imagem do banner">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card border shadow h-100">
+                    <div class="card-body p-4">
+                        <h5 class="custom-dark-gray fw-semibold">Encontre por locais</h5>
+                        <p class="text-dark-emphasis">Explore por anúncios específicos em Agudos, navegue por anúncios relevantes, conectando-se com o que está acontecendo na sua cidade. Encontre ótimas opções localmente!</p>
+                        <a [routerLink]="['/anuncios']" class="text-primary link-underline link-underline-opacity-0 link-offset-3-hover link-underline-opacity-50-hover">Veja mais</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="card border shadow h-100">
+                    <div class="card-body p-4">
+                        <h5 class="custom-dark-gray fw-semibold">Mais procurados</h5>
+                        <p class="text-dark-emphasis">Descubra o que está em alta agora! Explore nossa seleção dos itens mais procurados e populares. De produtos a serviços, essas escolhas são as favoritas da nossa comunidade. Não perca a oportunidade de encontrar algo especial e em demanda.</p>
+                        <a [routerLink]="['/anuncios']" class="text-primary link-underline link-underline-opacity-0 link-offset-3-hover link-underline-opacity-50-hover">Veja mais</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

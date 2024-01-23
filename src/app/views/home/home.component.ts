@@ -5,11 +5,12 @@ import { CarouselComponent } from '../../components/carousel/carousel.component'
 import { RouterModule } from '@angular/router';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { BannerPromoverComponent } from '../../components/banner-promover/banner-promover.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ListingCategoryComponent, CarouselComponent, RouterModule, FooterComponent],
+  imports: [CommonModule, ListingCategoryComponent, CarouselComponent, RouterModule, FooterComponent, BannerPromoverComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

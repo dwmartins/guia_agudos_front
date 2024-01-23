@@ -23,6 +23,11 @@
     color: var(--custom-titles-darkGray);
 }
 
+/* Custom text */
+.text-justify {
+    text-align: justify;
+}
+
 /* Custom colors */
 .bg-primary {
     background-color: #399fff !important;
