@@ -56,7 +56,7 @@
 
 .btn-secondary {
     --bs-btn-color: var(--custom-titles-darkGray);
-    --bs-btn-bg: #d4d2d2;
+    --bs-btn-bg: #e4e4e4;
     --bs-btn-border-color: #dbdada;
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #9d9c9c;
