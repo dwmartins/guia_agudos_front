@@ -3,11 +3,12 @@ import { BannerPrice } from '../../../models/BannerPrice';
 import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { Footer2Component } from '../../components/footer-2/footer-2.component';
 
 @Component({
   selector: 'app-plans',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule, Footer2Component],
   templateUrl: './plans.component.html',
   styleUrl: './plans.component.css'
 })

@@ -54,6 +54,23 @@
     --bs-btn-disabled-border-color: #399fff;
 }
 
+.btn-secondary {
+    --bs-btn-color: var(--custom-titles-darkGray);
+    --bs-btn-bg: #d4d2d2;
+    --bs-btn-border-color: #dbdada;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #9d9c9c;
+    --bs-btn-hover-border-color: #dbdada;
+    --bs-btn-focus-shadow-rgb: 130,138,145;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #565e64;
+    --bs-btn-active-border-color: #51585e;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6c757d;
+    --bs-btn-disabled-border-color: #6c757d;
+}
+
 /* Helpers */
 .cursor_pointer {
     cursor: pointer;
