@@ -23,7 +23,7 @@ export class CarouselComponent implements OnInit{
    search: string = '';
 
    ngOnInit(): void {
-      this.getCarousel();
+      // this.getCarousel();
    }
 
    getCarousel() {
