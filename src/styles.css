@@ -28,6 +28,10 @@
     text-align: justify;
 }
 
+.fs-7 {
+    font-size: 0.9rem;
+}
+
 /* Custom colors */
 
 .btn-secondary {

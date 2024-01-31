@@ -38,7 +38,6 @@ export class ListingsComponent implements OnInit{
    getCategories() {
       this.categoryService.categories(null).subscribe((response) => {
          this.categories = response;
-         console.log(this.categories);
       }, (error) => {
          console.error('ERROR: ', error);
       })
