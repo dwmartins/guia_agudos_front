@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit{
             this.alerts('success', 'Login realizado com sucesso.');
 
             if(this.params) {
+               this.headerService.update(true);
                this.router.navigate([this.params]);
                return;
             }
