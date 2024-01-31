@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit{
    loadSpinner: boolean = false;
 
    params: string | null = null;
+   paramsMsg: string | null = null;
 
    constructor(
       private formBuilder: FormBuilder,
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit{
    }
 
    ngOnInit(): void {
+      this.goToTheTopWindow();
       this.getParams();
 
       const user = localStorage.getItem('userData');
@@ -102,10 +104,11 @@ export class LoginComponent implements OnInit{
    getParams() {
       this.route.queryParamMap.subscribe((queryParams) => {
          this.params = queryParams.get('redirectTo') || null;
+         this.paramsMsg = queryParams.get('redirectMsg');
       });
 
       if(this.params) {
-         this.alerts('alert', 'Você precisa realizar o login.');
+         this.alerts('alert', this.paramsMsg);
       }
    }
 
@@ -115,4 +118,8 @@ export class LoginComponent implements OnInit{
          description: description
       })
    }
+
+   goToTheTopWindow() {
+		window.scrollTo(0, 0);
+	}
 }

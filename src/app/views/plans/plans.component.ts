@@ -4,28 +4,60 @@ import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { User } from '../../../models/user';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-plans',
-  standalone: true,
-  imports: [CommonModule, Footer2Component],
-  templateUrl: './plans.component.html',
-  styleUrl: './plans.component.css'
+    selector: 'app-plans',
+    standalone: true,
+    imports: [CommonModule, Footer2Component, RouterModule],
+    templateUrl: './plans.component.html',
+    styleUrl: './plans.component.css'
 })
-export class PlansComponent implements OnInit{
-  plansService = inject(PlansService);
+export class PlansComponent implements OnInit {
+    route 			= inject(ActivatedRoute);
+	router 			= inject(Router);
+    plansService    = inject(PlansService);
 
-  banners: BannerPrice[] = [];
+    banners: BannerPrice[] = [];
+    user: Partial<User> = {};
 
-  ngOnInit(): void {
-    this.getBanners();
-  }
+    ngOnInit(): void {
+        this.getBanners();
+        this.goToTheTopWindow();
+    }
 
-  getBanners() {
-    this.plansService.banners("Y").subscribe((response) =>{
-      this.banners = response;
-    }, (error) => {
-      console.error('ERROR: ', error);
-    })
-  }
+    createListing() {
+        if(!this.getUserLogged()) {
+            const params = '/planos';
+            const msg = 'Você precisa estar logado para criar um anuncio';
+            this.router.navigate(['/login'], {queryParams: {redirectTo: params, redirectMsg: msg}});
+            return;
+        }
+
+        this.router.navigate(['/anuncios/novo']);
+    }
+
+    getUserLogged() {
+		const user = localStorage.getItem('userData');
+
+		if(user) {
+			this.user = JSON.parse(user) as User;
+			return true;
+		}
+
+		return false;
+	}
+
+    getBanners() {
+        this.plansService.banners("Y").subscribe((response) => {
+            this.banners = response;
+        }, (error) => {
+            console.error('ERROR: ', error);
+        })
+    }
+
+    goToTheTopWindow() {
+		window.scrollTo(0, 0);
+	}
 }
