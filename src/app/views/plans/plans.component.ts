@@ -30,7 +30,7 @@ export class PlansComponent implements OnInit {
     createListing() {
         if(!this.getUserLogged()) {
             const params = '/planos';
-            const msg = 'Você precisa estar logado para criar um anuncio';
+            const msg = 'Você precisa estar logado para criar um anúncio';
             this.router.navigate(['/login'], {queryParams: {redirectTo: params, redirectMsg: msg}});
             return;
         }

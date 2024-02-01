@@ -7,6 +7,7 @@ import { ListingCategoryAllComponent } from './views/listing-category-all/listin
 import { PlansComponent } from './views/plans/plans.component';
 import { ListingsComponent } from './views/listings/listings.component';
 import { ListingInfoComponent } from './views/listing-info/listing-info.component';
+import { ListingNewComponent } from './views/listing-new/listing-new.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -15,6 +16,7 @@ export const routes: Routes = [
     {path: 'recuperacao-senha', component: ForgotPasswordComponent},
     {path: 'anuncios', component: ListingsComponent},
     {path: 'anuncios/categorias', component: ListingCategoryAllComponent},
+    {path: 'anuncios/novo', component: ListingNewComponent},
     {path: 'anuncios/:id', component: ListingInfoComponent},
     {path: 'planos', component: PlansComponent},
 ];

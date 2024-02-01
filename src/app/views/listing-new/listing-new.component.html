@@ -1,0 +1,38 @@
+<h3 class="custom-dark-gray fw-bolder text-center my-5 ">Crie seu anúncio agora!</h3>
+
+<section>
+    <div class="container-fluid">
+        <div class="container">
+            <form action="" class="row">
+                <div class="col-sm-7 p-2">
+                    <label for="name" class="mb-1 custom-dark-gray fw-semibold ">Titulo do anúncio</label>
+                    <input type="text" id="name" name="name" class="form-control custom_focus custom_placeholder rounded-1 mb-3 " placeholder="Digite o título do seu anúncio">
+
+                    <label for="summary" class="mb-1 custom-dark-gray fw-semibold ">Resumo</label>
+                    <input type="text" id="summary" name="summary" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Digite um breve resumo">
+
+                    <label for="description" class="mb-1 custom-dark-gray fw-semibold ">Descrição longa</label>
+                    <textarea name="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Escreva sobre seu negocio"></textarea>
+
+                    <div>
+                        <!-- Categorias -->
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            categorias
+                        </button>
+                        <ul class="dropdown-menu p-2">
+                            <input [(ngModel)]="searchItem" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
+                            <li *ngFor="let category of searchItensCategory" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <!-- Images -->
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>
