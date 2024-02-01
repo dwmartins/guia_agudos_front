@@ -84,8 +84,8 @@ export class LoginComponent implements OnInit{
 
             setTimeout(() => {
                this.headerService.update(true);
-               this.router.navigate(['/']);
-            }, 1500);
+               this.router.navigate(['/app']);
+            }, 1100);
          }, (error) => {
             this.loadSpinner = false
             this.alerts('error', 'Falha ao realizar o login');
@@ -108,7 +108,6 @@ export class LoginComponent implements OnInit{
 
    getRedirect() {
       this.redirect = this.redirectService.getData();
-
       if(this.redirect) {
          this.alerts('alert', this.redirect.redirectMsg);
       }

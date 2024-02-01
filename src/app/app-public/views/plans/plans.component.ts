@@ -37,11 +37,11 @@ export class PlansComponent implements OnInit {
             }
 
             this.redirectService.setData(sharedData);
-            this.router.navigate(['/login']);
+            this.router.navigate(['/app/login']);
             return;
         }
 
-        this.router.navigate(['/anuncios/novo']);
+        this.router.navigate(['/app/anuncios/novo']);
     }
 
     getUserLogged() {

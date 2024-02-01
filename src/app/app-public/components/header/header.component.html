@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary mx-0 ">
     <div class="container">
-        <a class="navbar-brand" [routerLink]="['/']">
+        <a class="navbar-brand" [routerLink]="['/app']">
             <div class="my_logo d-flex align-items-center ">
                 <i class="bi bi-geo-alt-fill text-primary fs-3 "></i>
                 <span class="fs-3 fw-bold ">GuiaAgudos</span>
@@ -36,11 +36,11 @@
                 <!-- Logged -->
                 <hr>
                     <li class="nav-item">
-                        <a (click)="closeNavbar()" translate="no" class="nav-link" aria-current="page" [routerLink]="['/']">Home</a>
+                        <a (click)="closeNavbar()" translate="no" class="nav-link" aria-current="page" [routerLink]="['/app']">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/anuncios']">Anúncios</a>
+                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/app/anuncios']">Anúncios</a>
                     </li>
 
                     <li class="nav-item">
@@ -60,19 +60,19 @@
                     </li>
                 <hr>
                     <li class="nav-item logged_small">
-                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/planos']">Anuncie Aqui</a>
+                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/app/planos']">Anuncie Aqui</a>
                     </li>
 
                 <hr>
                 <!-- not logged in -->
                 <li *ngIf="!userLogged" class="nav-item logged_small">
-                    <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/login']">Entrar</a>
+                    <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/app/login']">Entrar</a>
                 </li>
                 <!-- not logged in -->
 
             </ul>
             <div *ngIf="userLogged" class="logged_large">
-                <button (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light btn-sm me-2 ps-0">
+                <button (click)="closeNavbar()" [routerLink]="['/app/planos']" class="btn btn-light btn-sm me-2 ps-0">
                     Anuncie aqui
                 </button>
 
@@ -89,8 +89,8 @@
                 </div>
             </div>
             <div *ngIf="!userLogged" class="flex-column logged_large">
-                <a (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light border btn-sm me-2 fw-semibold text-dark opacity-75">Anuncie aqui</a>
-                <a (click)="closeNavbar()" [routerLink]="['/login']" type="button" class="btn btn-primary btn-sm fw-bold rounded-1">Entrar</a>
+                <a (click)="closeNavbar()" [routerLink]="['/app/planos']" class="btn btn-light border btn-sm me-2 fw-semibold text-dark opacity-75">Anuncie aqui</a>
+                <a (click)="closeNavbar()" [routerLink]="['/app/login']" type="button" class="btn btn-primary btn-sm fw-bold rounded-1">Entrar</a>
             </div>
         </div>
     </div>

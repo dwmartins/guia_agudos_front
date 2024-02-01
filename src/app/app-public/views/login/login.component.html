@@ -20,7 +20,7 @@
                 <div *ngIf="formLogin.get('password')?.hasError('required') && formLogin.get('password')?.touched" class="text-danger msg_alert opacity-75">
                     Digite sua senha.
                 </div>
-                <a [routerLink]="['/recuperacao-senha']" class="fw-semibold opacity-75 link_outline_none text-forgot-password bg-primary">
+                <a [routerLink]="['/app/recuperacao-senha']" class="fw-semibold opacity-75 link_outline_none text-forgot-password bg-primary">
                     <p class="my-2">Esqueci minha senha</p>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                 <hr class="text-secondary m-0">
             </div>
 
-            <p class="custom-dark-gray">Não possui conta? <a [routerLink]="['/nova-conta']" class="fw-semibold opacity-75 link_outline_none">Criar conta</a></p>
+            <p class="custom-dark-gray">Não possui conta? <a [routerLink]="['/app/nova-conta']" class="fw-semibold opacity-75 link_outline_none">Criar conta</a></p>
         </form>
     </div>
     <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts>

@@ -65,6 +65,6 @@ export class ForgotPasswordComponent {
 
    redirectToLogin() {
       this.modalForgotPassword.dismissAll(this.success);
-      this.router.navigate(['/login']);
+      this.router.navigate(['/app/login']);
    }
 }
