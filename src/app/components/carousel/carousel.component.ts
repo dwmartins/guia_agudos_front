@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
-import { Carousel } from '../../../models/carousel';
+import { Carousel } from '../../models/carousel';
 import { CarouselService } from '../../services/carousel.service';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

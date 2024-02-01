@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ListingCategoryService } from '../../services/listing-category.service';
-import { ListingCategory } from '../../../models/listingCategory';
+import { ListingCategory } from '../../models/listingCategory';
 import { FormsModule } from '@angular/forms';
 
 @Component({

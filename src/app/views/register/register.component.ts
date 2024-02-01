@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { User } from '../../../models/user';
+import { User } from '../../models/user';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';

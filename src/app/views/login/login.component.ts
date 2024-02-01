@@ -1,13 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { User } from '../../../models/user';
+import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { HeaderService } from '../../services/header.service';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { RedirectService } from '../../services/redirect.service';
+import { Redirect } from '../../models/Redirect';
 
 @Component({
    selector: 'app-login',
@@ -17,7 +19,8 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
    styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-   route = inject(ActivatedRoute);
+   route          = inject(ActivatedRoute);
+   redirectService  = inject(RedirectService);
 
    formLogin: FormGroup;
    user: Partial<User> = {};
@@ -31,6 +34,8 @@ export class LoginComponent implements OnInit{
 
    params: string | null = null;
    paramsMsg: string | null = null;
+
+   redirect: Partial<Redirect> = {};
 
    constructor(
       private formBuilder: FormBuilder,
@@ -46,7 +51,7 @@ export class LoginComponent implements OnInit{
 
    ngOnInit(): void {
       this.goToTheTopWindow();
-      this.getParams();
+      this.getRedirect();
 
       const user = localStorage.getItem('userData');
       if(user) {
@@ -69,11 +74,11 @@ export class LoginComponent implements OnInit{
 
             this.user = response;
             this.setLocalStorage();
+            this.headerService.update(true);
             this.alerts('success', 'Login realizado com sucesso.');
 
-            if(this.params) {
-               this.headerService.update(true);
-               this.router.navigate([this.params]);
+            if(this.redirect) {
+               this.router.navigate([this.redirect.redirectTo]);
                return;
             }
 
@@ -101,14 +106,11 @@ export class LoginComponent implements OnInit{
       this.icon_password = (this.icon_password === "bi bi-eye") ? "bi bi-eye-slash" : (this.icon_password === "bi bi-eye-slash") ? "bi bi-eye" : this.icon_password;
    }
 
-   getParams() {
-      this.route.queryParamMap.subscribe((queryParams) => {
-         this.params = queryParams.get('redirectTo') || null;
-         this.paramsMsg = queryParams.get('redirectMsg');
-      });
+   getRedirect() {
+      this.redirect = this.redirectService.getData();
 
-      if(this.params) {
-         this.alerts('alert', this.paramsMsg);
+      if(this.redirect) {
+         this.alerts('alert', this.redirect.redirectMsg);
       }
    }
 

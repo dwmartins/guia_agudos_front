@@ -6,9 +6,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
 import { AlertsComponent } from '../../components/alerts/alerts.component';
-import { Assessment } from '../../../models/Assessment';
+import { Assessment } from '../../models/Assessment';
 import { AssessmentService } from '../../services/assessment.service';
-import { User } from '../../../models/user';
+import { User } from '../../models/user';
 import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({

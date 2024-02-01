@@ -1,8 +1,8 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { User } from '../../models/user';
-import { Responses } from '../../models/Responses';
+import { User } from '../models/user';
+import { Responses } from '../models/Responses';
 
 @Injectable({
   providedIn: 'root'

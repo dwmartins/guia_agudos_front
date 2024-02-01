@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { Carousel, Responses } from '../../models/carousel';
+import { Carousel, Responses } from '../models/carousel';
 
 @Injectable({
   providedIn: 'root'

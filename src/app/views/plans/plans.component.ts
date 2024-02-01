@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { BannerPrice } from '../../../models/BannerPrice';
+import { BannerPrice } from '../../models/BannerPrice';
 import { PlansService } from '../../services/plans.service';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../components/footer/footer.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { User } from '../../../models/user';
+import { User } from '../../models/user';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RedirectService } from '../../services/redirect.service';
+import { Redirect } from '../../models/Redirect';
 
 @Component({
     selector: 'app-plans',
@@ -18,6 +19,7 @@ export class PlansComponent implements OnInit {
     route 			= inject(ActivatedRoute);
 	router 			= inject(Router);
     plansService    = inject(PlansService);
+    redirectService = inject(RedirectService);
 
     banners: BannerPrice[] = [];
     user: Partial<User> = {};
@@ -29,9 +31,13 @@ export class PlansComponent implements OnInit {
 
     createListing() {
         if(!this.getUserLogged()) {
-            const params = '/planos';
-            const msg = 'Você precisa estar logado para criar um anúncio';
-            this.router.navigate(['/login'], {queryParams: {redirectTo: params, redirectMsg: msg}});
+            const sharedData: Redirect = {
+                redirectTo: '/planos',
+                redirectMsg: 'Você precisa estar logado para criar um anúncio'
+            }
+
+            this.redirectService.setData(sharedData);
+            this.router.navigate(['/login']);
             return;
         }
 

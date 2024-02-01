@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ListingCategoryService } from '../../services/listing-category.service';
-import { ListingCategory } from '../../../models/listingCategory';
+import { ListingCategory } from '../../models/listingCategory';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
