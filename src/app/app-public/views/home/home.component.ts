@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ListingCategoryComponent } from '../../../components/listing-category/listing-category.component';
-import { CarouselComponent } from '../../../components/carousel/carousel.component';
-import { FooterComponent } from '../../../components/footer/footer.component';
-import { BannerPromoverComponent } from '../../../components/banner-promover/banner-promover.component';
+import { ListingCategoryComponent } from '../../components/listing-category/listing-category.component';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { BannerPromoverComponent } from '../../components/banner-promover/banner-promover.component';
 
 @Component({
   selector: 'app-home',

@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Footer2Component } from '../../../components/footer-2/footer-2.component';
 import { PlansService } from '../../../services/plans.service';
 import { RedirectService } from '../../../services/redirect.service';
 import { BannerPrice } from '../../../models/BannerPrice';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
+import { Footer2Component } from '../../components/footer-2/footer-2.component';
 
 @Component({
     selector: 'app-plans',

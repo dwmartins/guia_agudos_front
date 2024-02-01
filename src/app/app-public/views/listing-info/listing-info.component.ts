@@ -5,11 +5,11 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
-import { AlertsComponent } from '../../../components/alerts/alerts.component';
-import { FooterComponent } from '../../../components/footer/footer.component';
 import { AssessmentService } from '../../../services/assessment.service';
 import { User } from '../../../models/user';
 import { Assessment } from '../../../models/Assessment';
+import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   	selector: 'app-listing-info',

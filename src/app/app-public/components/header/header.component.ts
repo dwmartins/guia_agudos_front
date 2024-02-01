@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { User } from '../../models/user';
-import { HeaderService } from '../../services/header.service';
+import { User } from '../../../models/user';
+import { HeaderService } from '../../../services/header.service';
 
 @Component({
    selector: 'app-header',

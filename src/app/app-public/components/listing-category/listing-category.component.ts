@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ListingCategoryService } from '../../services/listing-category.service';
-import { ListingCategory } from '../../models/listingCategory';
 import { FormsModule } from '@angular/forms';
+import { ListingCategory } from '../../../models/listingCategory';
+import { ListingCategoryService } from '../../../services/listing-category.service';
 
 @Component({
    selector: 'app-listing-category',

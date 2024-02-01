@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { FooterComponent } from '../../../components/footer/footer.component';
 import { ListingCategoryService } from '../../../services/listing-category.service';
 import { ListingCategory } from '../../../models/listingCategory';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
    selector: 'app-listings',

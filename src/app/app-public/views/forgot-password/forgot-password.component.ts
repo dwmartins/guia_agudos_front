@@ -4,9 +4,9 @@ import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertsComponent } from '../../../components/alerts/alerts.component';
-import { Footer2Component } from '../../../components/footer-2/footer-2.component';
 import { UserService } from '../../../services/user.service';
+import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
+import { Footer2Component } from '../../components/footer-2/footer-2.component';
 
 @Component({
    selector: 'app-forgot-password',
