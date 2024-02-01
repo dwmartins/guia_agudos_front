@@ -1,15 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../services/user.service';
 import { HttpClientModule } from '@angular/common/http';
-import { AlertsComponent } from '../../components/alerts/alerts.component';
-import { HeaderService } from '../../services/header.service';
-import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { RedirectService } from '../../services/redirect.service';
-import { Redirect } from '../../models/Redirect';
+import { AlertsComponent } from '../../../components/alerts/alerts.component';
+import { Footer2Component } from '../../../components/footer-2/footer-2.component';
+import { RedirectService } from '../../../services/redirect.service';
+import { UserService } from '../../../services/user.service';
+import { HeaderService } from '../../../services/header.service';
+import { User } from '../../../models/user';
+import { Redirect } from '../../../models/Redirect';
 
 @Component({
    selector: 'app-login',

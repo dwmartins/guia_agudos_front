@@ -1,13 +1,13 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { User } from '../../models/user';
 import { Router, RouterModule } from '@angular/router';
-import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { AlertsComponent } from '../../components/alerts/alerts.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { AlertsComponent } from '../../../components/alerts/alerts.component';
+import { Footer2Component } from '../../../components/footer-2/footer-2.component';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
 
 @Component({
    selector: 'app-register',
