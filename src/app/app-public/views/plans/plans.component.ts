@@ -7,7 +7,7 @@ import { BannerPrice } from '../../../models/BannerPrice';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { AlertService } from '../../../services/alert.service';
+import { AlertService } from '../../../services/componsents/alert.service';
 
 @Component({
     selector: 'app-plans',

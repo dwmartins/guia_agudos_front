@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { User } from '../models/user';
-import { HeaderService } from './header.service';
+import { HeaderService } from './componsents/header.service';
 
 @Injectable({
 	providedIn: 'root'

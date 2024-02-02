@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RedirectService } from '../../../services/redirect.service';
 import { UserService } from '../../../services/user.service';
-import { HeaderService } from '../../../services/header.service';
+import { HeaderService } from '../../../services/componsents/header.service';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { AlertService } from '../../../services/alert.service';
+import { AlertService } from '../../../services/componsents/alert.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({

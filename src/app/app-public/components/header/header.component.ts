@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../../models/user';
-import { HeaderService } from '../../../services/header.service';
+import { HeaderService } from '../../../services/componsents/header.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
