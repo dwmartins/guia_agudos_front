@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../../models/user';
 import { HeaderService } from '../../../services/header.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
    selector: 'app-header',
@@ -12,12 +13,16 @@ import { HeaderService } from '../../../services/header.service';
    styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+   authService = inject(AuthService);
+   headerService   = inject(HeaderService);
+   router          = inject(Router);
+
    @ViewChild('navbar', {static: true}) navbar!: ElementRef;
 
    user: Partial<User> = {};
    userLogged: boolean = false;
 
-   constructor(private router: Router, private headerService: HeaderService) {}
+   constructor() {}
 
    ngOnInit(): void {
       this.checkUserLogged();
@@ -25,20 +30,17 @@ export class HeaderComponent implements OnInit {
 
    checkUserLogged() {
       this.headerService.updateHeader$.subscribe((show) => {
-         this.setUserData();
-      })
-   }
-
-   setUserData() {
-      const user = localStorage.getItem('userData');
-      if (user) {
-         this.user = JSON.parse(user) as User;
-         this.userLogged = true;
-      }
+         const user = this.authService.getUserLogged();
+         
+         if(user) {
+            this.userLogged = true;
+            this.user = user;
+         }
+      });
    }
 
    logout() {
-      localStorage.removeItem('userData');
+      this.authService.logout();
       this.userLogged = false;
       this.router.navigate(['/']);
    }
