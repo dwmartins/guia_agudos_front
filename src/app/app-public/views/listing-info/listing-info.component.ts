@@ -93,7 +93,7 @@ export class ListingInfoComponent implements OnInit{
 			this.cleanFormAssessment();
 			this.modal.open(this.modalAssessment, {centered: true});
 		} else {
-			const params = `/anuncios/${this.listingId}`;
+			const params = `/anunciantes/${this.listingId}`;
 			this.router.navigate(['/login'], {queryParams: {redirectTo: params}})
 		}
 	}

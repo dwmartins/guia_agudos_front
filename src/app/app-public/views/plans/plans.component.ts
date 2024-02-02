@@ -45,7 +45,7 @@ export class PlansComponent implements OnInit {
             return;
         }
 
-        this.router.navigate(['/app/anuncios/novo']);
+        this.router.navigate(['/app/anunciantes/novo']);
     }
 
     getUserLogged() {
