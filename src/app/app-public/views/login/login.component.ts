@@ -22,9 +22,13 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LoginComponent implements OnInit{
    route             = inject(ActivatedRoute);
+   router            = inject(Router);
    redirectService   = inject(RedirectService);
    alertService      = inject(AlertService);
-   authService   = inject(AuthService)
+   authService       = inject(AuthService);
+   userService       = inject(UserService);
+   headerService     = inject(HeaderService);
+   formBuilder       = inject(FormBuilder);
 
    formLogin: FormGroup;
    user: Partial<User> = {};
@@ -38,12 +42,7 @@ export class LoginComponent implements OnInit{
 
    redirect: Partial<Redirect> = {};
 
-   constructor(
-      private formBuilder: FormBuilder,
-      private router: Router,
-      private userService: UserService,
-      private headerService: HeaderService
-   ) {
+   constructor() {
       this.formLogin = this.formBuilder.group({
          email: ['', [Validators.required, Validators.email]],
          password: ['', [Validators.required]]

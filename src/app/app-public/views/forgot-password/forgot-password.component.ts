@@ -16,12 +16,13 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
    styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
+   modalForgotPassword  = inject(NgbModal);
+   formBuilder          = inject(FormBuilder);
+   router               = inject(Router);
+   userService          = inject(UserService);
+   
    @ViewChild('success', { static: true }) success!: ElementRef;
    
-   modalForgotPassword = inject(NgbModal);
-   formBuilder = inject(FormBuilder);
-   router = inject(Router);
-   userService = inject(UserService);
 
    formForgotPassword: FormGroup;
 

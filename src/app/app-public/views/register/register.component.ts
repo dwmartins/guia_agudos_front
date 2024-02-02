@@ -17,12 +17,12 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-   @ViewChild('register', { static: true }) register!: ElementRef;
+   formBuilder    = inject(FormBuilder);
+   router         = inject(Router);
+   userService    = inject(UserService);
+   modalRegister  = inject(NgbModal);
 
-   formBuilder = inject(FormBuilder);
-   router = inject(Router);
-   userService = inject(UserService);
-   modalRegister = inject(NgbModal);
+   @ViewChild('register', { static: true }) register!: ElementRef;
 
    registerData: { photo_url: string | null } = { photo_url: null };
 
