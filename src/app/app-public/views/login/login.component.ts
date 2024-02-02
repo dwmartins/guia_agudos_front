@@ -10,6 +10,7 @@ import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
    selector: 'app-login',
@@ -19,8 +20,9 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
    styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-   route          = inject(ActivatedRoute);
-   redirectService  = inject(RedirectService);
+   route             = inject(ActivatedRoute);
+   redirectService   = inject(RedirectService);
+   alertService      = inject(AlertService);
 
    formLogin: FormGroup;
    user: Partial<User> = {};
@@ -62,20 +64,25 @@ export class LoginComponent implements OnInit{
       }
    }
 
+   teste() {   
+      this.alertService.showAlert('alert', 'funcionou!!!');
+      this.headerService.update(true);
+   }
+
    submitForm() {
       if(this.formLogin.valid) {
          this.loadSpinner = true;
          this.userService.login(this.formLogin.value).subscribe((response) => {
             this.loadSpinner = false;
             if('alert' in response) {
-               this.alerts('alert', response.alert);
+               // this.alerts('alert', response.alert);
                return;
             }
 
             this.user = response;
             this.setLocalStorage();
             this.headerService.update(true);
-            this.alerts('success', 'Login realizado com sucesso.');
+            // this.alerts('success', 'Login realizado com sucesso.');
 
             if(this.redirect) {
                this.router.navigate([this.redirect.redirectTo]);
@@ -88,7 +95,7 @@ export class LoginComponent implements OnInit{
             }, 1100);
          }, (error) => {
             this.loadSpinner = false
-            this.alerts('error', 'Falha ao realizar o login');
+            // this.alerts('error', 'Falha ao realizar o login');
             console.error('ERROR: ', error);
          })
       } else {
@@ -108,8 +115,9 @@ export class LoginComponent implements OnInit{
 
    getRedirect() {
       this.redirect = this.redirectService.getData();
-      if(this.redirect) {
-         this.alerts('alert', this.redirect.redirectMsg);
+
+      if(Object.keys(this.redirect).length) {
+         // this.alerts('alert', this.redirect.redirectMsg);
       }
    }
 

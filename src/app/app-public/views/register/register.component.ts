@@ -54,7 +54,7 @@ export class RegisterComponent {
             this.loadSpinner = false;
 
             if ('alert' in response) {
-               this.alerts('alert', response.alert);
+               // this.alerts('alert', response.alert);
                return;
             }
 
@@ -62,7 +62,7 @@ export class RegisterComponent {
 
          }, (error) => {
             this.loadSpinner = false;
-            this.alerts('error', 'Falha ao criar a sua conta.');
+            // this.alerts('error', 'Falha ao criar a sua conta.');
             console.error('ERROR: ', error);
          })
       } else {
@@ -81,7 +81,7 @@ export class RegisterComponent {
 
       if (file) {
          if (file.size > 5 * 1024 * 1024) {
-            this.alerts('alert', 'A imagem de perfil deve ter no máximo 5MB.');
+            // this.alerts('alert', 'A imagem de perfil deve ter no máximo 5MB.');
             this.previewPhoto = null;
             return;
          }
@@ -98,7 +98,7 @@ export class RegisterComponent {
 
             reader.readAsDataURL(file);
          } else {
-            this.alerts('alert', 'O formato da imagem deve ser (png, jpg, jpeg)');
+            // this.alerts('alert', 'O formato da imagem deve ser (png, jpg, jpeg)');
          }
 
       } else {

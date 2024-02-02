@@ -41,14 +41,14 @@ export class ForgotPasswordComponent {
          this.userService.sendNewPassword(this.formForgotPassword.value).subscribe((response) => {
             this.loadSpinner = false;
             if('alert' in response) {
-               this.alerts('alert', response.alert);
+               // this.alerts('alert', response.alert);
                return;
             }
 
             this.modalForgotPassword.open(this.success, { centered: true });
          }, (error) => {
             this.loadSpinner = false;
-            this.alerts('error', 'Falha ao buscar o e-mail');
+            // this.alerts('error', 'Falha ao buscar o e-mail');
             console.error('ERROR: ', error);
          })
       } else {

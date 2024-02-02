@@ -110,9 +110,9 @@ export class ListingInfoComponent implements OnInit{
 		if(this.formAssessment.valid) {
 			this.assessmentService.newAssessment(this.formAssessment.value).subscribe((response) => {
 				this.modal.dismissAll(this.modalAssessment);
-				this.alerts('success', 'Avaliação inserida com sucesso.');
+				// this.alerts('success', 'Avaliação inserida com sucesso.');
 			},(error) => {
-				this.alerts('error', 'Falha ao inserir sua avaliação.');
+				// this.alerts('error', 'Falha ao inserir sua avaliação.');
 				console.error('ERROR: ', error);
 			})
 		}

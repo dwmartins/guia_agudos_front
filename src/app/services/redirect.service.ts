@@ -14,6 +14,12 @@ export class RedirectService {
     }
 
     getData() {
-        return this.redirect;
+        const data = { ...this.redirect };
+        this.clearData();
+        return data;
+    }
+
+    clearData() {
+        this.redirect = {};
     }
 }
