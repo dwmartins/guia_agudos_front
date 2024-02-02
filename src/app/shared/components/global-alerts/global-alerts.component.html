@@ -1,6 +1,17 @@
-<ng-template #successTpl> <span><i class="fs-4 me-2 bi bi-check2-circle"></i> {{ alertMsg }}</span> <i (click)="ngOnDestroy()" class="bi bi-x-lg cursor_pointer"></i></ng-template>
-<ng-template #infoTpl> <span class="custom-dark-gray"><i class="fs-4 me-2 bi bi-exclamation-circle"></i> {{ alertMsg }}</span> <i (click)="ngOnDestroy()" class="bi bi-x-lg cursor_pointer custom-dark-gray"></i></ng-template>
-<ng-template #dangerTpl> <span><i class="fs-4 me-2 bi bi-exclamation-triangle-fill"></i> {{ alertMsg }} <i (click)="ngOnDestroy()" class="bi bi-x-lg cursor_pointer"></i></span></ng-template>
+<ng-template #successTpl>
+    <span><i class="fs-4 me-2 bi bi-check2-circle"></i> {{ alertMsg }}</span>
+    <i (click)="ngOnDestroy()" class="bi bi-x-lg cursor_pointer"></i>
+</ng-template>
+
+<ng-template #infoTpl>
+    <span class="custom-dark-gray"><i class="fs-4 me-2 bi bi-exclamation-circle"></i> {{ alertMsg }}</span>
+    <i (click)="ngOnDestroy()" class="bi bi-x-lg cursor_pointer custom-dark-gray"></i>
+</ng-template>
+
+<ng-template #dangerTpl>
+    <span><i class="fs-4 me-2 bi bi-exclamation-triangle-fill"></i> {{ alertMsg }}</span> 
+    <i (click)="ngOnDestroy()" class="bi bi-x-lg cursor_pointer"></i>
+</ng-template>
 
 
 <!-- <app-alerts aria-live="polite" aria-atomic="true"></app-alerts> -->
