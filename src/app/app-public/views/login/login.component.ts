@@ -5,12 +5,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RedirectService } from '../../../services/redirect.service';
 import { UserService } from '../../../services/user.service';
-import { HeaderService } from '../../../services/header.service';
+import { HeaderService } from '../../../services/componsents/header.service';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { AlertService } from '../../../services/alert.service';
+import { AlertService } from '../../../services/componsents/alert.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
    selector: 'app-login',
@@ -21,8 +22,13 @@ import { AlertService } from '../../../services/alert.service';
 })
 export class LoginComponent implements OnInit{
    route             = inject(ActivatedRoute);
+   router            = inject(Router);
    redirectService   = inject(RedirectService);
    alertService      = inject(AlertService);
+   authService       = inject(AuthService);
+   userService       = inject(UserService);
+   headerService     = inject(HeaderService);
+   formBuilder       = inject(FormBuilder);
 
    formLogin: FormGroup;
    user: Partial<User> = {};
@@ -36,12 +42,7 @@ export class LoginComponent implements OnInit{
 
    redirect: Partial<Redirect> = {};
 
-   constructor(
-      private formBuilder: FormBuilder,
-      private router: Router,
-      private userService: UserService,
-      private headerService: HeaderService
-   ) {
+   constructor() {
       this.formLogin = this.formBuilder.group({
          email: ['', [Validators.required, Validators.email]],
          password: ['', [Validators.required]]
@@ -49,16 +50,9 @@ export class LoginComponent implements OnInit{
    }
 
    ngOnInit(): void {
+      this.checkUserLogged();
       this.goToTheTopWindow();
       this.getRedirect();
-
-      const user = localStorage.getItem('userData');
-      if(user) {
-         this.user = JSON.parse(user) as User;
-         if(this.user.token) {
-            this.router.navigate(['/']);
-         }
-      }
    }
 
    submitForm() {
@@ -72,20 +66,20 @@ export class LoginComponent implements OnInit{
             }
 
             this.user = response;
-            this.setLocalStorage();
+            this.authService.setUserLogged(response);
             this.headerService.update(true);
-
             this.alertService.showAlert('success', 'Login realizado com sucesso.');
 
-            if(Object.keys(this.redirect).length) {
-               this.router.navigate([this.redirect.redirectTo]);
-               return;
-            }
-
             setTimeout(() => {
+               if(Object.keys(this.redirect).length) {
+                  this.router.navigate([this.redirect.redirectTo]);
+                  return;
+               }
+
                this.router.navigate(['/app']);
                return;
             }, 1000);
+
          }, (error) => {
             this.loadSpinner = false
             this.alertService.showAlert('error', 'Falha ao realizar o login');
@@ -96,14 +90,15 @@ export class LoginComponent implements OnInit{
       }
    }
 
-   setLocalStorage() {
-      const userData = JSON.stringify(this.user);
-      localStorage.setItem('userData', userData);
-   }
-
    viePassword() {
       this.showPassword = (this.showPassword === "text") ? "password" : (this.showPassword === "password") ? "text" : this.showPassword
       this.icon_password = (this.icon_password === "bi bi-eye") ? "bi bi-eye-slash" : (this.icon_password === "bi bi-eye-slash") ? "bi bi-eye" : this.icon_password;
+   }
+
+   checkUserLogged() {
+      if(this.authService.getUserLogged()) {
+         this.router.navigate(['/app']);
+      }
    }
 
    getRedirect() {

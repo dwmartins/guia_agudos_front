@@ -19,15 +19,16 @@ import { FooterComponent } from '../../components/footer/footer.component';
   	styleUrl: './listing-info.component.css'
 })
 export class ListingInfoComponent implements OnInit{	
-	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
-	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
-
 	route 				= inject(ActivatedRoute);
 	router 				= inject(Router);
 	lightbox 			= inject(Lightbox);
 	modal 				= inject(NgbModal);
 	formBuilder 		= inject(FormBuilder);
-	assessmentService 	= inject(AssessmentService)
+	assessmentService 	= inject(AssessmentService);
+	
+	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
+	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
+
 
 	listingId: number = 0;
 	iconCategories: boolean = false;
@@ -93,7 +94,7 @@ export class ListingInfoComponent implements OnInit{
 			this.cleanFormAssessment();
 			this.modal.open(this.modalAssessment, {centered: true});
 		} else {
-			const params = `/anuncios/${this.listingId}`;
+			const params = `/anunciantes/${this.listingId}`;
 			this.router.navigate(['/login'], {queryParams: {redirectTo: params}})
 		}
 	}

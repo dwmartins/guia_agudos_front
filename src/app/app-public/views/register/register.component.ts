@@ -8,6 +8,7 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { AlertService } from '../../../services/componsents/alert.service';
 
 @Component({
    selector: 'app-register',
@@ -17,12 +18,13 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-   @ViewChild('register', { static: true }) register!: ElementRef;
+   formBuilder    = inject(FormBuilder);
+   router         = inject(Router);
+   userService    = inject(UserService);
+   modalRegister  = inject(NgbModal);
+   alertService   = inject(AlertService);
 
-   formBuilder = inject(FormBuilder);
-   router = inject(Router);
-   userService = inject(UserService);
-   modalRegister = inject(NgbModal);
+   @ViewChild('register', { static: true }) register!: ElementRef;
 
    registerData: { photo_url: string | null } = { photo_url: null };
 
@@ -54,7 +56,7 @@ export class RegisterComponent {
             this.loadSpinner = false;
 
             if ('alert' in response) {
-               // this.alerts('alert', response.alert);
+               this.alertService.showAlert('info', response.alert);
                return;
             }
 
@@ -62,7 +64,7 @@ export class RegisterComponent {
 
          }, (error) => {
             this.loadSpinner = false;
-            // this.alerts('error', 'Falha ao criar a sua conta.');
+            this.alertService.showAlert('info', 'Falha ao criar a sua conta.');
             console.error('ERROR: ', error);
          })
       } else {
@@ -81,7 +83,7 @@ export class RegisterComponent {
 
       if (file) {
          if (file.size > 5 * 1024 * 1024) {
-            // this.alerts('alert', 'A imagem de perfil deve ter no máximo 5MB.');
+            this.alertService.showAlert('info', 'A imagem de perfil deve ter no máximo 5MB.');
             this.previewPhoto = null;
             return;
          }
@@ -98,19 +100,12 @@ export class RegisterComponent {
 
             reader.readAsDataURL(file);
          } else {
-            // this.alerts('alert', 'O formato da imagem deve ser (png, jpg, jpeg)');
+            this.alertService.showAlert('info', 'O formato da imagem deve ser (png, jpg, jpeg)');
          }
 
       } else {
          this.previewPhoto = null;
       }
-   }
-
-   alerts(type: string, description: string | any) {
-      this.alert.push({
-         type: type,
-         description: description
-      })
    }
 
    redirectToLogin() {

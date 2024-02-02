@@ -7,7 +7,8 @@ import { BannerPrice } from '../../../models/BannerPrice';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { AlertService } from '../../../services/alert.service';
+import { AlertService } from '../../../services/componsents/alert.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-plans',
@@ -22,6 +23,7 @@ export class PlansComponent implements OnInit {
     plansService    = inject(PlansService);
     redirectService = inject(RedirectService);
     alertService    = inject(AlertService);
+    authService     = inject(AuthService);
 
     banners: BannerPrice[] = [];
     user: Partial<User> = {};
@@ -32,7 +34,7 @@ export class PlansComponent implements OnInit {
     }
 
     createListing() {
-        if(!this.getUserLogged()) {
+        if(!this.authService.getUserLogged()) {
             this.alertService.showAlert('info', 'Você precisa estar logado para criar um anúncio');
 
             const sharedData: Redirect = {
@@ -45,19 +47,8 @@ export class PlansComponent implements OnInit {
             return;
         }
 
-        this.router.navigate(['/app/anuncios/novo']);
+        this.router.navigate(['/app/anunciantes/novo']);
     }
-
-    getUserLogged() {
-		const user = localStorage.getItem('userData');
-
-		if(user) {
-			this.user = JSON.parse(user) as User;
-			return true;
-		}
-
-		return false;
-	}
 
     getBanners() {
         this.plansService.banners("Y").subscribe((response) => {

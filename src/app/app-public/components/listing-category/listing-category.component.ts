@@ -14,6 +14,8 @@ import { ListingCategoryService } from '../../../services/listing-category.servi
    styleUrl: './listing-category.component.css'
 })
 export class ListingCategoryComponent implements OnInit {
+   categoryService = inject(ListingCategoryService);
+   
    @Input() type: string = '';
 
    SearchingCategories: boolean = false;
@@ -23,7 +25,6 @@ export class ListingCategoryComponent implements OnInit {
    searchItensCategory: ListingCategory[] = [];
    searchItem: string = '';
 
-   categoryService = inject(ListingCategoryService);
 
    ngOnInit(): void {
       this.getCategories();

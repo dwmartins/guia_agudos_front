@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { AlertService } from '../../../services/componsents/alert.service';
 
 @Component({
    selector: 'app-forgot-password',
@@ -16,17 +17,16 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
    styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
+   modalForgotPassword  = inject(NgbModal);
+   formBuilder          = inject(FormBuilder);
+   router               = inject(Router);
+   userService          = inject(UserService);
+   alertService         = inject(AlertService);
+   
    @ViewChild('success', { static: true }) success!: ElementRef;
    
-   modalForgotPassword = inject(NgbModal);
-   formBuilder = inject(FormBuilder);
-   router = inject(Router);
-   userService = inject(UserService);
-
    formForgotPassword: FormGroup;
-
    alert: any[] = [];
-
    loadSpinner: boolean = false;
 
    constructor() {
@@ -41,26 +41,19 @@ export class ForgotPasswordComponent {
          this.userService.sendNewPassword(this.formForgotPassword.value).subscribe((response) => {
             this.loadSpinner = false;
             if('alert' in response) {
-               // this.alerts('alert', response.alert);
+               this.alertService.showAlert('info', response.alert);
                return;
             }
 
             this.modalForgotPassword.open(this.success, { centered: true });
          }, (error) => {
             this.loadSpinner = false;
-            // this.alerts('error', 'Falha ao buscar o e-mail');
+            this.alertService.showAlert('error', 'Falha ao buscar o e-mail');
             console.error('ERROR: ', error);
          })
       } else {
          this.formForgotPassword.markAllAsTouched();
       }
-   }
-
-   alerts(type: string, description: string | any) {
-      this.alert.push({
-         type: type,
-         description: description
-      })
    }
 
    redirectToLogin() {
