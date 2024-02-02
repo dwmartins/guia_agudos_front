@@ -7,6 +7,7 @@ import { BannerPrice } from '../../../models/BannerPrice';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
     selector: 'app-plans',
@@ -20,6 +21,7 @@ export class PlansComponent implements OnInit {
 	router 			= inject(Router);
     plansService    = inject(PlansService);
     redirectService = inject(RedirectService);
+    alertService    = inject(AlertService);
 
     banners: BannerPrice[] = [];
     user: Partial<User> = {};
@@ -31,9 +33,11 @@ export class PlansComponent implements OnInit {
 
     createListing() {
         if(!this.getUserLogged()) {
+            this.alertService.showAlert('info', 'Você precisa estar logado para criar um anúncio');
+
             const sharedData: Redirect = {
-                redirectTo: '/planos',
-                redirectMsg: 'Você precisa estar logado para criar um anúncio'
+                redirectTo: '/app/planos',
+                redirectMsg: ''
             }
 
             this.redirectService.setData(sharedData);

@@ -1,17 +1,36 @@
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
+export interface Toast {
+	template: TemplateRef<any>;
+	classname?: string;
+	delay?: number;
+}
+
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class AlertService {
+	toasts: Toast[] = [];
 
-  constructor() { }
+	private alert = new Subject<any>();
+	alert$ = this.alert.asObservable();
 
-  private alerts = new Subject<any>();
-  alerts$ = this.alerts.asObservable();
+	constructor() { }
 
-  showAlert(type: string, msg: string) {
-    this.alerts.next({ type, msg });
-  }
+	showAlert(type: string, msg: any) {
+		this.alert.next({ type, msg });
+	}
+
+	show(toast: Toast) {
+		this.toasts.push(toast);
+	}
+
+	remove(toast: Toast) {
+		this.toasts = this.toasts.filter((t) => t !== toast);
+	}
+
+	clear() {
+		this.toasts.splice(0, this.toasts.length);
+	}
 }

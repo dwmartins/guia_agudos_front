@@ -34,9 +34,6 @@ export class LoginComponent implements OnInit{
 
    loadSpinner: boolean = false;
 
-   params: string | null = null;
-   paramsMsg: string | null = null;
-
    redirect: Partial<Redirect> = {};
 
    constructor(
@@ -64,38 +61,34 @@ export class LoginComponent implements OnInit{
       }
    }
 
-   teste() {   
-      this.alertService.showAlert('alert', 'funcionou!!!');
-      this.headerService.update(true);
-   }
-
    submitForm() {
       if(this.formLogin.valid) {
          this.loadSpinner = true;
          this.userService.login(this.formLogin.value).subscribe((response) => {
             this.loadSpinner = false;
             if('alert' in response) {
-               // this.alerts('alert', response.alert);
+               this.alertService.showAlert('info', response.alert);
                return;
             }
 
             this.user = response;
             this.setLocalStorage();
             this.headerService.update(true);
-            // this.alerts('success', 'Login realizado com sucesso.');
 
-            if(this.redirect) {
+            this.alertService.showAlert('success', 'Login realizado com sucesso.');
+
+            if(Object.keys(this.redirect).length) {
                this.router.navigate([this.redirect.redirectTo]);
                return;
             }
 
             setTimeout(() => {
-               this.headerService.update(true);
                this.router.navigate(['/app']);
-            }, 1100);
+               return;
+            }, 1000);
          }, (error) => {
             this.loadSpinner = false
-            // this.alerts('error', 'Falha ao realizar o login');
+            this.alertService.showAlert('error', 'Falha ao realizar o login');
             console.error('ERROR: ', error);
          })
       } else {
@@ -115,17 +108,6 @@ export class LoginComponent implements OnInit{
 
    getRedirect() {
       this.redirect = this.redirectService.getData();
-
-      if(Object.keys(this.redirect).length) {
-         // this.alerts('alert', this.redirect.redirectMsg);
-      }
-   }
-
-   alerts(type: string, description: string | any) {
-      this.alert.push({
-         type: type,
-         description: description
-      })
    }
 
    goToTheTopWindow() {
