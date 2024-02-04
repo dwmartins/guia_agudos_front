@@ -2,31 +2,33 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AlertService } from '../services/componsents/alert.service';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = async (route, state) => {
     const router = inject(Router);
-    const authService = inject(AuthService);
     const alertService = inject(AlertService);
+    const authService = inject(AuthService);
+    const userService = inject(UserService);
 
-    if(authService.getUserLogged()) {
+    const validToken = await authService.logged().toPromise();
+    if(validToken) {
         return true;
     }
 
-    alertService.showAlert('info', 'Faça login na sua conta para acessar esta área.');
-    router.navigate(['/app/login']);
-    return false;
+    router.navigate(['/app']);
+    return false
 };
 
-export const adminGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = async (route, state) => {
     const router = inject(Router);
     const authService = inject(AuthService);
     const alertService = inject(AlertService);
 
-    if(authService.checkAdmin()) {
+    const validUser = await authService.checkAdmin().toPromise();
+    if(validUser) {
         return true;
     }
-    
-    alertService.showAlert('info', 'Restrito apenas para administradores.');
+
     router.navigate(['/app']);
     return false;
 };

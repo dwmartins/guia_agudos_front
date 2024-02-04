@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { User } from '../models/user';
@@ -33,12 +33,22 @@ export class UserService {
     return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/novo`, formData);
   }
 
+  validToken(user: User) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'user_id': user.id,
+      'token': user.token
+    });
+    
+    return this.httpClient.get<Responses>(`${this.API_URL}/usuario/auth`, { headers });
+  }
+
   testeee(photo: File) {
     const formData = new FormData();
     formData.append('photo', photo)
     formData.append('name', 'douglas')
     formData.append('teste', 'dodsdsuglas')
 
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/novo`, formData);
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/novo`, formData)
   }
 }
