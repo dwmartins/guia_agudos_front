@@ -71,8 +71,10 @@ export class AuthService {
 					if (error.status === 401) {
 						if (error.error.expiredToken) {
 							this.alertService.showAlert('info', 'Sua seção expirou, realize o login novamente.');
+							this.logout()
 						} else if (error.error.invalidToken) {
 							this.alertService.showAlert('info', 'Realize o login para acessar esta área.');
+							this.logout()
 						} else {
 							this.alertService.showAlert('error', 'Oops, houve um erro, tente novamente.');
 						}
@@ -100,8 +102,10 @@ export class AuthService {
 					if (error.status === 401) {
 						if (error.error.expiredToken) {
 							this.alertService.showAlert('info', 'Sua seção expirou, realize o login novamente.');
+							this.logout();
 						} else if (error.error.invalidToken) {
 							this.alertService.showAlert('info', 'Realize o login para acessar esta área.');
+							this.logout()
 						} else {
 							this.alertService.showAlert('error', 'Oops, houve um erro, tente novamente.');
 						}
