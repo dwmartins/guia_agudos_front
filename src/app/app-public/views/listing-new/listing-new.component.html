@@ -14,7 +14,7 @@
                     <label for="description" class="mb-1 custom-dark-gray fw-semibold ">Descrição longa</label>
                     <textarea name="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Escreva sobre seu negocio"></textarea>
 
-                    <div class="d-flex flex-wrap gap-1 my-2">
+                    <div *ngIf="categoriesSelect.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
                         <!-- Categorias -->
                         <span *ngFor="let category of categoriesSelect" class="bg-primary text-white p-1 rounded-1 d-flex align-items-center">{{ category.cat_name}} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeCategory(category.id)"></i></span>
                     </div>
