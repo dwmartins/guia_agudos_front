@@ -18,52 +18,15 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active container" id="anuncio" role="tabpanel" aria-labelledby="anuncio-tab" tabindex="0">
                     <div class="row justify-content-center">
-                        <div class="col card-listing mb-3">
+                        <div *ngFor="let plan of listingPlans"  class="col card-listing">
                             <div class="card border shadow">
                                 <div class="card-body p-2 py-3 text-center">
-                                    <h2 class="text-dark opacity-50 fw-semibold fs-6 mb-4">GRÁTIS</h2>
-                                    <div class="opacity-75 mb-4 fs-3 fw-bold">R$0,00</div>
-                                    <button (click)="createListing()" class="btn btn-secondary rounded-1 fw-bolder opacity-75">COMECE HOJE!</button>
+                                    <h2 class="text-dark opacity-50 fw-semibold fs-6 mb-4">{{ plan.level }}</h2>
+                                    <div class="opacity-75 mb-4 fs-3 fw-bold">R${{ plan.price }}/Mês</div>
+                                    <button (click)="createListing(plan.id)" class="btn btn-secondary rounded-1 fw-bolder opacity-75">COMECE HOJE!</button>
                                     <hr>
                                     <div class="d-flex flex-column align-items-baseline gap-4 px-3">
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Página de detalhes</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Comentários e avaliações</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>5 Categorias</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Imagem de capa</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Imagem de logo</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Galeria com 8 imagens</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Telefone</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>URL</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>E-mail</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Horário de trabalho</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Descrição resumida</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Descrição detalhada</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center opacity-50"><i class="fa-regular fa-circle-xmark me-2 text-primary fs-6"></i>Horário de trabalho</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col card-listing">
-                            <div class="card border shadow">
-                                <div class="card-body p-2 py-3 text-center">
-                                    <h2 class="text-dark opacity-50 fw-semibold fs-6 mb-4">DIAMANTE</h2>
-                                    <div class="opacity-75 mb-4 fs-3 fw-bold">R$49,99/Mês</div>
-                                    <button (click)="createListing()" class="btn btn-secondary rounded-1 fw-bolder opacity-75">COMECE HOJE!</button>
-                                    <hr>
-                                    <div class="d-flex flex-column align-items-baseline gap-4 px-3">
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Página de detalhes</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Comentários e avaliações</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>10 Categorias</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Imagem de capa</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Imagem de logo</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Galeria com 8 imagens</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Telefone</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>URL</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>E-mail</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Horário de trabalho</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Descrição resumida</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Descrição detalhada</span>
-                                        <span class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i class="fa-regular fa-circle-check me-2 text-primary fs-6"></i>Horário de trabalho</span>
+                                        <span *ngFor="let planInfo of plan.plansInfo" [ngClass]="{'opacity-50': planInfo.active != 'Y'}" class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i [ngClass]="{'fa-circle-xmark': planInfo.active === 'N', 'fa-circle-check': planInfo.active === 'Y'}" class="fa-regular me-2 text-primary fs-6"></i><span *ngIf="planInfo.value">{{ planInfo.value }}&nbsp;</span>{{ planInfo.description }}</span>
                                     </div>
                                 </div>
                             </div>
