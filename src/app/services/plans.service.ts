@@ -19,7 +19,11 @@ export class PlansService {
     return this.httpClient.get<BannerPrice[]>(`${this.API_URL}/banner?status=${status}`);
   }
 
-  listingPlans(status: string | null) {
+  getPlans(status: string | null) {
     return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/precos?status=${status}`);
+  }
+
+  getPlansById(id: number, status: string | null) {
+    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/precos?status=${status}&listingId=${id}`);
   }
 }

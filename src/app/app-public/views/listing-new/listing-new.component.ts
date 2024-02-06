@@ -5,6 +5,9 @@ import { ListingCategoryService } from '../../../services/listing-category.servi
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AlertService } from '../../../services/componsents/alert.service';
+import { ActivatedRoute } from '@angular/router';
+import { ListingPlans } from '../../../models/ListingPlans';
+import { PlansService } from '../../../services/plans.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -16,16 +19,31 @@ import { AlertService } from '../../../services/componsents/alert.service';
 export class ListingNewComponent implements OnInit{
     categoryService = inject(ListingCategoryService);
     alertService    = inject(AlertService);
+    route           = inject(ActivatedRoute);
+    plansService    = inject(PlansService);
 
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
     searchItem: string = '';
+    planId!: number;
+    listingPlans: ListingPlans[] = [];
 
     categoriesSelect: ListingCategory[] = [];
 
     ngOnInit(): void {
         this.goToTheTopWindow();
+        this.getParameterData();
+        this.getListingPlans();
         this.getCategories();
+    }
+
+    getListingPlans() {
+        this.plansService.getPlansById(this.planId,"Y").subscribe(response => {
+            this.listingPlans = response;
+        }, error => {
+            console.error('ERROR: ', error);
+            this.alertService.showAlert('error', 'Falha ao buscar os planos.');
+        })
     }
 
     getCategories() {
@@ -44,9 +62,13 @@ export class ListingNewComponent implements OnInit{
     }
 
     setCategory(category: ListingCategory) {
-        const max = 3;
+        const categoryInfo = this.listingPlans[0].plansInfo;
 
-        if(this.categoriesSelect.length === max) {
+        const maxCategory = categoryInfo.find(item => {
+            return item.description === "Categorias";
+        });
+
+        if(this.categoriesSelect.length === maxCategory?.value) {
             this.alertService.showAlert('info', 'Você atingiu o limite máximo de categorias do seu plano.');
             return;
         }
@@ -61,6 +83,12 @@ export class ListingNewComponent implements OnInit{
 
     removeCategory(id: number) {
         this.categoriesSelect = this.categoriesSelect.filter(category => category.id !== id);
+    }
+
+    getParameterData() {
+        this.route.params.subscribe(params => {
+            this.planId = params['planId'];
+        })
     }
 
     goToTheTopWindow() {

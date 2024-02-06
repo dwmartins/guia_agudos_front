@@ -49,7 +49,7 @@ export class PlansComponent implements OnInit {
             return;
         }
 
-        this.router.navigate(['/app/anunciantes/novo']);
+        this.router.navigate([`/app/anunciantes/novo/${planId}`]);
     }
 
     getAllPlans() {
@@ -66,7 +66,7 @@ export class PlansComponent implements OnInit {
     }
 
     getListingPlans() {
-        this.plansService.listingPlans("Y").subscribe(response => {
+        this.plansService.getPlans("Y").subscribe(response => {
             this.listingPlans = response;
         }, error => {
             console.error('ERROR: ', error);
