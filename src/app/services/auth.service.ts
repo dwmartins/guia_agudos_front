@@ -49,6 +49,12 @@ export class AuthService {
 	checkAdmin() : Observable<boolean>{
 		return new Observable<boolean>((observer) => {
 
+			if(!this.userData) {
+				this.alertService.showAlert('info', 'Realize o login para acessar esta área.');
+				observer.next(false);
+				observer.complete();
+			}
+
 			this.userService.validToken(this.userData).subscribe(
 				(response) => {
 					if (response.success) {
@@ -72,11 +78,9 @@ export class AuthService {
 						if (error.error.expiredToken) {
 							this.alertService.showAlert('info', 'Sua seção expirou, realize o login novamente.');
 							this.logout();
-							return;
 						} else if (error.error.invalidToken) {
 							this.alertService.showAlert('info', 'Realize o login para acessar esta área.');
 							this.logout();
-							return;
 						} else {
 							this.alertService.showAlert('error', 'Oops, houve um erro, tente novamente.');
 						}
@@ -90,6 +94,13 @@ export class AuthService {
 
 	logged() : Observable<boolean>{
 		return new Observable<boolean>((observer) => {
+
+			if(!this.userData) {
+				this.alertService.showAlert('info', 'Realize o login para acessar esta área.');
+				observer.next(false);
+				observer.complete();
+			}
+			
 			this.userService.validToken(this.userData).subscribe(
 				(response) => {
 					if (response.success) {
