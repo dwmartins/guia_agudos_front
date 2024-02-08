@@ -8,11 +8,12 @@ import { AlertService } from '../../../services/componsents/alert.service';
 import { ActivatedRoute } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-listing-new',
     standalone: true,
-    imports: [CommonModule, FooterComponent, FormsModule],
+    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule],
     templateUrl: './listing-new.component.html',
     styleUrl: './listing-new.component.css'
 })
@@ -27,6 +28,11 @@ export class ListingNewComponent implements OnInit{
     searchItem: string = '';
     planId!: number;
     listingPlans: ListingPlans[] = [];
+
+    tooltips = {
+        keywords: 'Palavras chaves para as pessoas encontrarem seu negocio mais fácil',
+        phone: 'Será utilizado para WhatsApp'
+    }
 
     categoriesSelect: ListingCategory[] = [];
 

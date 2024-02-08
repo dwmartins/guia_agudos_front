@@ -1,32 +1,120 @@
-<h3 class="custom-dark-gray fw-bolder text-center my-5 ">Crie seu anúncio agora!</h3>
+<h3 class="custom-dark-gray fw-bolder text-center my-5">Crie seu anúncio agora!</h3>
 
 <section>
     <div class="container-fluid">
-        <div class="container">
-            <form action="" class="row">
+        <div class="container bg-body-secondary rounded-1 mb-4">
+            <form action="" class="row p-2">
                 <div class="col-sm-7 p-2">
-                    <label for="name" class="mb-1 custom-dark-gray fw-semibold ">Titulo do anúncio</label>
-                    <input type="text" id="name" name="name" class="form-control custom_focus custom_placeholder rounded-1 mb-3 " placeholder="Digite o título do seu anúncio">
+                    <h4 class="custom-dark-gray text-center fs-5">Informações do anuncio</h4>
+                    <div>
+                        <label for="name" class="mb-1 custom-dark-gray">Titulo do anúncio</label>
+                        <input type="text" id="name" name="name" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite o título do seu anúncio">
+                        <p class="mt-1 mb-0 fw-semibold opacity-50 text-dark max_caracter text-end">90 caracteres restantes</p>
+                    </div>
 
-                    <label for="summary" class="mb-1 custom-dark-gray fw-semibold ">Resumo</label>
-                    <input type="text" id="summary" name="summary" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Digite um breve resumo">
+                    <div>
+                        <label for="summary" class="mb-1 custom-dark-gray">Resumo</label>
+                        <textarea name="summary" id="summary" cols="30" rows="2" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite um breve resumo"></textarea>
+                        <p class="mt-1 mb-0 fw-semibold opacity-50 text-dark max_caracter text-end">180 caracteres restantes</p>
+                    </div>
 
-                    <label for="description" class="mb-1 custom-dark-gray fw-semibold ">Descrição longa</label>
-                    <textarea name="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Escreva sobre seu negocio"></textarea>
+                    <div class="mb-3">
+                        <label for="description" class="mb-1 custom-dark-gray">Descrição longa</label>
+                        <textarea name="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Escreva sobre seu negocio"></textarea>
+                    </div>
 
                     <div *ngIf="categoriesSelect.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
                         <!-- Categorias -->
                         <span *ngFor="let category of categoriesSelect" class="bg-primary text-white p-1 rounded-1 d-flex align-items-center">{{ category.cat_name}} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeCategory(category.id)"></i></span>
                     </div>
 
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="dropdown mb-3">
+                        <button class="btn btn-light dropdown-toggle custom-dark-gray" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             categorias
                         </button>
                         <ul class="dropdown-menu p-2">
                             <input [(ngModel)]="searchItem" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
                             <li *ngFor="let category of searchItensCategory" (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
                         </ul>
+                    </div>
+
+                    <div>
+                        <label for="keywords" class="mb-1 custom-dark-gray">Palavras-chave<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
+                        <input type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite algumas palavras chave">
+                        <p class="mt-1 mb-0 fw-semibold opacity-50 text-dark max_caracter text-end">180 caracteres restantes</p>
+                    </div>
+                    <hr>
+
+                    <h4 class="custom-dark-gray text-center fs-5 mb-3">Informações de contato</h4>
+
+                    <div class="container-fluid mb-2">
+                        <div class="row justify-content-between">
+                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-2">
+                                <div>
+                                    <label for="phone" class="mb-1 custom-dark-gray">Telefone<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
+                                    <input type="email" name="phone" id="phone" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: 14991000000">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 p-0 ps-md-2">
+                                <div>
+                                    <label for="email" class="mb-1 custom-dark-gray">E-mail</label>
+                                    <input type="string" name="email" id="email" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: guiaagudos@email.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid mb-2">
+                        <div class="row justify-content-between">
+                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-2">
+                                <div>
+                                    <label for="url" class="mb-1 custom-dark-gray">URL</label>
+                                    <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: guiaagudos.com">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 p-0 ps-md-2 mb-2">
+                                <div>
+                                    <label for="address" class="mb-1 custom-dark-gray">Endereço</label>
+                                    <input type="text" name="address" id="address" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Endereço do seu negocio.">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid mb-3">
+                        <div class="row justify-content-between">
+                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-2">
+                                <div>
+                                    <label for="complement" class="mb-1 custom-dark-gray">Complemento</label>
+                                    <input type="text" name="complement" id="complement" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Endereço do seu negocio.">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3 p-0 mb-2 px-md-2">
+                                <div>
+                                    <label for="url" class="mb-1 custom-dark-gray">CEP</label>
+                                    <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite o CEP">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3 p-0 mb-2 ps-md-2">
+                                <div>
+                                    <label for="city" class="mb-1 custom-dark-gray">Cidade</label>
+                                    <input type="text" name="city" id="city" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite o CEP">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <h4 class="custom-dark-gray text-center fs-5 mb-3">Redes sociais</h4>
+                    <div class="mb-2">
+                        <label for="facebook" class="mb-1 custom-dark-gray">Facebook</label>
+                        <input type="text" name="facebook" id="facebook" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: https://www.facebook.com/pagina">
+                    </div>
+                    <div class="mb-2">
+                        <label for="instagram" class="mb-1 custom-dark-gray">Instagram</label>
+                        <input type="text" name="instagram" id="instagram" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: https://instagran.com/usuario">
+                    </div>
+                    <div class="mb-2">
+                        <label for="linkedIn" class="mb-1 custom-dark-gray">LinkedIn</label>
+                        <input type="text" name="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: https://linkedIn.com/usuario">
                     </div>
                 </div>
                 <div>

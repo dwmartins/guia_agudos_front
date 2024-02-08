@@ -6,3 +6,7 @@
     max-height: 300px;
     overflow-y: auto;
 }
+
+.max_caracter {
+    font-size: 13px;
+}

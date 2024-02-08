@@ -71,6 +71,7 @@
 
 .custom_placeholder::placeholder {
     color: #b1b1b1 !important;
+    font-size: 13px;
 }
 
 .invalid_input {
