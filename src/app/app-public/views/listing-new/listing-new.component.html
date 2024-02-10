@@ -6,12 +6,12 @@
 
         <form class="py-4">
             <div class="row">
-                <div class="col-12 col-md-6 pe-3 py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Básico</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify">Conecte-se ao nosso portal de anúncios para impulsionar de forma significativa o crescimento da sua marca. Ao cadastrar a sua empresa em nosso site, não apenas estará optando por uma parceria estratégica, mas também estará desbloqueando oportunidades para explorar novos horizontes de sucesso e alcançar resultados excepcionais</p>
                 </div>
                 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="name" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
                         <input type="text" name="name" id="name" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite o título do seu anúncio">
@@ -20,7 +20,7 @@
                         <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
                         <input type="text" name="summary" id="summary" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite uma simples descrição">
                     </div>
-                    <div class="mb-3">
+                    <div *ngIf="getFieldPlans('Descrição detalhada')" class="mb-3">
                         <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
                         <textarea name="description" id="" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
                     </div>
@@ -28,11 +28,11 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="row py-3">
-                <div class="col-12 col-md-6 pe-3 py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">SEO</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
                 </div>
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-md-7 mb-3">
                     <label class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
                     <div *ngIf="categoriesSelect.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
                         <!-- Categorias Selected-->
@@ -62,11 +62,11 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="row py-2">
-                <div class="col-12 col-md-6 pe-3 py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Localização</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify">Visibilidade e proximidade com seu público-alvo. Desfrute dos benefícios de uma localização estratégica e posicione sua empresa para o sucesso. A geografia certa faz toda a diferença no seu caminho para o topo.</p>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
                         <input type="text" name="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço">
@@ -91,11 +91,11 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="row py-2">
-                <div class="col-12 col-md-6 pe-3 py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Redes sociais</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify">Ao integrar estratégias eficazes em plataformas como Facebook, Instagram, Twitter e outras, você abre as portas para a conexão direta com seu público-alvo. Construa relacionamentos sólidos, compartilhe histórias envolventes e promova sua marca de maneira autêntica. </p>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="facebook" class="mb-2 custom-subtitle-dark letter-spacing-1">FACEBOOK</label>
                         <input type="text" name="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
@@ -112,11 +112,11 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="row py-2">
-                <div class="col-12 col-md-6 pe-3 py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Contato</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify">Facilite o contato e fortaleça os laços com seus clientes ao fornecer informações de contato claras e acessíveis. Seja por telefone, e-mail ou até mesmo através das redes sociais, estamos aqui para estar ao seu alcance.</p>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
                         <input type="text" name="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000">
@@ -133,14 +133,48 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="row py-2">
-                <div class="col-12 col-md-6 pe-3 py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Fotos</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify">Imortalize momentos e conte histórias visualmente através de nossa galeria de fotos. Cada imagem captura a essência única da nossa jornada, destacando experiências, produtos e momentos especiais. Explore a riqueza visual que temos a oferecer e permita que as imagens falem por si mesmas.</p>
                 </div>
-                <div class="col-12 col-md-6">
-                    
+                <div class="col-12 col-md-7">
+                    <div class="mb-3 primary_images">
+                        <div class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
+                                <label class="btn btn-primary" for="logoImage"><span *ngIf="!logoImage">Adicionar</span><span *ngIf="logoImage">Trocar</span></label>
+                            </div>
+                            <div>
+                                <input type="file" id="logoImage" name="logoImage" (change)="previewLogo($event)" style="display: none;" accept="image/*">
+                                <img src="" alt="Imagem de logo" class="img-logo rounded-1" *ngIf="logoImage" [src]="logoImage">
+                            </div>
+                        </div>
+                        <div *ngIf="getFieldPlans('Imagem de capa')"  class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
+                                <label class="btn btn-primary" for="coverImage"><span *ngIf="!coverImage">Adicionar</span><span *ngIf="coverImage">Trocar</span></label>
+                            </div>
+                            <div>
+                                <input type="file" id="coverImage" name="coverImage" (change)="previewCapa($event)" style="display: none;" accept="image/*">
+                                <img src="" alt="Imagem de logo" class="img-cover rounded-1" *ngIf="coverImage" [src]="coverImage">
+                            </div>
+                        </div>
+                        <div *ngIf="getFieldPlans('Galeria de imagens')" class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
+                                <label class="btn btn-primary" for="galleryImages"><span>Adicionar</span></label>
+                            </div>
+                            <div>
+                                <input type="file" id="galleryImages" name="galleryImages" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
+                                <div class="d-flex flex-wrap">
+                                    <img *ngFor="let image of galleryImages" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <hr class="custom-hr-dark">
         </form>
     </div>
 </section>

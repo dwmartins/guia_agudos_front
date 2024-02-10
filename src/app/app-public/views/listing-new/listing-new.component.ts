@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ListingCategoryService } from '../../../services/listing-category.service';
@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -22,6 +23,7 @@ export class ListingNewComponent implements OnInit{
     alertService    = inject(AlertService);
     route           = inject(ActivatedRoute);
     plansService    = inject(PlansService);
+    imageService    = inject(ImageValidationService);
 
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
@@ -32,6 +34,10 @@ export class ListingNewComponent implements OnInit{
 
     keywords: string[] = [];
     searchKeywords!: string;
+
+    logoImage!: string | null | undefined;
+    coverImage!: string | null | undefined;
+    galleryImages: (string | ArrayBuffer)[] = [];
 
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
@@ -49,6 +55,7 @@ export class ListingNewComponent implements OnInit{
     getListingPlans() {
         this.plansService.getPlansById(this.planId,"Y").subscribe(response => {
             this.listingPlans = response;
+            this.getFieldPlans('Galeria de imagens');
         }, error => {
             console.error('ERROR: ', error);
             this.alertService.showAlert('error', 'Falha ao buscar os planos.');
@@ -126,6 +133,81 @@ export class ListingNewComponent implements OnInit{
         this.route.params.subscribe(params => {
             this.planId = params['planId'];
         })
+    }
+
+    getFieldPlans(field: string) {
+        const planField = this.listingPlans[0].plansInfo;
+
+        const active = planField.find(item => {
+            return item.description === field;
+        })
+        console.log(active)
+
+        if(active?.active === 'Y') {
+            return true;
+        }
+
+        return false;
+    }
+
+    previewLogo(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const file = fileInput.files?.[0];
+
+        if(file) {
+            if(this.imageService.validImage(file)) {
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    this.logoImage = reader.result?.toString();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        console.log(this.logoImage)
+    }
+
+    previewCapa(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const file = fileInput.files?.[0];
+
+        if(file) {
+            if(this.imageService.validImage(file)) {
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    this.coverImage = reader.result?.toString();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        console.log(this.coverImage)
+    }
+
+    previewGallery(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const files = fileInput.files;
+      
+        if (files) {
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+      
+            if (this.imageService.validImage(file)) {
+              const reader = new FileReader();
+      
+              reader.onload = () => {
+                const result = reader.result;
+                if (result) {
+                  this.galleryImages.push(result.toString());
+                }
+              };
+      
+              reader.readAsDataURL(file);
+            }
+          }
+        }
     }
 
     goToTheTopWindow() {
