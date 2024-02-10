@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AlertService } from '../services/componsents/alert.service';
+import { AlertService } from '../services/components/alert.service';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ListingCategoryService } from '../../../services/listing-category.service';
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { AlertService } from '../../../services/componsents/alert.service';
+import { AlertService } from '../../../services/components/alert.service';
 import { ActivatedRoute } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';

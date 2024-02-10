@@ -19,8 +19,8 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active container" id="anuncio" role="tabpanel" aria-labelledby="anuncio-tab" tabindex="0">
                     <div class="row justify-content-center">
-                        <div *ngFor="let plan of listingPlans"  class="col card-listing mb-4">
-                            <div class="card border shadow">
+                        <div *ngFor="let plan of listingPlans" class="col card-listing mb-4">
+                            <div class="card border shadow rounded-3">
                                 <div class="card-body p-2 py-3 text-center">
                                     <h2 class="text-primary fw-bolder fs-6 mb-4 plan-level">{{ plan.level }}</h2>
                                     <div class="custom-dark mb-4 fs-2 fw-bold">R${{ plan.price }} <span class="fs-5 fw-normal opacity-75">/Mês</span></div>

@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { User } from '../models/user';
-import { HeaderService } from './componsents/header.service';
+import { HeaderService } from './components/header.service';
 import { UserService } from './user.service';
-import { AlertService } from './componsents/alert.service';
+import { AlertService } from './components/alert.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -41,7 +41,6 @@ export class AuthService {
 
 	logout() {
 		localStorage.removeItem('userData');
-		this.alertService.showAlert('success', 'Você saiu, volte sempre!');
 		this.headerService.update(true);
 		this.router.navigate(['/app']);
 	}
