@@ -1,127 +1,149 @@
-<h3 class="custom-dark fw-bolder text-center my-5">Crie seu anúncio agora!</h3>
+<section class="container-fluid bg-ice-white">
+    <div class="container py-5">
+        <p class="text-primary fw-semibold letter-spacing-2 mb-1">ADICIONAR UM NOVO ANÚNCIO</p>
+        <h1 class="custom-dark fw-bolder mb-5">Informações básicas</h1>
+        <hr class="custom-hr-dark">
 
-<section>
-    <div class="container-fluid">
-        <div class="container bg-body-secondary rounded-1 mb-4">
-            <form action="" class="row p-2">
-                <div class="col-sm-7 p-2">
-                    <h4 class="custom-dark text-center fs-5">Informações do anuncio</h4>
-                    <div>
-                        <label for="name" class="mb-1 custom-dark">Titulo do anúncio</label>
-                        <input type="text" id="name" name="name" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite o título do seu anúncio">
-                        <p class="mt-1 mb-0 fw-semibold opacity-50 text-dark max_caracter text-end">90 caracteres restantes</p>
-                    </div>
-
-                    <div>
-                        <label for="summary" class="mb-1 custom-dark">Resumo</label>
-                        <textarea name="summary" id="summary" cols="30" rows="2" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite um breve resumo"></textarea>
-                        <p class="mt-1 mb-0 fw-semibold opacity-50 text-dark max_caracter text-end">180 caracteres restantes</p>
-                    </div>
-
+        <form class="py-4">
+            <div class="row">
+                <div class="col-12 col-md-6 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Básico</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify">Conecte-se ao nosso portal de anúncios para impulsionar de forma significativa o crescimento da sua marca. Ao cadastrar a sua empresa em nosso site, não apenas estará optando por uma parceria estratégica, mas também estará desbloqueando oportunidades para explorar novos horizontes de sucesso e alcançar resultados excepcionais</p>
+                </div>
+                
+                <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="description" class="mb-1 custom-dark">Descrição longa</label>
-                        <textarea name="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Escreva sobre seu negocio"></textarea>
+                        <label for="name" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite o título do seu anúncio">
                     </div>
-
+                    <div class="mb-3">
+                        <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
+                        <input type="text" name="summary" id="summary" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite uma simples descrição">
+                    </div>
+                    <div class="mb-3">
+                        <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
+                        <textarea name="description" id="" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-3">
+                <div class="col-12 col-md-6 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">SEO</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
                     <div *ngIf="categoriesSelect.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
-                        <!-- Categorias -->
+                        <!-- Categorias Selected-->
                         <span *ngFor="let category of categoriesSelect" class="bg-primary text-white p-1 rounded-1 d-flex align-items-center">{{ category.cat_name}} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeCategory(category.id)"></i></span>
                     </div>
-
                     <div class="dropdown mb-3">
-                        <button class="btn btn-light dropdown-toggle custom-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            categorias
+                        <button class="btn btn-light dropdown-toggle custom-subtitle-dark letter-spacing-1 border" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            CATEGORIAS
                         </button>
                         <ul class="dropdown-menu p-2">
                             <input [(ngModel)]="searchItem" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
                             <li *ngFor="let category of searchItensCategory" (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
                         </ul>
                     </div>
-
                     <div>
-                        <label for="keywords" class="mb-1 custom-dark">Palavras-chave<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
-                        <input type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite algumas palavras chave">
-                        <p class="mt-1 mb-0 fw-semibold opacity-50 text-dark max_caracter text-end">180 caracteres restantes</p>
+                        <label class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
+                        <div *ngIf="keywords.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
+                            <!-- Keywords Selected -->
+                            <span *ngFor="let keyword of keywords" class="bg-secondary text-white p-1 rounded-1 d-flex align-items-center">{{ keyword }} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeKeyword(keyword)"></i></span>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <input [(ngModel)]="searchKeywords" type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite suas palavras chaves">
+                            <button class="btn btn-primary" (click)="setKeywords(searchKeywords)">ADICIONAR</button>
+                        </div>
                     </div>
-                    <hr>
-
-                    <h4 class="custom-dark text-center fs-5 mb-3">Informações de contato</h4>
-
-                    <div class="container-fluid mb-2">
-                        <div class="row justify-content-between">
-                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-2">
-                                <div>
-                                    <label for="phone" class="mb-1 custom-dark">Telefone<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
-                                    <input type="email" name="phone" id="phone" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: 14991000000">
-                                </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-6 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Localização</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify">Visibilidade e proximidade com seu público-alvo. Desfrute dos benefícios de uma localização estratégica e posicione sua empresa para o sucesso. A geografia certa faz toda a diferença no seu caminho para o topo.</p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
+                        <input type="text" name="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço">
+                    </div>
+                    <div class="container mb-3">
+                        <div class="row">
+                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
+                                <label for="city" class="mb-2 custom-subtitle-dark letter-spacing-1">CIDADE</label>
+                                <input type="text" name="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
                             </div>
                             <div class="col-12 col-md-6 p-0 ps-md-2">
-                                <div>
-                                    <label for="email" class="mb-1 custom-dark">E-mail</label>
-                                    <input type="string" name="email" id="email" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: guiaagudos@email.com">
-                                </div>
+                                <label for="state" class="mb-2 custom-subtitle-dark letter-spacing-1">ESTADO</label>
+                                <input type="text" name="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
                             </div>
                         </div>
                     </div>
-                    <div class="container-fluid mb-2">
-                        <div class="row justify-content-between">
-                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-2">
-                                <div>
-                                    <label for="url" class="mb-1 custom-dark">URL</label>
-                                    <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: guiaagudos.com">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 p-0 ps-md-2 mb-2">
-                                <div>
-                                    <label for="address" class="mb-1 custom-dark">Endereço</label>
-                                    <input type="text" name="address" id="address" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Endereço do seu negocio.">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid mb-3">
-                        <div class="row justify-content-between">
-                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-2">
-                                <div>
-                                    <label for="complement" class="mb-1 custom-dark">Complemento</label>
-                                    <input type="text" name="complement" id="complement" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Endereço do seu negocio.">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-3 p-0 mb-2 px-md-2">
-                                <div>
-                                    <label for="url" class="mb-1 custom-dark">CEP</label>
-                                    <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite o CEP">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-3 p-0 mb-2 ps-md-2">
-                                <div>
-                                    <label for="city" class="mb-1 custom-dark">Cidade</label>
-                                    <input type="text" name="city" id="city" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Digite o CEP">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-
-                    <h4 class="custom-dark text-center fs-5 mb-3">Redes sociais</h4>
-                    <div class="mb-2">
-                        <label for="facebook" class="mb-1 custom-dark">Facebook</label>
-                        <input type="text" name="facebook" id="facebook" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: https://www.facebook.com/pagina">
-                    </div>
-                    <div class="mb-2">
-                        <label for="instagram" class="mb-1 custom-dark">Instagram</label>
-                        <input type="text" name="instagram" id="instagram" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: https://instagran.com/usuario">
-                    </div>
-                    <div class="mb-2">
-                        <label for="linkedIn" class="mb-1 custom-dark">LinkedIn</label>
-                        <input type="text" name="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder rounded-1" placeholder="Ex: https://linkedIn.com/usuario">
+                    <div class="w-100">
+                        <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
+                        <input type="text" name="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
                     </div>
                 </div>
-                <div>
-                    <!-- Images -->
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-6 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Redes sociais</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify">Ao integrar estratégias eficazes em plataformas como Facebook, Instagram, Twitter e outras, você abre as portas para a conexão direta com seu público-alvo. Construa relacionamentos sólidos, compartilhe histórias envolventes e promova sua marca de maneira autêntica. </p>
                 </div>
-            </form>
-        </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="facebook" class="mb-2 custom-subtitle-dark letter-spacing-1">FACEBOOK</label>
+                        <input type="text" name="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
+                    </div>
+                    <div class="mb-3">
+                        <label for="instagram" class="mb-2 custom-subtitle-dark letter-spacing-1">INSTAGRAM</label>
+                        <input type="text" name="instagram" id="instagram" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://instagran.com/usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label for="linkedIn" class="mb-2 custom-subtitle-dark letter-spacing-1">LINKEDIN</label>
+                        <input type="text" name="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://linkedIn.com/usuario">
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-6 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Contato</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify">Facilite o contato e fortaleça os laços com seus clientes ao fornecer informações de contato claras e acessíveis. Seja por telefone, e-mail ou até mesmo através das redes sociais, estamos aqui para estar ao seu alcance.</p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
+                        <input type="text" name="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="mb-2 custom-subtitle-dark letter-spacing-1">E-MAIL</label>
+                        <input type="text" name="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
+                        <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-6 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Fotos</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify">Imortalize momentos e conte histórias visualmente através de nossa galeria de fotos. Cada imagem captura a essência única da nossa jornada, destacando experiências, produtos e momentos especiais. Explore a riqueza visual que temos a oferecer e permita que as imagens falem por si mesmas.</p>
+                </div>
+                <div class="col-12 col-md-6">
+                    
+                </div>
+            </div>
+        </form>
     </div>
 </section>
+
+
 <app-footer></app-footer>

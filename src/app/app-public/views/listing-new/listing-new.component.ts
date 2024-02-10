@@ -26,15 +26,18 @@ export class ListingNewComponent implements OnInit{
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
     searchItem: string = '';
+    categoriesSelect: ListingCategory[] = [];
     planId!: number;
     listingPlans: ListingPlans[] = [];
 
+    keywords: string[] = [];
+    searchKeywords!: string;
+
     tooltips = {
-        keywords: 'Palavras chaves para as pessoas encontrarem seu negocio mais fácil',
+        keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
         phone: 'Será utilizado para WhatsApp'
     }
 
-    categoriesSelect: ListingCategory[] = [];
 
     ngOnInit(): void {
         this.goToTheTopWindow();
@@ -80,15 +83,43 @@ export class ListingNewComponent implements OnInit{
         }
 
         const exists = this.categoriesSelect.some(existsCategory => existsCategory.id === category.id);
-        if(!exists) {
-            this.categoriesSelect.push(category);
+        if(exists) {
+            this.alertService.showAlert('info', 'Você já selecionou essa categoria.');
             return;
         }
-        this.alertService.showAlert('info', 'Você já selecionou essa categoria.');
+        
+        this.categoriesSelect.push(category);
     }
 
     removeCategory(id: number) {
         this.categoriesSelect = this.categoriesSelect.filter(category => category.id !== id);
+    }
+
+    setKeywords(keywords: string){
+        const keywordsInfo = this.listingPlans[0].plansInfo;
+        
+        const maxKeywords = keywordsInfo.find(item => {
+            return item.description === "Palavras-chave";
+        });
+
+        if(this.keywords.length === maxKeywords?.value) {
+            this.alertService.showAlert('info', 'Você atingiu o limite máximo de palavras-chave do seu plano.');
+            return;
+        }
+
+        const exists = this.keywords.some(existisKeywords => existisKeywords === keywords);
+
+        if(exists) {
+            this.alertService.showAlert('info', 'Você já adicionou uma palavra-chave igual.');
+            return;
+        }
+
+        this.keywords.push(keywords);
+        this.searchKeywords = '';
+    }
+
+    removeKeyword(keywords: string) {
+        this.keywords = this.keywords.filter(item => item !== keywords);
     }
 
     getParameterData() {

@@ -124,6 +124,14 @@
     text-decoration: none;
 }
 
+.letter-spacing-1 {
+    letter-spacing: .1em;
+}
+
+.letter-spacing-2 {
+    letter-spacing: .2em;
+}
+
 /* Inputs */
 .custom_focus:focus {
     box-shadow: var(--custom-input-box-shadow);
