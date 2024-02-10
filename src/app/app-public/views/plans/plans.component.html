@@ -1,6 +1,7 @@
-<section class="container-fluid py-4 bg-primary">
+<section class="container-fluid py-4 bg-ice-white">
     <div class="container mb-5">
-        <h3 class="text-light fw-bolder text-center my-5 ">Promova seu negócio hoje!</h3>
+        <h1 class="fw-bolder text-center mt-4 mb-4">Planos e preços</h1>
+        <p class="text-center fs-4 mb-5 custom-subtitle-dark">Ótimas opções flexíveis para você</p>
 
         <div class="row justify-content-center">
             <ul class="nav nav-pills mb-3 border border-1 rounded-2 col-3 row gap-0 p-0 w-100 mb-5" id="pills-tab" role="tablist">
@@ -18,16 +19,16 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active container" id="anuncio" role="tabpanel" aria-labelledby="anuncio-tab" tabindex="0">
                     <div class="row justify-content-center">
-                        <div *ngFor="let plan of listingPlans"  class="col card-listing">
+                        <div *ngFor="let plan of listingPlans"  class="col card-listing mb-4">
                             <div class="card border shadow">
                                 <div class="card-body p-2 py-3 text-center">
-                                    <h2 class="text-dark opacity-50 fw-semibold fs-6 mb-4">{{ plan.level }}</h2>
-                                    <div class="opacity-75 mb-4 fs-3 fw-bold">R${{ plan.price }}/Mês</div>
-                                    <button (click)="createListing(plan.id)" class="btn btn-secondary rounded-1 fw-bolder opacity-75">COMECE HOJE!</button>
-                                    <hr>
-                                    <div class="d-flex flex-column align-items-baseline gap-4 px-3">
-                                        <span *ngFor="let planInfo of plan.plansInfo" [ngClass]="{'opacity-50': planInfo.active != 'Y'}" class="fw-semibold custom-dark-gray d-flex align-items-center justify-content-center"><i [ngClass]="{'fa-circle-xmark': planInfo.active === 'N', 'fa-circle-check': planInfo.active === 'Y'}" class="fa-regular me-2 text-primary fs-6"></i><span *ngIf="planInfo.value">{{ planInfo.value }}&nbsp;</span>{{ planInfo.description }}</span>
+                                    <h2 class="text-primary fw-bolder fs-6 mb-4 plan-level">{{ plan.level }}</h2>
+                                    <div class="custom-dark mb-4 fs-2 fw-bold">R${{ plan.price }} <span class="fs-5 fw-normal opacity-75">/Mês</span></div>
+                                    <hr class="custom-hr-dark">
+                                    <div class="d-flex flex-column align-items-baseline gap-4 px-3 mb-4">
+                                        <span *ngFor="let planInfo of plan.plansInfo" [ngClass]="{'opacity-50': planInfo.active != 'Y'}" class="fw-semibold custom-dark d-flex align-items-center justify-content-center"><i [ngClass]="{'fa-xmark text-secondary': planInfo.active === 'N', 'fa-check text-primary': planInfo.active === 'Y'}" class="fa-solid me-2 fs-5"></i><span *ngIf="planInfo.value">{{ planInfo.value }}&nbsp;</span>{{ planInfo.description }}</span>
                                     </div>
+                                    <button (click)="createListing(plan.id)" class="btn btn-outline-primary">COMECE HOJE!</button>
                                 </div>
                             </div>
                         </div>
@@ -36,9 +37,9 @@
                 <div class="tab-pane fade container" id="banner" role="tabpanel" aria-labelledby="banner-tab" tabindex="0">
                     <div class="row gap-2 justify-content-center">
                         <div *ngFor="let banner of banners" class="card col-12 col-sm-9 p-4 d-flex flex-column align-items-center plans_item">
-                            <p class="text-black-50 text-center fw-bolder p-1">{{ banner.description }}</p>
-                            <div class="opacity-75 mb-4 fs-3 fw-bold">${{ banner.price }}/Mês</div>
-                            <button class="btn btn-secondary rounded-1 fw-bolder opacity-75">COMECE HOJE!</button>
+                            <h2 class="text-primary fw-bolder fs-6 mb-4">{{ banner.description }}</h2>
+                            <div class="custom-dark mb-4 fs-2 fw-bold">${{ banner.price }} <span class="fs-5 fw-normal opacity-75">/Mês</span></div>
+                            <button class="btn btn-outline-primary">COMECE HOJE!</button>
                         </div>
                     </div>
                 </div>
@@ -46,4 +47,4 @@
         </div>
     </div>
 </section>
-<app-footer-2></app-footer-2>
+<app-footer></app-footer>

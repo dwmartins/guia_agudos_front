@@ -10,11 +10,12 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/componsents/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { ListingPlans } from '../../../models/ListingPlans';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
     selector: 'app-plans',
     standalone: true,
-    imports: [CommonModule, Footer2Component, RouterModule],
+    imports: [CommonModule, FooterComponent, RouterModule],
     templateUrl: './plans.component.html',
     styleUrl: './plans.component.css'
 })

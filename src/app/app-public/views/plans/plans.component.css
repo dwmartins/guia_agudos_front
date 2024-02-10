@@ -1,10 +1,10 @@
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: var(--custom-titles-darkGray);
-    background-color: #FFF;
+    color: #FFF;
+    background-color: var(--primary);
 }
 
 .nav-link {
-    color: #FFF;
+    color: var(--custom-titles-black);
 }
 
 .nav-pills {
@@ -18,9 +18,14 @@
 
 /* Cards listings */
 .card-listing {
-    max-width: 320px;
+    max-width: 380px;
+    min-width: 250px;
 }
 
 .icon_whatsApp {
     font-size: 50px;
+}
+
+.plan-level {
+    letter-spacing: .3em;
 }
