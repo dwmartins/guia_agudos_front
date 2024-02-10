@@ -26,7 +26,7 @@
                                     <div class="custom-dark mb-4 fs-2 fw-bold">R${{ plan.price }} <span class="fs-5 fw-normal opacity-75">/Mês</span></div>
                                     <hr class="custom-hr-dark">
                                     <div class="d-flex flex-column align-items-baseline gap-4 px-3 mb-4">
-                                        <span *ngFor="let planInfo of plan.plansInfo" [ngClass]="{'opacity-50': planInfo.active != 'Y'}" class="fw-semibold custom-dark d-flex align-items-center justify-content-center"><i [ngClass]="{'fa-xmark text-secondary': planInfo.active === 'N', 'fa-check text-primary': planInfo.active === 'Y'}" class="fa-solid me-2 fs-5"></i><span *ngIf="planInfo.value">{{ planInfo.value }}&nbsp;</span>{{ planInfo.description }}</span>
+                                        <span *ngFor="let planInfo of plan.plansInfo" [ngClass]="{'opacity-50': planInfo.active != 'Y'}" class="custom-dark d-flex align-items-center justify-content-center"><i [ngClass]="{'fa-xmark text-secondary': planInfo.active === 'N', 'fa-check text-primary': planInfo.active === 'Y'}" class="fa-solid me-2 fs-5"></i><span *ngIf="planInfo.value">{{ planInfo.value }}&nbsp;</span>{{ planInfo.description }}</span>
                                     </div>
                                     <button (click)="createListing(plan.id)" class="btn btn-outline-primary">COMECE HOJE!</button>
                                 </div>

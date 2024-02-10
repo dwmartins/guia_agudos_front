@@ -82,9 +82,9 @@
                         {{ user.name }}
                     </button>
                     <ul class="dropdown-menu">
-                        <a href="#" class="dropdown-item">Painel</a>
-                        <a href="#" class="dropdown-item">Perfil</a>
-                        <li (click)="logout()" class="dropdown-item cursor_pointer">Sair</li>
+                        <button class="dropdown-item">Painel</button>
+                        <button class="dropdown-item">Perfil</button>
+                        <button (click)="logout()" class="dropdown-item cursor_pointer">Sair</button>
                     </ul>
                 </div>
             </div>
