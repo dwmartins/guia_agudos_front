@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary mx-0 ">
+<nav class="navbar navbar-expand-lg bg-body-tertiary mx-0">
     <div class="container">
         <a class="navbar-brand" [routerLink]="['/app']">
             <div class="my_logo d-flex align-items-center ">
@@ -72,7 +72,7 @@
 
             </ul>
             <div *ngIf="userLogged" class="logged_large">
-                <button (click)="closeNavbar()" [routerLink]="['/app/planos']" class="btn btn-light btn-sm me-2 ps-0">
+                <button (click)="closeNavbar()" [routerLink]="['/app/planos']" class="btn btn-light border btn-sm me-2">
                     Anuncie aqui
                 </button>
 
@@ -82,9 +82,9 @@
                         {{ user.name }}
                     </button>
                     <ul class="dropdown-menu">
-                        <a href="#" class="dropdown-item">Painel</a>
-                        <a href="#" class="dropdown-item">Perfil</a>
-                        <li (click)="logout()" class="dropdown-item cursor_pointer">Sair</li>
+                        <button class="dropdown-item">Painel</button>
+                        <button class="dropdown-item">Perfil</button>
+                        <button (click)="logout()" class="dropdown-item cursor_pointer">Sair</button>
                     </ul>
                 </div>
             </div>

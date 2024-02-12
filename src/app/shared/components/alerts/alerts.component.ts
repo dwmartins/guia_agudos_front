@@ -1,6 +1,6 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
-import { AlertService } from '../../../services/componsents/alert.service';
+import { AlertService } from '../../../services/components/alert.service';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

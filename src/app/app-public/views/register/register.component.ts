@@ -8,7 +8,7 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
-import { AlertService } from '../../../services/componsents/alert.service';
+import { AlertService } from '../../../services/components/alert.service';
 
 @Component({
    selector: 'app-register',

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { BannerPrice } from '../models/BannerPrice';
+import { ListingPlans } from '../models/ListingPlans';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,13 @@ export class PlansService {
 
   banners(status: string | null) {
     return this.httpClient.get<BannerPrice[]>(`${this.API_URL}/banner?status=${status}`);
+  }
+
+  getPlans(status: string | null) {
+    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/precos?status=${status}`);
+  }
+
+  getPlansById(id: number, status: string | null) {
+    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/precos?status=${status}&listingId=${id}`);
   }
 }

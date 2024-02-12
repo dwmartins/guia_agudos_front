@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../../models/user';
-import { HeaderService } from '../../../services/componsents/header.service';
+import { HeaderService } from '../../../services/components/header.service';
 import { AuthService } from '../../../services/auth.service';
+import { AlertService } from '../../../services/components/alert.service';
 
 @Component({
    selector: 'app-header',
@@ -13,9 +14,10 @@ import { AuthService } from '../../../services/auth.service';
    styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-   authService = inject(AuthService);
+   authService     = inject(AuthService);
    headerService   = inject(HeaderService);
    router          = inject(Router);
+   alertService    = inject(AlertService);
 
    @ViewChild('navbar', {static: true}) navbar!: ElementRef;
 
@@ -35,14 +37,16 @@ export class HeaderComponent implements OnInit {
          if(user) {
             this.userLogged = true;
             this.user = user;
+         } else {
+            this.userLogged = false;
          }
       });
    }
 
    logout() {
       this.authService.logout();
+      this.alertService.showAlert('success', 'Você saiu, volte sempre!');
       this.userLogged = false;
-      this.router.navigate(['/']);
    }
 
    closeNavbar(): void {

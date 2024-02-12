@@ -1,38 +1,210 @@
-<h3 class="custom-dark-gray fw-bolder text-center my-5 ">Crie seu anúncio agora!</h3>
+<section *ngIf="showView" class="container-fluid bg-ice-white show-animation">
+    <div class="container py-5">
+        <p class="text-primary fw-semibold letter-spacing-2 mb-1">ADICIONAR UM NOVO ANÚNCIO</p>
+        <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
+        <hr class="custom-hr-dark">
 
-<section>
-    <div class="container-fluid">
-        <div class="container">
-            <form action="" class="row">
-                <div class="col-sm-7 p-2">
-                    <label for="name" class="mb-1 custom-dark-gray fw-semibold ">Titulo do anúncio</label>
-                    <input type="text" id="name" name="name" class="form-control custom_focus custom_placeholder rounded-1 mb-3 " placeholder="Digite o título do seu anúncio">
-
-                    <label for="summary" class="mb-1 custom-dark-gray fw-semibold ">Resumo</label>
-                    <input type="text" id="summary" name="summary" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Digite um breve resumo">
-
-                    <label for="description" class="mb-1 custom-dark-gray fw-semibold ">Descrição longa</label>
-                    <textarea name="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder rounded-1 mb-3" placeholder="Escreva sobre seu negocio"></textarea>
-
-                    <div>
-                        <!-- Categorias -->
+        <form class="py-4">
+            <div class="row">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Básico</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Conecte-se ao nosso portal de anúncios para impulsionar de forma significativa o crescimento da sua marca. Ao cadastrar a sua empresa em nosso site, não apenas estará optando por uma parceria estratégica, mas também estará desbloqueando oportunidades para explorar novos horizontes de sucesso e alcançar resultados excepcionais</p>
+                </div>
+                
+                <div class="col-12 col-md-7">
+                    <div class="mb-3">
+                        <label for="name" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite o título do seu anúncio">
                     </div>
-
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            categorias
+                    <div class="mb-3">
+                        <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
+                        <input type="text" name="summary" id="summary" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite uma simples descrição">
+                    </div>
+                    <div *ngIf="getFieldPlans('Descrição detalhada')" class="mb-3">
+                        <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
+                        <textarea name="description" id="" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-3">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">SEO</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
+                </div>
+                <div class="col-12 col-md-7 mb-3">
+                    <label class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
+                    <div *ngIf="categoriesSelect.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
+                        <!-- Categorias Selected-->
+                        <span *ngFor="let category of categoriesSelect" class="bg-primary text-white p-1 rounded-1 d-flex align-items-center">{{ category.cat_name}} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeCategory(category.id)"></i></span>
+                    </div>
+                    <div class="dropdown mb-3">
+                        <button class="btn btn-light dropdown-toggle custom-subtitle-dark letter-spacing-1 border" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            CATEGORIAS
                         </button>
                         <ul class="dropdown-menu p-2">
                             <input [(ngModel)]="searchItem" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
-                            <li *ngFor="let category of searchItensCategory" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
+                            <li *ngFor="let category of searchItensCategory" (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
                         </ul>
                     </div>
+                    <div>
+                        <label class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
+                        <div *ngIf="keywords.length" class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
+                            <!-- Keywords Selected -->
+                            <span *ngFor="let keyword of keywords" class="bg-secondary text-white p-1 rounded-1 d-flex align-items-center">{{ keyword }} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeKeyword(keyword)"></i></span>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <input [(ngModel)]="searchKeywords" type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite suas palavras chaves">
+                            <button class="btn btn-primary" (click)="setKeywords(searchKeywords)">ADICIONAR</button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <!-- Images -->
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Localização</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Visibilidade e proximidade com seu público-alvo. Desfrute dos benefícios de uma localização estratégica e posicione sua empresa para o sucesso. A geografia certa faz toda a diferença no seu caminho para o topo.</p>
                 </div>
-            </form>
-        </div>
+                <div class="col-12 col-md-7">
+                    <div class="mb-3">
+                        <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
+                        <input type="text" name="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço">
+                    </div>
+                    <div class="container mb-3">
+                        <div class="row">
+                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
+                                <label for="city" class="mb-2 custom-subtitle-dark letter-spacing-1">CIDADE</label>
+                                <input type="text" name="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
+                            </div>
+                            <div class="col-12 col-md-6 p-0 ps-md-2">
+                                <label for="state" class="mb-2 custom-subtitle-dark letter-spacing-1">ESTADO</label>
+                                <input type="text" name="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
+                        <input type="text" name="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Redes sociais</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Ao integrar estratégias eficazes em plataformas como Facebook, Instagram, Twitter e outras, você abre as portas para a conexão direta com seu público-alvo. Construa relacionamentos sólidos, compartilhe histórias envolventes e promova sua marca de maneira autêntica. </p>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="mb-3">
+                        <label for="facebook" class="mb-2 custom-subtitle-dark letter-spacing-1">FACEBOOK</label>
+                        <input type="text" name="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
+                    </div>
+                    <div class="mb-3">
+                        <label for="instagram" class="mb-2 custom-subtitle-dark letter-spacing-1">INSTAGRAM</label>
+                        <input type="text" name="instagram" id="instagram" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://instagran.com/usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label for="linkedIn" class="mb-2 custom-subtitle-dark letter-spacing-1">LINKEDIN</label>
+                        <input type="text" name="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://linkedIn.com/usuario">
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Contato</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Facilite o contato e fortaleça os laços com seus clientes ao fornecer informações de contato claras e acessíveis. Seja por telefone, e-mail ou até mesmo através das redes sociais, estamos aqui para estar ao seu alcance.</p>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="mb-3">
+                        <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
+                        <input type="text" name="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="mb-2 custom-subtitle-dark letter-spacing-1">E-MAIL</label>
+                        <input type="text" name="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
+                        <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Fotos</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Imortalize momentos e conte histórias visualmente através de nossa galeria de fotos. Cada imagem captura a essência única da nossa jornada, destacando experiências, produtos e momentos especiais. Explore a riqueza visual que temos a oferecer e permita que as imagens falem por si mesmas.</p>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="mb-3 primary_images">
+                        <div class="border rounded-1 p-3 py-2 mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
+                                <label class="btn btn-primary btn-sm" for="logoImage"><span *ngIf="!logoImage">Adicionar</span><span *ngIf="logoImage">Trocar</span></label>
+                            </div>
+                            <hr class="custom-hr-dark m-0">
+                            <div class="py-2 d-flex justify-content-center">
+                                <input type="file" id="logoImage" name="logoImage" (change)="previewLogo($event)" style="display: none;" accept="image/*">
+                                <img alt="Imagem de logo" class="img-logo rounded-1" *ngIf="logoImage" [src]="logoImage">
+                            </div>
+                            <hr *ngIf="logoImage" class="custom-hr-dark m-0">
+                            <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                        </div>
+                        <div *ngIf="getFieldPlans('Imagem de capa')"  class="border rounded-1 p-3 py-2 mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
+                                <label class="btn btn-primary btn-sm" for="coverImage"><span *ngIf="!coverImage">Adicionar</span><span *ngIf="coverImage">Trocar</span></label>
+                            </div>
+                            <hr class="custom-hr-dark m-0">
+                            <div class="py-2 d-flex justify-content-center">
+                                <input type="file" id="coverImage" name="coverImage" (change)="previewCapa($event)" style="display: none;" accept="image/*">
+                                <img src="" alt="Imagem de logo" class="img-cover rounded-1" *ngIf="coverImage" [src]="coverImage">
+                            </div>
+                            <hr *ngIf="coverImage" class="custom-hr-dark m-0">
+                            <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 1280 x 430 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                        </div>
+                        <div *ngIf="getFieldPlans('Galeria de imagens')" class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
+                                <label class="btn btn-primary btn-sm" for="galleryImages"><span>Adicionar</span></label>
+                            </div>
+                            <div>
+                                <input type="file" id="galleryImages" name="galleryImages" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
+                                <div class="d-flex flex-wrap">
+                                    <img *ngFor="let image of galleryImages" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
+                                </div>
+                                <hr *ngIf="galleryImages.length" class="custom-hr-dark m-0">
+                                <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="row py-2">
+                <div class="col-12 col-md-5 pe-3 py-2">
+                    <h4 class="custom-dark fw-bolder">Desconto</h4>
+                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Desbloqueie benefícios exclusivos com nossos códigos promocionais especiais. Cada código é uma chave para descontos, ofertas e vantagens que elevam a sua experiência. Insira o código e embarque em uma jornada de economia e satisfação.</p>
+                </div>
+                <div class="col-12 col-md-7">
+                    <label for="promotionalCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CUPOM DE DESCONTO</label>
+                    <div class="d-flex gap-1">
+                        <input [(ngModel)]="promotionalCode" type="text" name="promotionalCode" id="promotionalCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="coque seu cupom de desconto">
+                        <button class="btn btn-primary" (click)="validPromotionalCode()">VALIDAR</button>
+                    </div>
+                    <p *ngIf="codeValid" class="text-success fw-semibold fs-7 py-1">Cupom de desconto validado.</p>
+                </div>
+            </div>
+            <hr class="custom-hr-dark">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
+            </div>
+        </form>
     </div>
 </section>
 <app-footer></app-footer>
+<div class="loadSpinner">
+    
+</div>

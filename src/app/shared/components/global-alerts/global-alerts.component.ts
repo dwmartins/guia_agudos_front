@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
-import { AlertService } from '../../../services/componsents/alert.service';
+import { AlertService } from '../../../services/components/alert.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertsComponent } from '../alerts/alerts.component';
 
