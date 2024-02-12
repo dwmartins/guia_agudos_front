@@ -10,6 +10,7 @@ import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
+import { PromotionalCodeService } from '../../../services/promotional-code.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -19,11 +20,12 @@ import { ImageValidationService } from '../../../services/helpers/image-validati
     styleUrl: './listing-new.component.css'
 })
 export class ListingNewComponent implements OnInit{
-    categoryService = inject(ListingCategoryService);
-    alertService    = inject(AlertService);
-    route           = inject(ActivatedRoute);
-    plansService    = inject(PlansService);
-    imageService    = inject(ImageValidationService);
+    categoryService         = inject(ListingCategoryService);
+    alertService            = inject(AlertService);
+    route                   = inject(ActivatedRoute);
+    plansService            = inject(PlansService);
+    imageService            = inject(ImageValidationService);
+    promotionalCodeService  = inject(PromotionalCodeService);
 
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
@@ -38,6 +40,9 @@ export class ListingNewComponent implements OnInit{
     logoImage!: string | null | undefined;
     coverImage!: string | null | undefined;
     galleryImages: (string | ArrayBuffer)[] = [];
+
+    promotionalCode: string = '';
+    codeValid: boolean = false;
 
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
@@ -140,8 +145,7 @@ export class ListingNewComponent implements OnInit{
 
         const active = planField.find(item => {
             return item.description === field;
-        })
-        console.log(active)
+        });
 
         if(active?.active === 'Y') {
             return true;
@@ -208,6 +212,23 @@ export class ListingNewComponent implements OnInit{
             }
           }
         }
+    }
+
+    validPromotionalCode() {
+        this.promotionalCodeService.validCode(this.promotionalCode).subscribe(response => {
+            if(response.alert) {
+                this.alertService.showAlert('info', response.alert);
+                this.promotionalCode = '';
+                return;
+            }
+
+            this.codeValid = true;
+            this.alertService.showAlert('success', response.success);
+        }, error => {
+            this.promotionalCode = '';
+            console.error('ERROR: ', error);
+            this.alertService.showAlert('error', 'Falha ao validar o cupom de desconto.');
+        })
     }
 
     goToTheTopWindow() {

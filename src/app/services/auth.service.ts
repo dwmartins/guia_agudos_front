@@ -21,17 +21,15 @@ export class AuthService {
 		this.getUserLogged();
 	}
 
-	getUserLogged() {
+	getUserLogged(){
 		const user = localStorage.getItem('userData');
 		if(user) {
 			this.userData = JSON.parse(user) as User;
 
-			if(this.userData.token) {
-				return this.userData;
-			}
+			return this.userData;
 		}
 
-		return false;
+		return null;
 	}
 
 	setUserLogged(userData: User) {
