@@ -1,7 +1,7 @@
-<section class="container-fluid bg-ice-white">
+<section *ngIf="showView" class="container-fluid bg-ice-white show-animation">
     <div class="container py-5">
         <p class="text-primary fw-semibold letter-spacing-2 mb-1">ADICIONAR UM NOVO ANÚNCIO</p>
-        <h1 class="custom-dark fw-bolder mb-5">Informações básicas</h1>
+        <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
         <hr class="custom-hr-dark">
 
         <form class="py-4">
@@ -199,9 +199,12 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="d-flex justify-content-end">
-                <button class="btn btn-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
+                <button class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
             </div>
         </form>
     </div>
 </section>
 <app-footer></app-footer>
+<div class="loadSpinner">
+    
+</div>

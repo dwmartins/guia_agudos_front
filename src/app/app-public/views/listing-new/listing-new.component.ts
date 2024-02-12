@@ -11,6 +11,7 @@ import { PlansService } from '../../../services/plans.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { PromotionalCodeService } from '../../../services/promotional-code.service';
+import { SpinnerService } from '../../../services/components/spinner.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -26,6 +27,7 @@ export class ListingNewComponent implements OnInit{
     plansService            = inject(PlansService);
     imageService            = inject(ImageValidationService);
     promotionalCodeService  = inject(PromotionalCodeService);
+    spinnerService          = inject(SpinnerService);
 
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
@@ -44,6 +46,14 @@ export class ListingNewComponent implements OnInit{
     promotionalCode: string = '';
     codeValid: boolean = false;
 
+    showView: boolean = false;
+
+    validFieldPlans = {
+        longDescription: false,
+        coverImage: false,
+        galleryImage: false,
+    }
+
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
         phone: 'Será utilizado para WhatsApp'
@@ -58,10 +68,14 @@ export class ListingNewComponent implements OnInit{
     }
 
     getListingPlans() {
+        this.spinnerService.show();
         this.plansService.getPlansById(this.planId,"Y").subscribe(response => {
+            this.spinnerService.hide(); 
+            this.showView = true;
             this.listingPlans = response;
-            this.getFieldPlans('Galeria de imagens');
         }, error => {
+            this.showView = true;
+            this.spinnerService.hide(); 
             console.error('ERROR: ', error);
             this.alertService.showAlert('error', 'Falha ao buscar os planos.');
         })
@@ -73,6 +87,7 @@ export class ListingNewComponent implements OnInit{
            this.searchItensCategory = response;
         }, (error) => {
            console.error('ERROR: ', error);
+           this.alertService.showAlert('error', 'Falha ao buscar as categorias.');
         })
     }
 
@@ -113,6 +128,11 @@ export class ListingNewComponent implements OnInit{
         const maxKeywords = keywordsInfo.find(item => {
             return item.description === "Palavras-chave";
         });
+
+        if(!keywords) {
+            this.alertService.showAlert('info', 'Escreva a palavra-chave');
+            return;
+        }
 
         if(this.keywords.length === maxKeywords?.value) {
             this.alertService.showAlert('info', 'Você atingiu o limite máximo de palavras-chave do seu plano.');
@@ -215,6 +235,11 @@ export class ListingNewComponent implements OnInit{
     }
 
     validPromotionalCode() {
+        if(!this.promotionalCode) {
+            this.alertService.showAlert('info', 'Digite o seu cupom de desconto.');
+            return;
+        }
+
         this.promotionalCodeService.validCode(this.promotionalCode).subscribe(response => {
             if(response.alert) {
                 this.alertService.showAlert('info', response.alert);
