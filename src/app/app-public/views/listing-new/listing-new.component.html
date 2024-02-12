@@ -139,36 +139,44 @@
                 </div>
                 <div class="col-12 col-md-7">
                     <div class="mb-3 primary_images">
-                        <div class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                        <div class="border rounded-1 p-3 py-2 mb-3">
                             <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                 <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
-                                <label class="btn btn-primary" for="logoImage"><span *ngIf="!logoImage">Adicionar</span><span *ngIf="logoImage">Trocar</span></label>
+                                <label class="btn btn-primary btn-sm" for="logoImage"><span *ngIf="!logoImage">Adicionar</span><span *ngIf="logoImage">Trocar</span></label>
                             </div>
-                            <div>
+                            <hr class="custom-hr-dark m-0">
+                            <div class="py-2 d-flex justify-content-center">
                                 <input type="file" id="logoImage" name="logoImage" (change)="previewLogo($event)" style="display: none;" accept="image/*">
-                                <img src="" alt="Imagem de logo" class="img-logo rounded-1" *ngIf="logoImage" [src]="logoImage">
+                                <img alt="Imagem de logo" class="img-logo rounded-1" *ngIf="logoImage" [src]="logoImage">
                             </div>
+                            <hr *ngIf="logoImage" class="custom-hr-dark m-0">
+                            <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                         </div>
-                        <div *ngIf="getFieldPlans('Imagem de capa')"  class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                        <div *ngIf="getFieldPlans('Imagem de capa')"  class="border rounded-1 p-3 py-2 mb-3">
                             <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                 <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
-                                <label class="btn btn-primary" for="coverImage"><span *ngIf="!coverImage">Adicionar</span><span *ngIf="coverImage">Trocar</span></label>
+                                <label class="btn btn-primary btn-sm" for="coverImage"><span *ngIf="!coverImage">Adicionar</span><span *ngIf="coverImage">Trocar</span></label>
                             </div>
-                            <div>
+                            <hr class="custom-hr-dark m-0">
+                            <div class="py-2 d-flex justify-content-center">
                                 <input type="file" id="coverImage" name="coverImage" (change)="previewCapa($event)" style="display: none;" accept="image/*">
                                 <img src="" alt="Imagem de logo" class="img-cover rounded-1" *ngIf="coverImage" [src]="coverImage">
                             </div>
+                            <hr *ngIf="coverImage" class="custom-hr-dark m-0">
+                            <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 1280 x 430 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                         </div>
                         <div *ngIf="getFieldPlans('Galeria de imagens')" class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
                             <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                 <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
-                                <label class="btn btn-primary" for="galleryImages"><span>Adicionar</span></label>
+                                <label class="btn btn-primary btn-sm" for="galleryImages"><span>Adicionar</span></label>
                             </div>
                             <div>
                                 <input type="file" id="galleryImages" name="galleryImages" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
                                 <div class="d-flex flex-wrap">
                                     <img *ngFor="let image of galleryImages" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
                                 </div>
+                                <hr *ngIf="galleryImages.length" class="custom-hr-dark m-0">
+                                <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                             </div>
                         </div>
                     </div>
