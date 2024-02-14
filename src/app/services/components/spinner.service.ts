@@ -5,16 +5,16 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SpinnerService {
-  private spinnerSubject = new Subject<boolean>();
+  private spinnerSubject = new Subject<{ show: boolean, text: string }>();
   spinnerState$ = this.spinnerSubject.asObservable();
   
   constructor() { }
 
-  show() {
-    this.spinnerSubject.next(true);
+  show(text: string = '') {
+    this.spinnerSubject.next({ show: true, text });
   }
 
   hide() {
-    this.spinnerSubject.next(false);
+    this.spinnerSubject.next({ show: false, text: '' });
   }
 }

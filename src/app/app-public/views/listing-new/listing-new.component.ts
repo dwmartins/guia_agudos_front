@@ -303,12 +303,13 @@ export class ListingNewComponent implements OnInit{
     submitForm() {
         if(this.formListing.valid) {
             console.log(this.formListing)
-            // this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
-
-            // }, error => {
-            //     console.error('ERROR: ', error);
-            //     this.alertService.showAlert('error', 'Falha ao criar o anúncio');
-            // });
+            // this.spinnerService.show('Criando anúncio, aguarde...');
+            this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
+                
+            }, error => {
+                console.error('ERROR: ', error);
+                this.alertService.showAlert('error', 'Falha ao criar o anúncio');
+            });
         } else {
             this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios');
             this.formListing.markAllAsTouched();

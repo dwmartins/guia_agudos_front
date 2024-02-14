@@ -4,7 +4,7 @@
         <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
         <hr class="custom-hr-dark">
 
-        <form [formGroup]="formListing" (ngSubmit)="submitForm()" class="py-4">
+        <form [formGroup]="formListing" class="py-4">
             <div class="row">
                 <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Básico</h4>
@@ -199,7 +199,7 @@
             </div>
             <hr class="custom-hr-dark">
             <div class="d-flex justify-content-end">
-                <button class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
+                <button type="button" (click)="submitForm()" class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
             </div>
         </form>
     </div>
