@@ -189,7 +189,7 @@ export class ListingNewComponent implements OnInit{
 
     removeKeyword(keywords: string) {
         this.keywords = this.keywords.filter(item => item !== keywords);
-        
+
         this.formListing.patchValue({
             keywords: this.keywords
         });
@@ -289,6 +289,10 @@ export class ListingNewComponent implements OnInit{
 
             this.codeValid = true;
             this.alertService.showAlert('success', response.success);
+
+            this.formListing.patchValue({
+                promotionalCode: this.promotionalCode
+            });
         }, error => {
             this.promotionalCode = '';
             console.error('ERROR: ', error);
