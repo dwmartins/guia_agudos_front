@@ -4,7 +4,7 @@
         <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
         <hr class="custom-hr-dark">
 
-        <form class="py-4">
+        <form [formGroup]="formListing" (ngSubmit)="submitForm()" class="py-4">
             <div class="row">
                 <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Básico</h4>
@@ -14,15 +14,15 @@
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="name" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite o título do seu anúncio">
+                        <input type="text" name="name" id="name" formControlName="name" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('name')?.invalid && formListing.get('name')?.touched}" placeholder="Digite o título do seu anúncio">
                     </div>
                     <div class="mb-3">
                         <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
-                        <input type="text" name="summary" id="summary" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite uma simples descrição">
+                        <input type="text" name="summary" id="summary" formControlName="summary" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('summary')?.invalid && formListing.get('summary')?.touched}" placeholder="Digite uma simples descrição">
                     </div>
                     <div *ngIf="getFieldPlans('Descrição detalhada')" class="mb-3">
-                        <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
-                        <textarea name="description" id="" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
+                        <label for="description" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
+                        <textarea name="description" formControlName="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                             CATEGORIAS
                         </button>
                         <ul class="dropdown-menu p-2">
-                            <input [(ngModel)]="searchItem" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
+                            <input [(ngModel)]="searchItem" [ngModelOptions]="{ standalone: true }" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
                             <li *ngFor="let category of searchItensCategory" (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
                         </ul>
                     </div>
@@ -54,8 +54,8 @@
                             <span *ngFor="let keyword of keywords" class="bg-secondary text-white p-1 rounded-1 d-flex align-items-center">{{ keyword }} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeKeyword(keyword)"></i></span>
                         </div>
                         <div class="d-flex gap-1">
-                            <input [(ngModel)]="searchKeywords" type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite suas palavras chaves">
-                            <button class="btn btn-primary" (click)="setKeywords(searchKeywords)">ADICIONAR</button>
+                            <input [(ngModel)]="searchKeywords" [ngModelOptions]="{ standalone: true }" type="text" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite suas palavras chaves">
+                            <button type="button" class="btn btn-primary" (click)="setKeywords(searchKeywords)">ADICIONAR</button>
                         </div>
                     </div>
                 </div>
@@ -69,23 +69,23 @@
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
-                        <input type="text" name="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço">
+                        <input type="text" name="address" formControlName="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço">
                     </div>
                     <div class="container mb-3">
                         <div class="row">
                             <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
                                 <label for="city" class="mb-2 custom-subtitle-dark letter-spacing-1">CIDADE</label>
-                                <input type="text" name="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
+                                <input type="text" name="city" formControlName="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
                             </div>
                             <div class="col-12 col-md-6 p-0 ps-md-2">
                                 <label for="state" class="mb-2 custom-subtitle-dark letter-spacing-1">ESTADO</label>
-                                <input type="text" name="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
+                                <input type="text" name="state" formControlName="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
                             </div>
                         </div>
                     </div>
                     <div class="w-100">
                         <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
-                        <input type="text" name="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
+                        <input type="text" name="zipCode" formControlName="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
                     </div>
                 </div>
             </div>
@@ -98,15 +98,15 @@
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="facebook" class="mb-2 custom-subtitle-dark letter-spacing-1">FACEBOOK</label>
-                        <input type="text" name="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
+                        <input type="text" name="facebook" formControlName="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
                     </div>
                     <div class="mb-3">
                         <label for="instagram" class="mb-2 custom-subtitle-dark letter-spacing-1">INSTAGRAM</label>
-                        <input type="text" name="instagram" id="instagram" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://instagran.com/usuario">
+                        <input type="text" name="instagram" formControlName="instagram" id="instagram" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://instagran.com/usuario">
                     </div>
                     <div class="mb-3">
                         <label for="linkedIn" class="mb-2 custom-subtitle-dark letter-spacing-1">LINKEDIN</label>
-                        <input type="text" name="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://linkedIn.com/usuario">
+                        <input type="text" name="linkedIn" formControlName="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://linkedIn.com/usuario">
                     </div>
                 </div>
             </div>
@@ -119,15 +119,15 @@
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
-                        <input type="text" name="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000">
+                        <input type="text" name="phone" formControlName="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="mb-2 custom-subtitle-dark letter-spacing-1">E-MAIL</label>
-                        <input type="text" name="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com">
+                        <input type="email" name="email" formControlName="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com">
                     </div>
                     <div class="mb-3">
                         <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
-                        <input type="text" name="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
+                        <input type="text" name="url" formControlName="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
                     </div>
                 </div>
             </div>
@@ -142,40 +142,40 @@
                         <div class="border rounded-1 p-3 py-2 mb-3">
                             <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                 <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
-                                <label class="btn btn-primary btn-sm" for="logoImage"><span *ngIf="!logoImage">Adicionar</span><span *ngIf="logoImage">Trocar</span></label>
+                                <label class="btn btn-primary btn-sm" for="previewLogoImg"><span *ngIf="!previewLogoImg">Adicionar</span><span *ngIf="previewLogoImg">Trocar</span></label>
                             </div>
                             <hr class="custom-hr-dark m-0">
                             <div class="py-2 d-flex justify-content-center">
-                                <input type="file" id="logoImage" name="logoImage" (change)="previewLogo($event)" style="display: none;" accept="image/*">
-                                <img alt="Imagem de logo" class="img-logo rounded-1" *ngIf="logoImage" [src]="logoImage">
+                                <input type="file" id="previewLogoImg" name="previewLogoImg" (change)="previewLogo($event)" style="display: none;" accept="image/*">
+                                <img alt="Imagem de logo" class="img-logo rounded-1" *ngIf="previewLogoImg" [src]="previewLogoImg">
                             </div>
-                            <hr *ngIf="logoImage" class="custom-hr-dark m-0">
+                            <hr *ngIf="previewLogoImg" class="custom-hr-dark m-0">
                             <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                         </div>
                         <div *ngIf="getFieldPlans('Imagem de capa')"  class="border rounded-1 p-3 py-2 mb-3">
                             <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                 <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
-                                <label class="btn btn-primary btn-sm" for="coverImage"><span *ngIf="!coverImage">Adicionar</span><span *ngIf="coverImage">Trocar</span></label>
+                                <label class="btn btn-primary btn-sm" for="previewCoverImg"><span *ngIf="!previewCoverImg">Adicionar</span><span *ngIf="previewCoverImg">Trocar</span></label>
                             </div>
                             <hr class="custom-hr-dark m-0">
                             <div class="py-2 d-flex justify-content-center">
-                                <input type="file" id="coverImage" name="coverImage" (change)="previewCapa($event)" style="display: none;" accept="image/*">
-                                <img src="" alt="Imagem de logo" class="img-cover rounded-1" *ngIf="coverImage" [src]="coverImage">
+                                <input type="file" id="previewCoverImg" name="previewCoverImg" (change)="previewCapa($event)" style="display: none;" accept="image/*">
+                                <img src="" alt="Imagem de logo" class="img-cover rounded-1" *ngIf="previewCoverImg" [src]="previewCoverImg">
                             </div>
-                            <hr *ngIf="coverImage" class="custom-hr-dark m-0">
+                            <hr *ngIf="previewCoverImg" class="custom-hr-dark m-0">
                             <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 1280 x 430 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                         </div>
                         <div *ngIf="getFieldPlans('Galeria de imagens')" class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
                             <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                 <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
-                                <label class="btn btn-primary btn-sm" for="galleryImages"><span>Adicionar</span></label>
+                                <label class="btn btn-primary btn-sm" for="previewGalleryImg"><span>Adicionar</span></label>
                             </div>
                             <div>
-                                <input type="file" id="galleryImages" name="galleryImages" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
+                                <input type="file" id="previewGalleryImg" name="previewGalleryImg" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
                                 <div class="d-flex flex-wrap">
-                                    <img *ngFor="let image of galleryImages" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
+                                    <img *ngFor="let image of previewGalleryImg" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
                                 </div>
-                                <hr *ngIf="galleryImages.length" class="custom-hr-dark m-0">
+                                <hr *ngIf="previewGalleryImg.length" class="custom-hr-dark m-0">
                                 <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                             </div>
                         </div>
@@ -191,8 +191,8 @@
                 <div class="col-12 col-md-7">
                     <label for="promotionalCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CUPOM DE DESCONTO</label>
                     <div class="d-flex gap-1">
-                        <input [(ngModel)]="promotionalCode" type="text" name="promotionalCode" id="promotionalCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="coque seu cupom de desconto">
-                        <button class="btn btn-primary" (click)="validPromotionalCode()">VALIDAR</button>
+                        <input [(ngModel)]="promotionalCode" type="text" [ngModelOptions]="{ standalone: true }" id="promotionalCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="coque seu cupom de desconto">
+                        <button type="button" class="btn btn-primary" (click)="validPromotionalCode()">VALIDAR</button>
                     </div>
                     <p *ngIf="codeValid" class="text-success fw-semibold fs-7 py-1">Cupom de desconto validado.</p>
                 </div>
@@ -205,6 +205,3 @@
     </div>
 </section>
 <app-footer></app-footer>
-<div class="loadSpinner">
-    
-</div>
