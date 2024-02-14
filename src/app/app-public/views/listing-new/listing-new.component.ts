@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ListingCategoryService } from '../../../services/listing-category.service';
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -12,11 +12,12 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { PromotionalCodeService } from '../../../services/promotional-code.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
+import { ListingService } from '../../../services/listing.service';
 
 @Component({
     selector: 'app-listing-new',
     standalone: true,
-    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule],
+    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule, ReactiveFormsModule],
     templateUrl: './listing-new.component.html',
     styleUrl: './listing-new.component.css'
 })
@@ -28,6 +29,10 @@ export class ListingNewComponent implements OnInit{
     imageService            = inject(ImageValidationService);
     promotionalCodeService  = inject(PromotionalCodeService);
     spinnerService          = inject(SpinnerService);
+    formBuilder             = inject(FormBuilder);
+    listingService          = inject(ListingService);
+
+    formListing: FormGroup;
 
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
@@ -39,24 +44,43 @@ export class ListingNewComponent implements OnInit{
     keywords: string[] = [];
     searchKeywords!: string;
 
-    logoImage!: string | null | undefined;
-    coverImage!: string | null | undefined;
-    galleryImages: (string | ArrayBuffer)[] = [];
+    logoImage!: File;
+    coverImage!: File;
+    galleryImages!: File[];
+
+    previewLogoImg!: string | null | undefined;
+    previewCoverImg!: string | null | undefined;
+    previewGalleryImg: (string | ArrayBuffer)[] = [];
 
     promotionalCode: string = '';
     codeValid: boolean = false;
 
     showView: boolean = false;
 
-    validFieldPlans = {
-        longDescription: false,
-        coverImage: false,
-        galleryImage: false,
-    }
-
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
         phone: 'Será utilizado para WhatsApp'
+    }
+
+    constructor() {
+        this.formListing = this.formBuilder.group({
+            name: ['', [Validators.required]],
+            summary: ['', [Validators.required]],
+            description: [''],
+            categories: [''],
+            keywords: [''],
+            address: [''],
+            city: [''],
+            state: [''],
+            zipCode: [''],
+            facebook: [''],
+            instagram: [''],
+            linkedIn: [''],
+            phone: [''],
+            email: [''],
+            url: [''],
+            promotionalCode: ['']
+        });
     }
 
 
@@ -116,10 +140,18 @@ export class ListingNewComponent implements OnInit{
         }
         
         this.categoriesSelect.push(category);
+
+        this.formListing.patchValue({
+            categories: this.categoriesSelect
+        });
     }
 
     removeCategory(id: number) {
         this.categoriesSelect = this.categoriesSelect.filter(category => category.id !== id);
+
+        this.formListing.patchValue({
+            categories: this.categoriesSelect
+        });
     }
 
     setKeywords(keywords: string){
@@ -148,10 +180,19 @@ export class ListingNewComponent implements OnInit{
 
         this.keywords.push(keywords);
         this.searchKeywords = '';
+
+        this.formListing.patchValue({
+            keywords: this.keywords
+        });
+
     }
 
     removeKeyword(keywords: string) {
         this.keywords = this.keywords.filter(item => item !== keywords);
+        
+        this.formListing.patchValue({
+            keywords: this.keywords
+        });
     }
 
     getParameterData() {
@@ -177,19 +218,18 @@ export class ListingNewComponent implements OnInit{
     previewLogo(event: Event) {
         const fileInput = event.target as HTMLInputElement;
         const file = fileInput.files?.[0];
-
+        
         if(file) {
+            this.logoImage = file;
             if(this.imageService.validImage(file)) {
                 const reader = new FileReader();
 
                 reader.onload = () => {
-                    this.logoImage = reader.result?.toString();
+                    this.previewLogoImg = reader.result?.toString();
                 };
                 reader.readAsDataURL(file);
             }
         }
-
-        console.log(this.logoImage)
     }
 
     previewCapa(event: Event) {
@@ -197,17 +237,16 @@ export class ListingNewComponent implements OnInit{
         const file = fileInput.files?.[0];
 
         if(file) {
+            this.coverImage = file;
             if(this.imageService.validImage(file)) {
                 const reader = new FileReader();
 
                 reader.onload = () => {
-                    this.coverImage = reader.result?.toString();
+                    this.previewCoverImg = reader.result?.toString();
                 };
                 reader.readAsDataURL(file);
             }
         }
-
-        console.log(this.coverImage)
     }
 
     previewGallery(event: Event) {
@@ -215,7 +254,8 @@ export class ListingNewComponent implements OnInit{
         const files = fileInput.files;
       
         if (files) {
-          for (let i = 0; i < files.length; i++) {
+            this.galleryImages = Array.from(files);
+            for (let i = 0; i < files.length; i++) {
             const file = files[i];
       
             if (this.imageService.validImage(file)) {
@@ -224,7 +264,7 @@ export class ListingNewComponent implements OnInit{
               reader.onload = () => {
                 const result = reader.result;
                 if (result) {
-                  this.galleryImages.push(result.toString());
+                  this.previewGalleryImg.push(result.toString());
                 }
               };
       
@@ -254,6 +294,22 @@ export class ListingNewComponent implements OnInit{
             console.error('ERROR: ', error);
             this.alertService.showAlert('error', 'Falha ao validar o cupom de desconto.');
         })
+    }
+
+    submitForm() {
+        if(this.formListing.valid) {
+            console.log(this.formListing)
+            // this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
+
+            // }, error => {
+            //     console.error('ERROR: ', error);
+            //     this.alertService.showAlert('error', 'Falha ao criar o anúncio');
+            // });
+        } else {
+            this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios');
+            this.formListing.markAllAsTouched();
+        }
+
     }
 
     goToTheTopWindow() {

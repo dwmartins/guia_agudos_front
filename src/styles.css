@@ -147,7 +147,7 @@
 }
 
 .invalid_input {
-    background-color: #ff000010;
+    background-color: #ff000010 !important;
     border: 1px solid #ff000031;
 }
 
