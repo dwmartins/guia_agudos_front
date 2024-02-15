@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { Listing } from '../models/listing';
+import { Responses } from '../models/Responses';
 
 @Injectable({
     providedIn: 'root'
@@ -40,8 +41,6 @@ export class ListingService {
             formData.append(key, String(listing[key]));
         });
 
-        console.log(formData)
-
-        return this.httpClient.post<Listing | Response>(`${this.API_URL}/anuncios`, formData, {headers})
+        return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
     }
 }

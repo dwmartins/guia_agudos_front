@@ -204,4 +204,47 @@
         </form>
     </div>
 </section>
+<ng-template #newListing let-modal>
+    <div class="d-flex justify-content-end rounded-top">
+        <i class="bi bi-x-lg fs-5 p-2 text-black-50 cursor_pointer" aria-label="Close" (click)="modal.dismiss('Cross click')"></i>
+    </div>
+
+    <div class="p-3 pt-0">
+        <div class="">
+            <h2 class="text-primary letter-spacing-1 fs-6 text-center fw-bolder">ANÚNCIO CRIADO</h2>
+            <h1 class="custom-dark fs-5 text-center fw-bolder">Seu anúncio foi criado com sucesso!</h1>
+            <hr class="custom-hr-dark">
+
+            <div>
+                <p class="custom-dark">Dados do seu anuncio:</p>
+                <ul>
+                    <li><span class="fw-semibold">id:</span> {{ listing.id }}</li>
+                    <li><span class="fw-semibold">Título:</span> {{ listing.name }}</li>
+
+                    @if (!listing.freePlan) {
+                        <li><span class="fw-semibold">Valor:</span> R${{ listing.payment }}</li>
+                        <li><span class="fw-semibold">Expiração:</span> {{ listing.expiration }}</li>
+                    }
+                </ul>
+            </div>
+            <hr class="custom-hr-dark">
+
+            @if (listing.freePlan) {
+                <div>
+                    <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo com sucesso, ele já esta disponível no site.</p>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-primary btn-sm">Finalizar pedido</button>
+                    </div>
+                </div>
+            } @else {
+                <div>
+                    <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo, entre em contato conosco para finalizar seu pedido clicando no botão abaixo.</p>
+                    <div class="d-flex justify-content-end">
+                        <a [href]="'https://wa.me/14991882505/?text=Olá,%20meu%20pedido%20foi%20finalizado%20com%20sucesso!%20ID%20do%20Pedido:%20' + listing.id" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</a>
+                    </div>
+                </div>
+            }  
+        </div>
+    </div>
+</ng-template>
 <app-footer></app-footer>

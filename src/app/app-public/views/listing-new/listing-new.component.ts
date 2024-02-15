@@ -8,11 +8,14 @@ import { AlertService } from '../../../services/components/alert.service';
 import { ActivatedRoute } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { PromotionalCodeService } from '../../../services/promotional-code.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { ListingService } from '../../../services/listing.service';
+import { Listing } from '../../../models/listing';
+import { User } from '../../../models/user';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -31,6 +34,10 @@ export class ListingNewComponent implements OnInit{
     spinnerService          = inject(SpinnerService);
     formBuilder             = inject(FormBuilder);
     listingService          = inject(ListingService);
+    modalListing            = inject(NgbModal);
+    authService             = inject(AuthService)
+
+    @ViewChild('newListing', { static: true }) newListing!: ElementRef;
 
     formListing: FormGroup;
 
@@ -56,6 +63,12 @@ export class ListingNewComponent implements OnInit{
     codeValid: boolean = false;
 
     showView: boolean = false;
+
+    listing!: Listing;
+    listingId!: number;
+    listingLevel: string = '';
+
+    user!: User
 
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
@@ -89,6 +102,7 @@ export class ListingNewComponent implements OnInit{
         this.getParameterData();
         this.getListingPlans();
         this.getCategories();
+        this.user = this.authService.getUserLogged() || {} as User;
     }
 
     getListingPlans() {
@@ -302,11 +316,21 @@ export class ListingNewComponent implements OnInit{
 
     submitForm() {
         if(this.formListing.valid) {
-            console.log(this.formListing)
-            // this.spinnerService.show('Criando anúncio, aguarde...');
+            this.spinnerService.show('Criando anúncio, aguarde...');
+
             this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
-                
+                this.spinnerService.hide();
+
+                if('alert' in response) {
+                    this.alertService.showAlert('info', response.alert);
+                    return;
+                }
+
+                this.listing = response;
+
+                this.modalListing.open(this.newListing, { centered: true });
             }, error => {
+                this.spinnerService.hide();
                 console.error('ERROR: ', error);
                 this.alertService.showAlert('error', 'Falha ao criar o anúncio');
             });
@@ -314,7 +338,6 @@ export class ListingNewComponent implements OnInit{
             this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios');
             this.formListing.markAllAsTouched();
         }
-
     }
 
     goToTheTopWindow() {

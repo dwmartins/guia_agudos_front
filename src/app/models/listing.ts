@@ -1,9 +1,11 @@
 export interface Listing{
+    id: number;
     name: string;
     summary: string;
     description: string;
     categories:  string[];
     keywords:  string[];
+    payment: number;
     address: string;
     city: string;
     state: string;
@@ -15,5 +17,7 @@ export interface Listing{
     email: string;
     url: string;
     promotionalCode: string;
-    [key: string]: string | number | string[];
+    freePlan: boolean;
+    expiration: string;
+    [key: string]: string | number | string[] | boolean;
 }
