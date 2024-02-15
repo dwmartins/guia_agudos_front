@@ -33,7 +33,7 @@ export class ListingService {
 
         if(galleryImages) {
             galleryImages.forEach((file, index) => {
-                formData.append('galleryImage', file, `galleryImage${index + 1}`);
+                formData.append('galleryImage', file);
             });
         }
 
