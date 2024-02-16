@@ -14,11 +14,11 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   login(user: User) {    
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/login`, user);
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/login`, user);
   }
 
   sendNewPassword(user: User) {
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/nova-senha`, user);
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/new-password`, user);
   }
 
   newUser(user: User, photo: File) {
@@ -30,7 +30,7 @@ export class UserService {
       formData.append(key, String(user[key]));
     });
 
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/novo`, formData);
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/create`, formData);
   }
 
   validToken(user: User) {
@@ -40,15 +40,6 @@ export class UserService {
       'token': user.token
     });
     
-    return this.httpClient.get<Responses>(`${this.API_URL}/usuario/auth`, { headers });
-  }
-
-  testeee(photo: File) {
-    const formData = new FormData();
-    formData.append('photo', photo)
-    formData.append('name', 'douglas')
-    formData.append('teste', 'dodsdsuglas')
-
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/usuario/novo`, formData)
+    return this.httpClient.get<Responses>(`${this.API_URL}/user/auth`, { headers });
   }
 }

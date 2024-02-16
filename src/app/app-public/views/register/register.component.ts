@@ -64,7 +64,7 @@ export class RegisterComponent {
 
          }, (error) => {
             this.loadSpinner = false;
-            this.alertService.showAlert('info', 'Falha ao criar a sua conta.');
+            this.alertService.showAlert('error', 'Falha ao criar a sua conta.');
             console.error('ERROR: ', error);
          })
       } else {
