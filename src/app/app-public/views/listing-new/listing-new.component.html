@@ -13,8 +13,8 @@
                 
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
-                        <label for="name" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" formControlName="name" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('name')?.invalid && formListing.get('name')?.touched}" placeholder="Digite o título do seu anúncio">
+                        <label for="title" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
+                        <input type="text" name="title" id="title" formControlName="title" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('title')?.invalid && formListing.get('title')?.touched}" placeholder="Digite o título do seu anúncio">
                     </div>
                     <div class="mb-3">
                         <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
@@ -219,7 +219,7 @@
                 <p class="custom-dark">Dados do seu anúncio:</p>
                 <ul>
                     <li><span class="fw-semibold">id:</span> {{ listing.id }}</li>
-                    <li><span class="fw-semibold">Título:</span> {{ listing.name }}</li>
+                    <li><span class="fw-semibold">Título:</span> {{ listing.title }}</li>
 
                     @if (!listing.freePlan) {
                         <li><span class="fw-semibold">Valor:</span> R${{ listing.payment }}</li>

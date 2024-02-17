@@ -35,7 +35,7 @@ export class ListingNewComponent implements OnInit{
     formBuilder             = inject(FormBuilder);
     listingService          = inject(ListingService);
     modalListing            = inject(NgbModal);
-    authService             = inject(AuthService)
+    authService             = inject(AuthService);
 
     @ViewChild('newListing', { static: true }) newListing!: ElementRef;
 
@@ -77,11 +77,13 @@ export class ListingNewComponent implements OnInit{
 
     constructor() {
         this.formListing = this.formBuilder.group({
-            name: ['', [Validators.required]],
+            user_id: [''],
+            plan_id: [''],
+            title: ['', [Validators.required]],
             summary: ['', [Validators.required]],
             description: [''],
-            categories: [''],
-            keywords: [''],
+            categories: [],
+            keywords: [],
             address: [''],
             city: [''],
             state: [''],
@@ -89,10 +91,11 @@ export class ListingNewComponent implements OnInit{
             facebook: [''],
             instagram: [''],
             linkedIn: [''],
+            openingHours: [''],
+            promotionalCode: [''],
             phone: [''],
             email: [''],
             url: [''],
-            promotionalCode: ['']
         });
     }
 
@@ -111,6 +114,10 @@ export class ListingNewComponent implements OnInit{
             this.spinnerService.hide(); 
             this.showView = true;
             this.listingPlans = response;
+
+            this.formListing.patchValue({
+                plan_id: this.listingPlans[0].id
+            });
         }, error => {
             this.showView = true;
             this.spinnerService.hide(); 
@@ -315,6 +322,7 @@ export class ListingNewComponent implements OnInit{
     }
 
     submitForm() {
+        console.log(this.formListing.value)
         if(this.formListing.valid) {
             this.spinnerService.show('Criando anúncio, aguarde...');
 

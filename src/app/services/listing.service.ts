@@ -37,9 +37,17 @@ export class ListingService {
             });
         }
 
-        Object.keys(listing).forEach(key => {
-            formData.append(key, String(listing[key]));
-        });
+        for (const [key, value] of Object.entries(listing)) {
+            if (Array.isArray(value)) {
+                formData.append(key, JSON.stringify(value));
+            } else {
+                formData.append(key, String(value));
+            }
+        }
+
+        // Object.keys(listing).forEach(key => {
+        //     formData.append(key, listing[key]);
+        // });
 
         return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
     }

@@ -1,6 +1,6 @@
 export interface Listing{
     id: number;
-    name: string;
+    title: string;
     summary: string;
     description: string;
     categories:  string[];
