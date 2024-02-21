@@ -5,7 +5,7 @@ import { ListingCategoryService } from '../../../services/listing-category.servi
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AlertService } from '../../../services/components/alert.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ import { ListingService } from '../../../services/listing.service';
 import { Listing } from '../../../models/listing';
 import { User } from '../../../models/user';
 import { AuthService } from '../../../services/auth.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -36,6 +37,8 @@ export class ListingNewComponent implements OnInit{
     listingService          = inject(ListingService);
     modalListing            = inject(NgbModal);
     authService             = inject(AuthService);
+    validErrorsService      = inject(ValidErrorsService);
+    router                  = inject(Router);
 
     @ViewChild('newListing', { static: true }) newListing!: ElementRef;
 
@@ -121,8 +124,8 @@ export class ListingNewComponent implements OnInit{
         }, error => {
             this.showView = true;
             this.spinnerService.hide(); 
-            console.error('ERROR: ', error);
-            this.alertService.showAlert('error', 'Falha ao buscar os planos.');
+            this.router.navigate(['/app']);
+            this.validErrorsService.validError(error, 'Falha ao buscar os planos.');
         })
     }
 
@@ -131,8 +134,7 @@ export class ListingNewComponent implements OnInit{
            this.categories = response;
            this.searchItensCategory = response;
         }, (error) => {
-           console.error('ERROR: ', error);
-           this.alertService.showAlert('error', 'Falha ao buscar as categorias.');
+           this.validErrorsService.validError(error, 'Falha ao buscar as categorias.');
         })
     }
 
@@ -316,8 +318,7 @@ export class ListingNewComponent implements OnInit{
             });
         }, error => {
             this.promotionalCode = '';
-            console.error('ERROR: ', error);
-            this.alertService.showAlert('error', 'Falha ao validar o cupom de desconto.');
+            this.validErrorsService.validError(error, 'Falha ao validar o cupom de desconto.');
         })
     }
 
@@ -339,8 +340,7 @@ export class ListingNewComponent implements OnInit{
                 this.modalListing.open(this.newListing, { centered: true });
             }, error => {
                 this.spinnerService.hide();
-                console.error('ERROR: ', error);
-                this.alertService.showAlert('error', 'Falha ao criar o anúncio');
+                this.validErrorsService.validError(error, 'Falha ao criar o anúncio');
             });
         } else {
             this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios');
