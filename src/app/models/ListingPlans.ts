@@ -2,6 +2,7 @@ export interface ListingPlans {
     id: number;
     description: string;
     level: string;
+    isFree: string;
     active: string;
     price: number;
     createdAt: string;

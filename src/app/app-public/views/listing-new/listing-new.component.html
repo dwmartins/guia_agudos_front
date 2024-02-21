@@ -183,7 +183,7 @@
                 </div>
             </div>
             <hr class="custom-hr-dark">
-            <div class="row py-2">
+            <div *ngIf="listingPlans[0].isFree === 'N'" class="row py-2">
                 <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Desconto</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Desbloqueie benefícios exclusivos com nossos códigos promocionais especiais. Cada código é uma chave para descontos, ofertas e vantagens que elevam a sua experiência. Insira o código e embarque em uma jornada de economia e satisfação.</p>
@@ -196,8 +196,8 @@
                     </div>
                     <p *ngIf="codeValid" class="text-success fw-semibold fs-7 py-1">Cupom de desconto validado.</p>
                 </div>
+                <hr class="custom-hr-dark">
             </div>
-            <hr class="custom-hr-dark">
             <div class="d-flex justify-content-end">
                 <button type="button" (click)="submitForm()" class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
             </div>
