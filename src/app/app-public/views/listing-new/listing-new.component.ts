@@ -56,7 +56,7 @@ export class ListingNewComponent implements OnInit{
 
     logoImage!: File;
     coverImage!: File;
-    galleryImages!: File[];
+    galleryImages: File[] = [];
 
     previewLogoImg!: string | null | undefined;
     previewCoverImg!: string | null | undefined;
@@ -275,25 +275,40 @@ export class ListingNewComponent implements OnInit{
     previewGallery(event: Event) {
         const fileInput = event.target as HTMLInputElement;
         const files = fileInput.files;
+
+        const galleryInfo = this.listingPlans[0].plansInfo;
+
+        const maxImgs = galleryInfo.find(item => {
+            return item.description === "Galeria de imagens";
+        });
+        
+        if(this.galleryImages && maxImgs?.value && this.galleryImages.length >= maxImgs?.value ) {
+            this.alertService.showAlert('info', 'Você atingiu o limite máximo de imagens do seu plano.');
+            return;
+        }
       
         if (files) {
-            this.galleryImages = Array.from(files);
-            for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-      
-            if (this.imageService.validImage(file)) {
-              const reader = new FileReader();
-      
-              reader.onload = () => {
-                const result = reader.result;
-                if (result) {
-                  this.previewGalleryImg.push(result.toString());
-                }
-              };
-      
-              reader.readAsDataURL(file);
+            if(maxImgs?.value && (files.length + this.previewGalleryImg.length) > maxImgs?.value) {
+                this.alertService.showAlert('info', 'Você ultrapassou o limite máximo de imagens do seu plano.');
+                return;
             }
-          }
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (this.imageService.validImage(file)) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = () => {
+                        const result = reader.result;
+                        if (result) {
+                            this.previewGalleryImg.push(result.toString());
+                            this.galleryImages.push(file);
+                        }
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
         }
     }
 
