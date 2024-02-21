@@ -41,13 +41,9 @@ export class ListingService {
             if (Array.isArray(value)) {
                 formData.append(key, JSON.stringify(value));
             } else {
-                formData.append(key, String(value));
+                formData.append(key, value);
             }
         }
-
-        // Object.keys(listing).forEach(key => {
-        //     formData.append(key, listing[key]);
-        // });
 
         return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
     }

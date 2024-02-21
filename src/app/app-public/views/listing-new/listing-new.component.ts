@@ -77,8 +77,8 @@ export class ListingNewComponent implements OnInit{
 
     constructor() {
         this.formListing = this.formBuilder.group({
-            user_id: [''],
-            plan_id: [''],
+            user_id: [],
+            plan_id: [],
             title: ['', [Validators.required]],
             summary: ['', [Validators.required]],
             description: [''],
@@ -87,7 +87,7 @@ export class ListingNewComponent implements OnInit{
             address: [''],
             city: [''],
             state: [''],
-            zipCode: [''],
+            zipCode: [],
             facebook: [''],
             instagram: [''],
             linkedIn: [''],

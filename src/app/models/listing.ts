@@ -19,5 +19,4 @@ export interface Listing{
     promotionalCode: string;
     freePlan: boolean;
     expiration: string;
-    [key: string]: string | number | string[] | boolean;
 }
