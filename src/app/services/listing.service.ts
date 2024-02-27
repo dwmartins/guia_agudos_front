@@ -28,8 +28,13 @@ export class ListingService {
         
         const formData = new FormData();
 
-        formData.append('logoImage', logoImage);
-        formData.append('coverImage', coverImage);
+        if(logoImage) {
+            formData.append('logoImage', logoImage);
+        }
+        
+        if(coverImage) {
+            formData.append('coverImage', coverImage);
+        }
 
         if(galleryImages) {
             galleryImages.forEach((file, index) => {

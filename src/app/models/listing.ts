@@ -3,8 +3,8 @@ export interface Listing{
     title: string;
     summary: string;
     description: string;
-    categories:  string[];
-    keywords:  string[];
+    categories:  string[] | null;
+    keywords:  string[] | null;
     payment: number;
     address: string;
     city: string;

@@ -5,7 +5,7 @@ import { ListingCategoryService } from '../../../services/listing-category.servi
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AlertService } from '../../../services/components/alert.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 @Component({
     selector: 'app-listing-new',
     standalone: true,
-    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule, ReactiveFormsModule],
+    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule, ReactiveFormsModule, RouterModule],
     templateUrl: './listing-new.component.html',
     styleUrl: './listing-new.component.css'
 })
@@ -80,17 +80,16 @@ export class ListingNewComponent implements OnInit{
 
     constructor() {
         this.formListing = this.formBuilder.group({
-            user_id: [],
             plan_id: [],
             title: ['', [Validators.required]],
             summary: ['', [Validators.required]],
             description: [''],
-            categories: [],
-            keywords: [],
+            categories: [''],
+            keywords: [''],
             address: [''],
             city: [''],
             state: [''],
-            zipCode: [],
+            zipCode: [''],
             facebook: [''],
             instagram: [''],
             linkedIn: [''],

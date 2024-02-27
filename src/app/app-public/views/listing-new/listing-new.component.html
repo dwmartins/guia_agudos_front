@@ -223,7 +223,7 @@
 
                     @if (!listing.freePlan) {
                         <li><span class="fw-semibold">Valor:</span> R${{ listing.payment }}</li>
-                        <li><span class="fw-semibold">Expiração:</span> {{ listing.expiration }}</li>
+                        <li><span class="fw-semibold">Expiração:</span> {{ listing.expiration | date: 'dd/MM/yyyy' }}</li>
                     }
                 </ul>
             </div>
@@ -233,7 +233,7 @@
                 <div>
                     <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo com sucesso, ele já esta disponível no site.</p>
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-primary btn-sm">Finalizar pedido</button>
+                        <a [routerLink]="['/app/anunciantes']" class="btn btn-outline-primary btn-sm" aria-label="Close" (click)="modal.dismiss('Cross click')">Finalizar</a>
                     </div>
                 </div>
             } @else {
