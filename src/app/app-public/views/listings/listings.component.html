@@ -1,5 +1,63 @@
-<section class="container-fluid pt-2 pb-5">
-    <div class="container px-0 ">
+<section class="container-fluid pt-2 pb-5 bg-ice-white">
+    <div class="container py-4">
+        <h6 class="letter-spacing-2 text-primary fw-bolder text-center">EXPERIMENTE ALGO NOVO HOJE</h6>
+        <h3 class="custom-dark fw-bolder text-center">Melhores anunciantes para você</h3>
+        <hr class="custom-hr-dark">
+        <div class="row py-3">
+            <div class="col-12 col-sm-12 col-md-4 mb-3">
+                <label for="keywords" class="custom-subtitle-dark letter-spacing-1 mb-1">PALAVRA-CHAVE</label>
+                <input type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Palavras-chaves">
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 mb-3">
+                <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
+                <select name="category" id="category" class="form-select custom_focus bg-transparent">
+                    <option value=""></option>
+                    <option *ngFor="let category of categories" value="{{ category.id }}">
+                        {{ category.cat_name }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-12 d-flex gap-2">
+                <button type="button" class="letter-spacing-1 btn btn-primary btn-sm"><i class="fa-solid fa-filter me-1"></i>FILTRAR</button>
+                <button type="button" class="btn btn-light border btn-sm"><i class="fa-solid fa-eraser me-1"></i>LIMPAR</button>
+            </div>
+        </div>
+        <hr class="custom-hr-dark">
+
+        <span class="fw-bold ">12</span> resultados encontrados
+
+        <div class="py-3 row">
+            <div *ngFor="let r of [].constructor(8); let i = index" class="p-3 col-12 col-sm-6 col-md-6">
+                <div class="card border-0 shadow p-2" style="max-width: 620px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="../../../../assets/img/martins_refrigeracao_logo.jpg" class="img-fluid rounded" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Martins refrigeração</h5>
+                                <p class="card-text custom-subtitle-dark">Consertos em maquinas de lavar e geladeiras</p>
+                                <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">
+                                    <i class="bi bi-whatsapp me-2"></i>
+                                    <span class="fs-6 fw-light">14-991882505</span>
+                                </a>
+                                <div class="text-dark d-flex align-items-center">
+                                    <i class="bi bi-geo-alt-fill fs-6 px-0 me-1"></i>
+                                    <span class="fs-6 fw-light custom-subtitle-dark">Nivaldo Bertolo 542 Agudos SP</span>
+                                </div>
+                                <div class="text-dark d-flex align-items-center">
+                                    <i class="bi bi-envelope me-2 fs-6"></i>
+                                    <span class="fs-6 fw-light text-break custom-subtitle-dark">douglas5422&#64;outlook.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="container px-0 ">
         <h2 class="fs-3 my-4">Anúncios</h2>
     </div>
 
@@ -61,6 +119,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </section>
 <app-footer></app-footer>
