@@ -33,6 +33,7 @@ section {
     }
 } */
 
-.teste {
-    color: #e83e8c ;
+.img_listing {
+    object-fit: cover;
+    height: 100%;
 }
