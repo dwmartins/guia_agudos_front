@@ -7,6 +7,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { ListingService } from '../../../services/listing.service';
 import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
+import { SpinnerService } from '../../../services/components/spinner.service';
 
 @Component({
    selector: 'app-listings',
@@ -21,12 +22,13 @@ export class ListingsComponent implements OnInit{
    route                = inject(ActivatedRoute);
    router               = inject(Router);
    validErrorsService   = inject(ValidErrorsService);
+   spinnerService        = inject(SpinnerService);
 
    iconCategories: boolean = false;
 
    categories: ListingCategory[] = [];
 
-   testeQtd: number = 10;
+   searching: boolean = false;
 
    searchListing: string | null = '';
 
@@ -44,10 +46,12 @@ export class ListingsComponent implements OnInit{
    }
 
    getListingsAll() {
+      this.searching = true;
       this.listingService.getAll('ativo', 0, '').subscribe((response) => {
          this.listings = response;
-         console.log(this.listings);
+         this.searching = false;
       }, (error) => {
+         this.searching = false;
          this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
       });
    }

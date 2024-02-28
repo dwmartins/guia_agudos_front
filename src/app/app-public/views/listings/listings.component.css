@@ -60,3 +60,13 @@ section {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
+
+.custom_spinner {
+    border: 6px solid #4e66f8;
+    border-right-color: transparent;
+}
+
+.img-notFound {
+    width: 100%;
+    max-width: 360px;
+}
