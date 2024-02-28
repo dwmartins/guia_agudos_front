@@ -35,5 +35,20 @@ section {
 
 .img_listing {
     object-fit: cover;
-    height: 100%;
+    /* height: 100%; */
+}
+
+.listing_title {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listing_description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
