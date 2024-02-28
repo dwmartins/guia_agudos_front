@@ -20,8 +20,8 @@ export class ListingService {
         this.user = this.authService.getUserLogged() || {} as User;
     }
 
-    getAll(status: string, category: number, keywords: string) {
-        return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/?status=${status}&category=${category}&keywords=${keywords}`);
+    getAll(category: number, keywords: string) {
+        return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/?status=ativo&category=${category}&keywords=${keywords}`);
     }
 
     newListing(listing: Listing, logoImage: File, coverImage: File, galleryImages: File[]) {

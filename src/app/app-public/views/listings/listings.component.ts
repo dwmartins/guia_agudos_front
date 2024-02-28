@@ -9,11 +9,12 @@ import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
    selector: 'app-listings',
    standalone: true,
-   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule],
+   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule, FormsModule],
    templateUrl: './listings.component.html',
    styleUrl: './listings.component.css'
 })
@@ -23,7 +24,7 @@ export class ListingsComponent implements OnInit{
    route                = inject(ActivatedRoute);
    router               = inject(Router);
    validErrorsService   = inject(ValidErrorsService);
-   spinnerService        = inject(SpinnerService);
+   spinnerService       = inject(SpinnerService);
 
    iconCategories: boolean = false;
 
@@ -34,6 +35,13 @@ export class ListingsComponent implements OnInit{
    searchListing: string | null = '';
 
    listings: Listing[] = [];
+   searchItem: string = '';
+   searchItensListing: Listing[] = [];
+
+   filters = {
+      keywords: '',
+      category: 0
+   }
 
    ngOnInit(): void {
       this.goToTheTopWindow();
@@ -48,13 +56,39 @@ export class ListingsComponent implements OnInit{
 
    getListingsAll() {
       this.searching = true;
-      this.listingService.getAll('ativo', 0, '').subscribe((response) => {
+      this.listingService.getAll(0, '').subscribe((response) => {
          this.listings = response;
+         this.searchItensListing = response;
          this.searching = false;
       }, (error) => {
          this.searching = false;
          this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
       });
+   }
+
+   searchListingByFilter() {
+      console.log(this.filters);
+      this.searching = true;
+      this.listingService.getAll(this.filters.category, this.filters.keywords).subscribe((response) => {
+         this.listings = response;
+         this.searching = false;
+
+      }, (error) => {
+         this.searching = false;
+         this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
+      });
+   }
+
+   searchListingFilter() {
+      this.searchItensListing = this.listings.filter(object =>
+         object.title.toLowerCase().includes(this.searchItem.toLowerCase())
+      );
+   }
+
+   cleanFilters() {
+      this.getListingsAll();
+      this.filters.category = 0;
+      this.filters.keywords = '';
    }
 
    getCategories() {

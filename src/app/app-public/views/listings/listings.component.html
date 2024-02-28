@@ -1,16 +1,16 @@
 <section class="container-fluid pt-2 pb-5 bg-ice-white">
     <div class="container py-4">
-        <h6 class="letter-spacing-2 text-primary fw-bolder text-center">EXPERIMENTE ALGO NOVO HOJE</h6>
-        <h3 class="custom-dark fw-bolder text-center">Melhores anunciantes para você</h3>
+        <h6 class="letter-spacing-2 text-primary fw-bolder text-center mt-4">EXPERIMENTE ALGO NOVO HOJE</h6>
+        <h3 class="custom-dark fw-bolder text-center mb-5">Melhores anunciantes para você</h3>
         <hr class="custom-hr-dark">
-        <div class="row py-3">
+        <form class="row py-3" (submit)="searchListingByFilter()">
             <div class="col-12 col-sm-12 col-md-4 mb-3">
                 <label for="keywords" class="custom-subtitle-dark letter-spacing-1 mb-1">PALAVRA-CHAVE</label>
-                <input type="text" name="keywords" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Palavras-chaves">
+                <input type="text" name="keywords" id="keywords" [(ngModel)]="filters.keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Palavras-chaves">
             </div>
             <div class="col-12 col-sm-12 col-md-4 mb-3">
                 <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
-                <select name="category" id="category" class="form-select custom_focus bg-transparent">
+                <select name="category" id="category" [(ngModel)]="filters.category" class="form-select custom_focus bg-transparent">
                     <option value=""></option>
                     <option *ngFor="let category of categories" value="{{ category.id }}">
                         {{ category.cat_name }}
@@ -18,26 +18,40 @@
                 </select>
             </div>
             <div class="col-12 d-flex gap-2">
-                <button type="button" class="letter-spacing-1 btn btn-primary btn-sm"><i class="fa-solid fa-filter me-1"></i>FILTRAR</button>
-                <button type="button" class="btn btn-light border btn-sm"><i class="fa-solid fa-eraser me-1"></i>LIMPAR</button>
+                <button type="submit" class="letter-spacing-1 btn btn-primary btn-sm"><i class="fa-solid fa-filter me-1"></i>FILTRAR</button>
+                <button (click)="cleanFilters()" type="button" class="btn btn-light border btn-sm"><i class="fa-solid fa-eraser me-1"></i>LIMPAR</button>
             </div>
-        </div>
+        </form>
         <hr class="custom-hr-dark">
+
+        @if (listings.length) {
+            <div class="row gap-sm-1 mb-3">
+                <div class="col-12 col-sm-8 col-md-5">
+                    <div class="input-group">
+                        <span class="material-symbols-outlined input-group-text">
+                            search
+                        </span>
+                        <input [(ngModel)]="searchItem" type="text" (input)="searchListingFilter()"
+                            class="form-control custom_focus custom_placeholder bg-transparen" placeholder="Buscar anúncio...">
+                    </div>
+                </div>
+            </div>
+        }
 
         @if (searching) {
             <div class="d-flex align-items-center">
                 <div class="spinner-border text-primary custom_spinner" role="status"></div>
                 <h4 class="ms-2 m-0 custom-dark fw-bolder">Buscando anúncios, aguarde...</h4>
             </div>
-        } @else if(listings.length) {
-            @if (listings.length == 1) {
-                <p class="fw-bold">{{ listings.length }} <span>resultado encontrado</span></p>
+        } @else if(searchItensListing.length) {
+            @if (searchItensListing.length == 1) {
+                <p class="fw-bold">{{ searchItensListing.length }} <span>resultado encontrado</span></p>
             } @else {
-                <p class="fw-bold">{{ listings.length }} <span>resultados encontrados</span></p>
+                <p class="fw-bold">{{ searchItensListing.length }} <span>resultados encontrados</span></p>
             }
     
-            <div class="py-3 row show-animation">
-                <div *ngFor="let listing of listings" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 cursor_pointer card_listing">
+            <div class="py-1 row show-animation">
+                <div *ngFor="let listing of searchItensListing" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 cursor_pointer card_listing">
                     <div class="card border-0 shadow">
                         <div class="row g-0">
                             <div class="col-md-4">
@@ -78,7 +92,7 @@
                     </div>
                 </div>
             </div>
-        } @else if(!listings.length){
+        } @else if(!searchItensListing.length){
             <div class="d-flex flex-column align-items-center show-animation">
                 <h2 class="custom-dark fw-bolder text-center">Nenhum anúncio encontrado!</h2>
                 <img src="../../../../assets/img/notFound.png" class="img-notFound" alt="Nenhum resultado encontrado">
