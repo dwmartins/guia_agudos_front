@@ -1,22 +1,31 @@
 export interface Listing{
     id: number;
+    user_id: number;
+    expiration: string;
     title: string;
     summary: string;
     description: string;
-    categories:  string[] | null;
     keywords:  string[] | null;
-    payment: number;
+    email: string;
+    url: string;
+    phone: string;
     address: string;
+    complement: string;
     city: string;
     state: string;
     zipCode: string;
+    status: string;
+    observation: string;
     facebook: string;
     instagram: string;
     linkedIn: string;
-    phone: string;
-    email: string;
-    url: string;
+    openingHours: string;
+    paymentId: number;
+    logoImage: string;
+    coverImage: string;
+    payment: number;
     promotionalCode: string;
     freePlan: boolean;
-    expiration: string;
+    createdAt: string;
+    updatedAt: string;
 }

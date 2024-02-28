@@ -4,6 +4,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingCategoryService } from '../../../services/listing-category.service';
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ListingService } from '../../../services/listing.service';
+import { Listing } from '../../../models/listing';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 
 @Component({
    selector: 'app-listings',
@@ -13,9 +16,11 @@ import { FooterComponent } from '../../components/footer/footer.component';
    styleUrl: './listings.component.css'
 })
 export class ListingsComponent implements OnInit{
-   categoryService   = inject(ListingCategoryService);
-   route             = inject(ActivatedRoute);
-   router            = inject(Router);
+   categoryService      = inject(ListingCategoryService);
+   listingService       = inject(ListingService);
+   route                = inject(ActivatedRoute);
+   router               = inject(Router);
+   validErrorsService   = inject(ValidErrorsService);
 
    iconCategories: boolean = false;
 
@@ -25,14 +30,26 @@ export class ListingsComponent implements OnInit{
 
    searchListing: string | null = '';
 
+   listings: Listing[] = [];
+
    ngOnInit(): void {
       this.goToTheTopWindow();
       this.getParams();
+      this.getListingsAll();
       this.getCategories();
    }
 
    toggleIconCategories() {
       this.iconCategories = !this.iconCategories;
+   }
+
+   getListingsAll() {
+      this.listingService.getAll('ativo', 0, '').subscribe((response) => {
+         this.listings = response;
+         console.log(this.listings);
+      }, (error) => {
+         this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
+      });
    }
 
    getCategories() {

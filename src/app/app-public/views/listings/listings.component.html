@@ -24,31 +24,48 @@
         </div>
         <hr class="custom-hr-dark">
 
-        <span class="fw-bold ">12</span> resultados encontrados
+        @if (listings.length == 1) {
+            <span class="fw-bold ">{{ listings.length }}</span> resultado encontrado
+        } @else {
+            <span class="fw-bold ">{{ listings.length }}</span> resultados encontrados
+        }
 
         <div class="py-3 row">
-            <div *ngFor="let r of [].constructor(8); let i = index" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6">
-                <div class="card border-0 shadow p-2">
+            <div *ngFor="let listing of listings" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 cursor_pointer card_listing">
+                <div class="card border-0 shadow">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="../../../../assets/img/martins_refrigeracao_logo.jpg" class="img-fluid img_listing rounded" alt="...">
+                            <img [src]="listing.logoImage" class="img-fluid img_listing rounded" alt="...">
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body">
-                                <h4 class="card-title fw-bold listing_title">Martins Refrigeração</h4>
-                                <p class="card-text custom-subtitle-dark listing_description">Consertos em maquinas de lavar, geladeiras e refrigeradores Lorem ipsum dolor sit amet.</p>
-                                <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">
-                                    <i class="bi bi-whatsapp me-2"></i>
-                                    <span class="fs-6 fw-light">14-991882505</span>
-                                </a>
-                                <div class="text-dark d-flex align-items-center">
-                                    <i class="bi bi-envelope me-2 fs-6"></i>
-                                    <span class="fs-6 fw-light text-break custom-subtitle-dark">douglas5422&#64;outlook.com</span>
-                                </div>
-                                <div class="text-dark d-flex align-items-center">
-                                    <i class="bi bi-geo-alt-fill fs-6 px-0 me-1"></i>
-                                    <span class="fs-6 fw-light custom-subtitle-dark">Nivaldo Bertolo 542 Agudos SP</span>
-                                </div>
+                            <div class="card-body pt-2">
+                                <h5 class="card-title fw-bold listing_title">{{ listing.title }}</h5>
+                                <p class="card-text custom-subtitle-dark listing_description mb-2">{{ listing.summary }}</p>
+
+                                @if (listing.phone) {
+                                    <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">
+                                        <i class="bi bi-whatsapp me-2"></i>
+                                        <span class="fs-7 fw-light">{{ listing.phone }}</span>
+                                    </a>
+                                }
+                                
+                                @if (listing.email) {
+                                    <div class="text-dark d-flex align-items-center">
+                                        <i class="bi bi-envelope me-2 fs-7"></i>
+                                        <span class="fs-6 fw-light text-break custom-subtitle-dark">{{ listing.email }}</span>
+                                    </div>
+                                }
+
+                                @if (listing.address) {
+                                    <div class="text-dark">
+                                        <i class="bi bi-geo-alt-fill fs-7 px-0 me-1"></i>
+                                        <span class="fs-7 fw-light custom-subtitle-dark">
+                                            <span *ngIf="listing.address">{{ listing.address }}</span>
+                                            <span *ngIf="listing.city">, {{ listing.city }}</span>
+                                            <span *ngIf="listing.state">, {{ listing.state }}</span>
+                                        </span>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

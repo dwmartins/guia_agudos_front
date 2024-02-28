@@ -20,6 +20,10 @@ export class ListingService {
         this.user = this.authService.getUserLogged() || {} as User;
     }
 
+    getAll(status: string, category: number, keywords: string) {
+        return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/?status=${status}&category=${category}&keywords=${keywords}`);
+    }
+
     newListing(listing: Listing, logoImage: File, coverImage: File, galleryImages: File[]) {
         const headers = new HttpHeaders({
             'user_id': this.user.id,

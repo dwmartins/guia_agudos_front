@@ -33,9 +33,17 @@ section {
     }
 } */
 
+.card_listing {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card_listing:hover {
+    transform: scale(1.02);
+}
+
 .img_listing {
     object-fit: cover;
-    /* height: 100%; */
+    width: 100%;
 }
 
 .listing_title {
