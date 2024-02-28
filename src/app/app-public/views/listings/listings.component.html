@@ -3,25 +3,33 @@
         <h6 class="letter-spacing-2 text-primary fw-bolder text-center mt-4">EXPERIMENTE ALGO NOVO HOJE</h6>
         <h3 class="custom-dark fw-bolder text-center mb-5">Melhores anunciantes para você</h3>
         <hr class="custom-hr-dark">
-        <form class="row py-3" (submit)="searchListingByFilter()">
-            <div class="col-12 col-sm-12 col-md-4 mb-3">
-                <label for="keywords" class="custom-subtitle-dark letter-spacing-1 mb-1">PALAVRA-CHAVE</label>
-                <input type="text" name="keywords" id="keywords" [(ngModel)]="filters.keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Palavras-chaves">
-            </div>
-            <div class="col-12 col-sm-12 col-md-4 mb-3">
-                <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
-                <select name="category" id="category" [(ngModel)]="filters.category" class="form-select custom_focus bg-transparent">
-                    <option value=""></option>
-                    <option *ngFor="let category of categories" value="{{ category.id }}">
-                        {{ category.cat_name }}
-                    </option>
-                </select>
-            </div>
-            <div class="col-12 d-flex gap-2">
-                <button type="submit" class="letter-spacing-1 btn btn-primary btn-sm"><i class="fa-solid fa-filter me-1"></i>FILTRAR</button>
-                <button (click)="cleanFilters()" type="button" class="btn btn-light border btn-sm"><i class="fa-solid fa-eraser me-1"></i>LIMPAR</button>
-            </div>
-        </form>
+
+        @if (searchListing) {
+            <h4 class="custom-dark fw-semibold mb-4">Buscar por: <span class="fw-normal">{{ searchListing }}</span></h4>
+        }
+
+        @if(listings.length) {
+            <form class="row py-3" (submit)="searchListingByFilter()">
+                <div class="col-12 col-sm-12 col-md-4 mb-3">
+                    <label for="keywords" class="custom-subtitle-dark letter-spacing-1 mb-1">PALAVRA-CHAVE</label>
+                    <input type="text" name="keywords" id="keywords" [(ngModel)]="filters.keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Palavras-chaves">
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 mb-3">
+                    <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
+                    <select name="category" id="category" [(ngModel)]="filters.category" class="form-select custom_focus bg-transparent">
+                        <option value=""></option>
+                        <option *ngFor="let category of categories" value="{{ category.id }}">
+                            {{ category.cat_name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" class="letter-spacing-1 btn btn-primary btn-sm"><i class="fa-solid fa-filter me-1"></i>FILTRAR</button>
+                    <button (click)="cleanFilters()" type="button" class="btn btn-light border btn-sm"><i class="fa-solid fa-eraser me-1"></i>LIMPAR</button>
+                </div>
+            </form>
+        }
+        
         <hr class="custom-hr-dark">
 
         @if (listings.length) {
@@ -54,13 +62,13 @@
                 <div *ngFor="let listing of searchItensListing" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 cursor_pointer card_listing">
                     <div class="card border-0 shadow">
                         <div class="row g-0">
-                            <div class="col-md-4">
+                            <div class="col-md-4" (click)="viewListing(listing)">
                                 <img [src]="listing.logoImage" class="img-fluid img_listing rounded" alt="...">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body pt-2">
-                                    <h5 class="card-title fw-bold listing_title" [ngbTooltip]="listing.title">{{ listing.title }}</h5>
-                                    <p class="card-text custom-subtitle-dark listing_description mb-2" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
+                                    <h5 class="card-title fw-bold listing_title" (click)="viewListing(listing)" [ngbTooltip]="listing.title">{{ listing.title }}</h5>
+                                    <p class="card-text custom-subtitle-dark listing_description mb-2" (click)="viewListing(listing)" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
     
                                     @if (listing.phone) {
                                         <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">

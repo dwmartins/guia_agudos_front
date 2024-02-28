@@ -15,6 +15,7 @@ export interface Listing{
     state: string;
     zipCode: string;
     status: string;
+    plan: string;
     observation: string;
     facebook: string;
     instagram: string;

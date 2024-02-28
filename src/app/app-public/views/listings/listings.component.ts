@@ -32,7 +32,7 @@ export class ListingsComponent implements OnInit{
 
    searching: boolean = false;
 
-   searchListing: string | null = '';
+   searchListing: string = '';
 
    listings: Listing[] = [];
    searchItem: string = '';
@@ -56,7 +56,7 @@ export class ListingsComponent implements OnInit{
 
    getListingsAll() {
       this.searching = true;
-      this.listingService.getAll(0, '').subscribe((response) => {
+      this.listingService.getAll(0, this.searchListing).subscribe((response) => {
          this.listings = response;
          this.searchItensListing = response;
          this.searching = false;
@@ -67,7 +67,7 @@ export class ListingsComponent implements OnInit{
    }
 
    searchListingByFilter() {
-      console.log(this.filters);
+      this.searchListing = '';
       this.searching = true;
       this.listingService.getAll(this.filters.category, this.filters.keywords).subscribe((response) => {
          this.searchItensListing = response;
@@ -99,13 +99,21 @@ export class ListingsComponent implements OnInit{
       })
    }
 
+   viewListing(listing: Listing) {
+      if(listing.plan != "GRÁTIS") {
+         this.router.navigate(['/app/anunciante', listing.id]);
+      }
+   }
+
    goToTheTopWindow() {
       window.scrollTo(0, 0);
    }
 
    getParams() {
       this.route.queryParamMap.subscribe((queryParams) => {
-         this.searchListing = queryParams.get('search') || null;
+         if(queryParams.get('search')) {
+            this.searchListing = queryParams.get('search')!;
+         }
       });
    }
 }

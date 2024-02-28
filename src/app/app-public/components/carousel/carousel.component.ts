@@ -36,6 +36,8 @@ export class CarouselComponent implements OnInit{
    }
 
    getListings() {
-      this.router.navigate(['/app/anunciantes'], {queryParams: {search: this.search}});
+      if(this.search) {
+         this.router.navigate(['/app/anunciantes'], {queryParams: {search: this.search}});
+      }
    }
 }
