@@ -70,7 +70,7 @@ export class ListingsComponent implements OnInit{
       console.log(this.filters);
       this.searching = true;
       this.listingService.getAll(this.filters.category, this.filters.keywords).subscribe((response) => {
-         this.listings = response;
+         this.searchItensListing = response;
          this.searching = false;
 
       }, (error) => {
