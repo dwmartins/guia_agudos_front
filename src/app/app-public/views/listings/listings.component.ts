@@ -8,11 +8,12 @@ import { ListingService } from '../../../services/listing.service';
 import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
    selector: 'app-listings',
    standalone: true,
-   imports: [CommonModule, RouterModule, FooterComponent],
+   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule],
    templateUrl: './listings.component.html',
    styleUrl: './listings.component.css'
 })

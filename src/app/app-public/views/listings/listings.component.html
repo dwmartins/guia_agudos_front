@@ -31,9 +31,9 @@
             </div>
         } @else if(listings.length) {
             @if (listings.length == 1) {
-                <span class="fw-bold ">{{ listings.length }}</span> resultado encontrado
+                <p class="fw-bold">{{ listings.length }} <span>resultado encontrado</span></p>
             } @else {
-                <span class="fw-bold ">{{ listings.length }}</span> resultados encontrados
+                <p class="fw-bold">{{ listings.length }} <span>resultados encontrados</span></p>
             }
     
             <div class="py-3 row show-animation">
@@ -45,8 +45,8 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body pt-2">
-                                    <h5 class="card-title fw-bold listing_title">{{ listing.title }}</h5>
-                                    <p class="card-text custom-subtitle-dark listing_description mb-2">{{ listing.summary }}</p>
+                                    <h5 class="card-title fw-bold listing_title" [ngbTooltip]="listing.title">{{ listing.title }}</h5>
+                                    <p class="card-text custom-subtitle-dark listing_description mb-2" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
     
                                     @if (listing.phone) {
                                         <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">
@@ -85,69 +85,5 @@
             </div>
         }
     </div>
-
-    <!-- <div class="container px-0 ">
-        <h2 class="fs-3 my-4">Anúncios</h2>
-    </div>
-
-    <hr>
-
-    <div class="container">
-        <div class="row p-0">
-            <div class="col-xxl-3 px-0 col-8 mb-3 border rounded-1 bg-white bg-opacity-50 card_categories d-none d-xxl-block ">
-                <div (click)="toggleIconCategories()" class="border-bottom px-2 d-flex justify-content-between " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    <p class="m-1 fs-5" >Categorias</p>
-                    <i [class.bi-plus]="!iconCategories" [class.bi-dash]="iconCategories" class="bi fs-4"></i>
-                </div>
-                <div class="collapse bg-white bg-opacity-50 w-100 px-2" id="collapseExample">
-                    <p class="m-0 p-1 cursor_pointer text-black-50 list_categories d-flex align-items-center">
-                        <span translate="no" class="material-symbols-outlined fs-5 me-1">
-                            apps
-                        </span>
-                        Todos
-                    </p>
-                    <p class="m-0 p-1 cursor_pointer text-black-50 list_categories d-flex align-items-center" *ngFor="let category of categories">
-                        <span translate="no" class="material-symbols-outlined fs-5 me-1 "> {{ category.icon }} </span>
-                         {{ category.cat_name }}
-                    </p>
-                </div>
-            </div>
-            <div class="col-xxl-9 px-2">
-                <div class="input-group mb-3">
-                    <span translate="no" class="material-symbols-outlined input-group-text">
-                        search
-                    </span>
-                    <input type="text"
-                        class="form-control custom_search" placeholder="Buscar anúncio...">
-                </div>
-                <hr>
-                <div *ngFor="let r of [].constructor(10); let i = index" class="row mb-4 bg-white bg-opacity-50 py-4 m-0 rounded-2">
-                    <div [routerLink]="['/app/anunciantes/2']" class="col-sm-4 rounded-end-5 px-0 cursor_pointer d-flex align-items-center justify-content-center ">
-                        <img class="img-fluid rounded-end-5 img_listing" src="../../../assets/img/martins_refrigeracao (1).jpg" alt="Martins Refrigeração">
-                    </div>
-                    <div class="col-sm-8 p-2 px-3">
-                        <div class="d-flex flex-column justify-content-between h-100">
-                            <h4 [routerLink]="['/app/anunciantes/2']" class="fs-3 custom-title-dark cursor_pointer">Martins refrigeração</h4>
-                            <p class="fs-6 fw-light mb-3 mb-sm-2">Consertos em maquinas de lavar e geladeiras</p>
-                            <div class="d-flex flex-wrap gap-sm-3 row-gap-0 row-gap-sm-0 gap-3 ">
-                                <a class="link_outline_none text-dark" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                                    <span class="fs-6 fw-light">14-991882505</span>
-                                </a>
-
-                                <div class="text-dark d-flex align-items-center">
-                                    <i class="bi bi-envelope me-2 fs-5"></i>
-                                    <span class="fs-6 fw-light text-break">douglas5422&#64;outlook.com</span>
-                                </div>
-                            </div>
-                            <div class="text-dark d-flex align-items-center">
-                                <i class="bi bi-geo-alt-fill fs-5 me-1"></i>
-                                <span class="fs-6 fw-light ">Nivaldo Bertolo 542 Agudos SP</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </section>
 <app-footer></app-footer>
