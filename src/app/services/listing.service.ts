@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { Listing } from '../models/listing';
+import { Responses } from '../models/Responses';
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +20,10 @@ export class ListingService {
         this.user = this.authService.getUserLogged() || {} as User;
     }
 
+    getAll(category: number, keywords: string) {
+        return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/?status=ativo&category=${category}&keywords=${keywords}`);
+    }
+
     newListing(listing: Listing, logoImage: File, coverImage: File, galleryImages: File[]) {
         const headers = new HttpHeaders({
             'user_id': this.user.id,
@@ -27,21 +32,28 @@ export class ListingService {
         
         const formData = new FormData();
 
-        formData.append('logoImage', logoImage);
-        formData.append('coverImage', coverImage);
+        if(logoImage) {
+            formData.append('logoImage', logoImage);
+        }
+        
+        if(coverImage) {
+            formData.append('coverImage', coverImage);
+        }
 
         if(galleryImages) {
             galleryImages.forEach((file, index) => {
-                formData.append('galleryImage', file, `galleryImage${index + 1}`);
+                formData.append('galleryImage', file);
             });
         }
 
-        Object.keys(listing).forEach(key => {
-            formData.append(key, String(listing[key]));
-        });
+        for (const [key, value] of Object.entries(listing)) {
+            if (Array.isArray(value)) {
+                formData.append(key, JSON.stringify(value));
+            } else {
+                formData.append(key, value);
+            }
+        }
 
-        console.log(formData)
-
-        return this.httpClient.post<Listing | Response>(`${this.API_URL}/anuncios`, formData, {headers})
+        return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
     }
 }

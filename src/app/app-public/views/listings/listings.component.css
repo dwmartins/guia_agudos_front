@@ -1,4 +1,4 @@
-.card_categories {
+/* .card_categories {
     max-height: 40px;
 }
 
@@ -31,4 +31,42 @@ section {
     .img_listing {
         max-height: 180px;
     }
+} */
+
+.card_listing {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card_listing:hover {
+    transform: scale(1.02);
+}
+
+.img_listing {
+    object-fit: cover;
+    width: 100%;
+}
+
+.listing_title {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listing_description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.custom_spinner {
+    border: 6px solid #4e66f8;
+    border-right-color: transparent;
+}
+
+.img-notFound {
+    width: 100%;
+    max-width: 360px;
 }

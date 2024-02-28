@@ -5,19 +5,23 @@ import { ListingCategoryService } from '../../../services/listing-category.servi
 import { ListingCategory } from '../../../models/listingCategory';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AlertService } from '../../../services/components/alert.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { PlansService } from '../../../services/plans.service';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { PromotionalCodeService } from '../../../services/promotional-code.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { ListingService } from '../../../services/listing.service';
+import { Listing } from '../../../models/listing';
+import { User } from '../../../models/user';
+import { AuthService } from '../../../services/auth.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 
 @Component({
     selector: 'app-listing-new',
     standalone: true,
-    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule, ReactiveFormsModule],
+    imports: [CommonModule, FooterComponent, FormsModule, NgbTooltipModule, ReactiveFormsModule, RouterModule],
     templateUrl: './listing-new.component.html',
     styleUrl: './listing-new.component.css'
 })
@@ -31,6 +35,12 @@ export class ListingNewComponent implements OnInit{
     spinnerService          = inject(SpinnerService);
     formBuilder             = inject(FormBuilder);
     listingService          = inject(ListingService);
+    modalListing            = inject(NgbModal);
+    authService             = inject(AuthService);
+    validErrorsService      = inject(ValidErrorsService);
+    router                  = inject(Router);
+
+    @ViewChild('newListing', { static: true }) newListing!: ElementRef;
 
     formListing: FormGroup;
 
@@ -46,7 +56,7 @@ export class ListingNewComponent implements OnInit{
 
     logoImage!: File;
     coverImage!: File;
-    galleryImages!: File[];
+    galleryImages: File[] = [];
 
     previewLogoImg!: string | null | undefined;
     previewCoverImg!: string | null | undefined;
@@ -57,6 +67,12 @@ export class ListingNewComponent implements OnInit{
 
     showView: boolean = false;
 
+    listing!: Listing;
+    listingId!: number;
+    listingLevel: string = '';
+
+    user!: User
+
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
         phone: 'Será utilizado para WhatsApp'
@@ -64,7 +80,8 @@ export class ListingNewComponent implements OnInit{
 
     constructor() {
         this.formListing = this.formBuilder.group({
-            name: ['', [Validators.required]],
+            plan_id: [],
+            title: ['', [Validators.required]],
             summary: ['', [Validators.required]],
             description: [''],
             categories: [''],
@@ -76,10 +93,11 @@ export class ListingNewComponent implements OnInit{
             facebook: [''],
             instagram: [''],
             linkedIn: [''],
+            openingHours: [''],
+            promotionalCode: [''],
             phone: [''],
             email: [''],
             url: [''],
-            promotionalCode: ['']
         });
     }
 
@@ -89,6 +107,7 @@ export class ListingNewComponent implements OnInit{
         this.getParameterData();
         this.getListingPlans();
         this.getCategories();
+        this.user = this.authService.getUserLogged() || {} as User;
     }
 
     getListingPlans() {
@@ -97,11 +116,15 @@ export class ListingNewComponent implements OnInit{
             this.spinnerService.hide(); 
             this.showView = true;
             this.listingPlans = response;
+
+            this.formListing.patchValue({
+                plan_id: this.listingPlans[0].id
+            });
         }, error => {
             this.showView = true;
             this.spinnerService.hide(); 
-            console.error('ERROR: ', error);
-            this.alertService.showAlert('error', 'Falha ao buscar os planos.');
+            this.router.navigate(['/app']);
+            this.validErrorsService.validError(error, 'Falha ao buscar os planos.');
         })
     }
 
@@ -110,8 +133,7 @@ export class ListingNewComponent implements OnInit{
            this.categories = response;
            this.searchItensCategory = response;
         }, (error) => {
-           console.error('ERROR: ', error);
-           this.alertService.showAlert('error', 'Falha ao buscar as categorias.');
+           this.validErrorsService.validError(error, 'Falha ao buscar as categorias.');
         })
     }
 
@@ -189,7 +211,7 @@ export class ListingNewComponent implements OnInit{
 
     removeKeyword(keywords: string) {
         this.keywords = this.keywords.filter(item => item !== keywords);
-        
+
         this.formListing.patchValue({
             keywords: this.keywords
         });
@@ -252,25 +274,40 @@ export class ListingNewComponent implements OnInit{
     previewGallery(event: Event) {
         const fileInput = event.target as HTMLInputElement;
         const files = fileInput.files;
+
+        const galleryInfo = this.listingPlans[0].plansInfo;
+
+        const maxImgs = galleryInfo.find(item => {
+            return item.description === "Galeria de imagens";
+        });
+        
+        if(this.galleryImages && maxImgs?.value && this.galleryImages.length >= maxImgs?.value ) {
+            this.alertService.showAlert('info', 'Você atingiu o limite máximo de imagens do seu plano.');
+            return;
+        }
       
         if (files) {
-            this.galleryImages = Array.from(files);
-            for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-      
-            if (this.imageService.validImage(file)) {
-              const reader = new FileReader();
-      
-              reader.onload = () => {
-                const result = reader.result;
-                if (result) {
-                  this.previewGalleryImg.push(result.toString());
-                }
-              };
-      
-              reader.readAsDataURL(file);
+            if(maxImgs?.value && (files.length + this.previewGalleryImg.length) > maxImgs?.value) {
+                this.alertService.showAlert('info', 'Você ultrapassou o limite máximo de imagens do seu plano.');
+                return;
             }
-          }
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (this.imageService.validImage(file)) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = () => {
+                        const result = reader.result;
+                        if (result) {
+                            this.previewGalleryImg.push(result.toString());
+                            this.galleryImages.push(file);
+                        }
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
         }
     }
 
@@ -289,27 +326,40 @@ export class ListingNewComponent implements OnInit{
 
             this.codeValid = true;
             this.alertService.showAlert('success', response.success);
+
+            this.formListing.patchValue({
+                promotionalCode: this.promotionalCode
+            });
         }, error => {
             this.promotionalCode = '';
-            console.error('ERROR: ', error);
-            this.alertService.showAlert('error', 'Falha ao validar o cupom de desconto.');
+            this.validErrorsService.validError(error, 'Falha ao validar o cupom de desconto.');
         })
     }
 
     submitForm() {
+        console.log(this.formListing.value)
         if(this.formListing.valid) {
-            console.log(this.formListing)
-            // this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
+            this.spinnerService.show('Criando anúncio, aguarde...');
 
-            // }, error => {
-            //     console.error('ERROR: ', error);
-            //     this.alertService.showAlert('error', 'Falha ao criar o anúncio');
-            // });
+            this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
+                this.spinnerService.hide();
+
+                if('alert' in response) {
+                    this.alertService.showAlert('info', response.alert);
+                    return;
+                }
+
+                this.listing = response;
+
+                this.modalListing.open(this.newListing, { centered: true });
+            }, error => {
+                this.spinnerService.hide();
+                this.validErrorsService.validError(error, 'Falha ao criar o anúncio');
+            });
         } else {
             this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios');
             this.formListing.markAllAsTouched();
         }
-
     }
 
     goToTheTopWindow() {

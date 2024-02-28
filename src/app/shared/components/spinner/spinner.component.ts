@@ -8,8 +8,11 @@ import { SpinnerService } from '../../../services/components/spinner.service';
     imports: [CommonModule],
     template: `
         <div *ngIf="showSpinner" class="spinner-overlay">
-            <div class="spinner-border text-primary custom_spinner" role="status">
-                <span class="visually-hidden">Loading...</span>
+            <div class="d-flex flex-column align-items-center">
+                <div class="spinner-border text-primary custom_spinner mb-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="custom-dark fw-semibold fs-5">{{this.spinnerText}}</p>
             </div>
         </div>`,
     styleUrl: './spinner.component.css'
@@ -18,10 +21,12 @@ export class SpinnerComponent implements OnInit {
     spinnerService = inject(SpinnerService);
 
     showSpinner: boolean = false;
+    spinnerText: string = '';
 
     ngOnInit(): void {
         this.spinnerService.spinnerState$.subscribe((state) => {
-            this.showSpinner = state;
+            this.showSpinner = state.show;
+            this.spinnerText = state.text;
         });
     }
 

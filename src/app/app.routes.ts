@@ -24,7 +24,7 @@ export const routes: Routes = [
             {path: 'anunciantes', component: ListingsComponent},
             {path: 'anunciantes/categorias', component: ListingCategoryAllComponent},
             {path: 'anunciantes/novo/:planId', component: ListingNewComponent, canActivate: [authGuard]},
-            {path: 'anunciantes/:id', component: ListingInfoComponent},
+            {path: 'anunciante/:id', component: ListingInfoComponent},
             {path: 'planos', component: PlansComponent},
         ]
     },

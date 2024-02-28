@@ -4,7 +4,7 @@
         <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
         <hr class="custom-hr-dark">
 
-        <form [formGroup]="formListing" (ngSubmit)="submitForm()" class="py-4">
+        <form [formGroup]="formListing" class="py-4">
             <div class="row">
                 <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Básico</h4>
@@ -13,8 +13,8 @@
                 
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
-                        <label for="name" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" formControlName="name" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('name')?.invalid && formListing.get('name')?.touched}" placeholder="Digite o título do seu anúncio">
+                        <label for="title" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
+                        <input type="text" name="title" id="title" formControlName="title" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('title')?.invalid && formListing.get('title')?.touched}" placeholder="Digite o título do seu anúncio">
                     </div>
                     <div class="mb-3">
                         <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <hr class="custom-hr-dark">
-            <div class="row py-2">
+            <div *ngIf="listingPlans[0].isFree === 'N'" class="row py-2">
                 <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Desconto</h4>
                     <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Desbloqueie benefícios exclusivos com nossos códigos promocionais especiais. Cada código é uma chave para descontos, ofertas e vantagens que elevam a sua experiência. Insira o código e embarque em uma jornada de economia e satisfação.</p>
@@ -196,12 +196,55 @@
                     </div>
                     <p *ngIf="codeValid" class="text-success fw-semibold fs-7 py-1">Cupom de desconto validado.</p>
                 </div>
+                <hr class="custom-hr-dark">
             </div>
-            <hr class="custom-hr-dark">
             <div class="d-flex justify-content-end">
-                <button class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
+                <button type="button" (click)="submitForm()" class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
             </div>
         </form>
     </div>
 </section>
+<ng-template #newListing let-modal>
+    <div class="d-flex justify-content-end rounded-top">
+        <i class="bi bi-x-lg fs-5 p-2 text-black-50 cursor_pointer" aria-label="Close" (click)="modal.dismiss('Cross click')"></i>
+    </div>
+
+    <div class="p-3 pt-0">
+        <div class="">
+            <h2 class="text-primary letter-spacing-1 fs-6 text-center fw-bolder">ANÚNCIO CRIADO</h2>
+            <h1 class="custom-dark fs-5 text-center fw-bolder">Seu anúncio foi criado com sucesso!</h1>
+            <hr class="custom-hr-dark">
+
+            <div>
+                <p class="custom-dark">Dados do seu anúncio:</p>
+                <ul>
+                    <li><span class="fw-semibold">id:</span> {{ listing.id }}</li>
+                    <li><span class="fw-semibold">Título:</span> {{ listing.title }}</li>
+
+                    @if (!listing.freePlan) {
+                        <li><span class="fw-semibold">Valor:</span> R${{ listing.payment }}</li>
+                        <li><span class="fw-semibold">Expiração:</span> {{ listing.expiration | date: 'dd/MM/yyyy' }}</li>
+                    }
+                </ul>
+            </div>
+            <hr class="custom-hr-dark">
+
+            @if (listing.freePlan) {
+                <div>
+                    <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo com sucesso, ele já esta disponível no site.</p>
+                    <div class="d-flex justify-content-end">
+                        <a [routerLink]="['/app/anunciantes']" class="btn btn-outline-primary btn-sm" aria-label="Close" (click)="modal.dismiss('Cross click')">Finalizar</a>
+                    </div>
+                </div>
+            } @else {
+                <div>
+                    <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo, entre em contato conosco para finalizar seu pedido clicando no botão abaixo.</p>
+                    <div class="d-flex justify-content-end">
+                        <a [href]="'https://wa.me/14991882505/?text=Olá,%20meu%20pedido%20foi%20finalizado%20com%20sucesso!%20ID%20do%20Pedido:%20' + listing.id" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</a>
+                    </div>
+                </div>
+            }  
+        </div>
+    </div>
+</ng-template>
 <app-footer></app-footer>

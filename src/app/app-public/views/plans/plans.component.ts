@@ -11,6 +11,7 @@ import { AlertService } from '../../../services/components/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { SpinnerService } from '../../../services/components/spinner.service';
 
 @Component({
     selector: 'app-plans',
@@ -26,6 +27,7 @@ export class PlansComponent implements OnInit {
     redirectService = inject(RedirectService);
     alertService    = inject(AlertService);
     authService     = inject(AuthService);
+    spinnerService  = inject(SpinnerService);
 
     banners: BannerPrice[] = [];
     listingPlans: ListingPlans[] = [];
@@ -67,9 +69,12 @@ export class PlansComponent implements OnInit {
     }
 
     getListingPlans() {
+        this.spinnerService.show('Buscando planos, aguarde...');
         this.plansService.getPlans("Y").subscribe(response => {
+            this.spinnerService.hide();
             this.listingPlans = response;
         }, error => {
+            this.spinnerService.hide();
             console.error('ERROR: ', error);
             this.alertService.showAlert('error', 'Falha ao buscar os planos.');
         })
