@@ -73,7 +73,7 @@
                                     <p class="card-text custom-subtitle-dark listing_description mb-2" (click)="viewListing(listing)" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
     
                                     @if (listing.phone) {
-                                        <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">
+                                        <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/{{listing.phone}}" target="_blank">
                                             <i class="bi bi-whatsapp me-2"></i>
                                             <span class="fs-7 fw-light">{{ listing.phone }}</span>
                                         </a>
