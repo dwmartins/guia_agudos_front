@@ -17,6 +17,7 @@ import { Title } from '@angular/platform-browser';
 import { AlertService } from '../../../services/components/alert.service';
 import { RedirectService } from '../../../services/redirect.service';
 import { Redirect } from '../../../models/Redirect';
+import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 
 @Component({
   	selector: 'app-listing-info',
@@ -26,17 +27,18 @@ import { Redirect } from '../../../models/Redirect';
   	styleUrl: './listing-info.component.css'
 })
 export class ListingInfoComponent implements OnInit, OnDestroy{
-	titleService		= inject(Title);	
-	route 				= inject(ActivatedRoute);
-	router 				= inject(Router);
-	lightbox 			= inject(Lightbox);
-	modal 				= inject(NgbModal);
-	formBuilder 		= inject(FormBuilder);
-	assessmentService 	= inject(AssessmentService);
-	listingService 		= inject(ListingService);
-	validErrorsService  = inject(ValidErrorsService);
-	alertService 		= inject(AlertService);
-	redirectService		= inject(RedirectService);
+	titleService			= inject(Title);	
+	globalVariablesService  = inject(GlobalVariablesService);
+	route 					= inject(ActivatedRoute);
+	router 					= inject(Router);
+	lightbox 				= inject(Lightbox);
+	modal 					= inject(NgbModal);
+	formBuilder 			= inject(FormBuilder);
+	assessmentService 		= inject(AssessmentService);
+	listingService 			= inject(ListingService);
+	validErrorsService  	= inject(ValidErrorsService);
+	alertService 			= inject(AlertService);
+	redirectService			= inject(RedirectService);
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
@@ -85,7 +87,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	ngOnDestroy(): void {
-		this.titleService.setTitle('Guia Agudos');
+		this.titleService.setTitle(this.globalVariablesService.title);
 	}
 
 	getParams() {
@@ -99,7 +101,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	getListing() {
 		this.listingService.getById(this.listingId).subscribe((response) => {
 			this.listing = response;
-			this.titleService.setTitle(this.listing.title!)
+			this.titleService.setTitle(this.listing.title!);
 		}, (error) => {
 			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 		})

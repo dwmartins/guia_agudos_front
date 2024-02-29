@@ -11,6 +11,7 @@ import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 
 @Component({
    selector: 'app-listings',
@@ -20,13 +21,14 @@ import { Title } from '@angular/platform-browser';
    styleUrl: './listings.component.css'
 })
 export class ListingsComponent implements OnInit, OnDestroy{
-   titleService		   = inject(Title);	
-   categoryService      = inject(ListingCategoryService);
-   listingService       = inject(ListingService);
-   route                = inject(ActivatedRoute);
-   router               = inject(Router);
-   validErrorsService   = inject(ValidErrorsService);
-   spinnerService       = inject(SpinnerService);
+   titleService		      = inject(Title);	
+   globalVariablesService  = inject(GlobalVariablesService);
+   categoryService         = inject(ListingCategoryService);
+   listingService          = inject(ListingService);
+   route                   = inject(ActivatedRoute);
+   router                  = inject(Router);
+   validErrorsService      = inject(ValidErrorsService);
+   spinnerService          = inject(SpinnerService);
 
    iconCategories: boolean = false;
 
@@ -54,7 +56,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    ngOnInit(): void {
-      this.titleService.setTitle('Guia Agudos - Anunciantes');
+      this.titleService.setTitle(`${this.globalVariablesService.title} - Anunciantes`);
       this.goToTheTopWindow();
       this.getParams();
       this.getListingsAll();
@@ -62,7 +64,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    ngOnDestroy(): void {
-      this.titleService.setTitle('Guia Agudos');
+      this.titleService.setTitle(this.globalVariablesService.title);
    }
 
    toggleIconCategories() {
