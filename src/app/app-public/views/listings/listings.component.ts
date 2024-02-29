@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingCategoryService } from '../../../services/listing-category.service';
@@ -10,6 +10,7 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgModel } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
    selector: 'app-listings',
@@ -18,7 +19,8 @@ import { FormsModule, NgModel } from '@angular/forms';
    templateUrl: './listings.component.html',
    styleUrl: './listings.component.css'
 })
-export class ListingsComponent implements OnInit{
+export class ListingsComponent implements OnInit, OnDestroy{
+   titleService		   = inject(Title);	
    categoryService      = inject(ListingCategoryService);
    listingService       = inject(ListingService);
    route                = inject(ActivatedRoute);
@@ -52,10 +54,15 @@ export class ListingsComponent implements OnInit{
    }
 
    ngOnInit(): void {
+      this.titleService.setTitle('Guia Agudos - Anunciantes');
       this.goToTheTopWindow();
       this.getParams();
       this.getListingsAll();
       this.getCategories();
+   }
+
+   ngOnDestroy(): void {
+      this.titleService.setTitle('Guia Agudos');
    }
 
    toggleIconCategories() {
