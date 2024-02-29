@@ -91,7 +91,6 @@ export class ListingInfoComponent implements OnInit{
 		this.listingService.getById(this.listingId).subscribe((response) => {
 			this.listing = response;
 			this.titleService.setTitle(this.listing.title!)
-			console.log(this.listing);
 		}, (error) => {
 			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 		})

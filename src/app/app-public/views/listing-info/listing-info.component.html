@@ -44,7 +44,11 @@
                                 </span>
                             </div>
                         }
-                        <p class="text-white fs-5 d-flex align-items-center "><i class="bi bi-envelope me-2"></i>douglas5422&#64;outlook.com</p>
+
+                        @if (listing.email) {
+                            <p class="text-white fs-5 d-flex align-items-center "><i class="bi bi-envelope me-2"></i>{{listing.email}}</p>
+                        }
+                        
                     </div>
                 </div>
             </div>
@@ -53,31 +57,33 @@
     <!-- about -->
     <div class="container">
         <div class="col-12 py-4 d-xl-none">
-            <a class="link_outline_none text-dark fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                <span class="fs-6 fw-semiboldt custom-dark">14991882505</span>
+            <a class="link_outline_none text-dark fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/{{listing.phone}}" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
+                <span class="fs-6 fw-semiboldt custom-dark">{{listing.phone}}</span>
             </a>
-            <p class="custom-dark fs-6 fw-semibold d-flex align-items-center"><i class="bi bi-geo-alt-fill me-2"></i>Nivaldo Bertolo 542</p>
-            <p class="custom-dark fs-6 fw-semibold d-flex align-items-center text-break"><i class="bi bi-envelope me-2"></i>douglas5422&#64;outlook.com</p>
+            @if (listing.address) {
+                <div class="custom-dark fw-semibold mb-3">
+                    <i class="bi bi-geo-alt-fill fs-6 me-1"></i>
+                    <span class="fs-6">
+                        <span *ngIf="listing.address">{{ listing.address }}</span>
+                        <span *ngIf="listing.city">, {{ listing.city }}</span>
+                        <span *ngIf="listing.state">, {{ listing.state }}</span>
+                    </span>
+                </div>
+            }
+            @if (listing.email) {
+                <p class="custom-dark fs-6 fw-semibold d-flex align-items-center text-break"><i class="bi bi-envelope me-2"></i>{{listing.email}}</p>
+            }
         </div>
     </div>
     <div class="container mb-5">
         <div class="row gap-1 my-xl-5 justify-content-between">
             <div class="col-12 col-sm-7">
                 <!-- about -->
-                <h5 class="text-dark text-opacity-50 mb-3">Sobre</h5>
+                <h3 class="mb-3 custom-dark fw-bold">Sobre</h3>
 
-                <div class="long_description">
+                <div class="long_description opacity-75">
                     <p class="custom-dark">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed diam sed massa mollis facilisis. Aliquam sollicitudin, ligula sit amet egestas lacinia, diam elit vulputate risus
-                        nec imperdiet arcu turpis vitae ante. Nunc porta pellentesque felis, a bibendum velit bibendum eu. Etiam ullamcorper ex eros, vitae auctor lorem blandit non. Donec venenatis varius dui in auctor. Donec elit ex, elementum et elementum quis, vulputate sed turpis.
-                    </p>
-
-                    <p class="custom-dark">
-                        am et quam nisi. Sed mi elit, imperdiet eu lacus at, viverra gravida nunc. Pellentesque pellentesque vestibulum venenatis. Nullam sapien leo, fermentum dictum dui id, porta tempus turpis. Nullam posuere lorem fermentum, lacinia est in, porttitor nibh. Vestibulum non neque eu sem accumsan dapibus eget ut velit.
-                    </p>
-
-                    <p class="custom-dark">
-                        Praesent ullamcorper, nunc nec malesuada pulvinar, est odio maximus ipsum, eget facilisis erat ligula id purus. Quisque tincidunt nisi ipsum, eu rutrum orci ultricies at.
+                        {{listing.description}}
                     </p>
                 </div>
             
