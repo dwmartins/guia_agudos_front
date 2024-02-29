@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,9 @@ import { ListingService } from '../../../services/listing.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { Listing } from '../../../models/listing';
 import { Title } from '@angular/platform-browser';
+import { AlertService } from '../../../services/components/alert.service';
+import { RedirectService } from '../../../services/redirect.service';
+import { Redirect } from '../../../models/Redirect';
 
 @Component({
   	selector: 'app-listing-info',
@@ -22,7 +25,7 @@ import { Title } from '@angular/platform-browser';
   	templateUrl: './listing-info.component.html',
   	styleUrl: './listing-info.component.css'
 })
-export class ListingInfoComponent implements OnInit{
+export class ListingInfoComponent implements OnInit, OnDestroy{
 	titleService		= inject(Title);	
 	route 				= inject(ActivatedRoute);
 	router 				= inject(Router);
@@ -32,6 +35,8 @@ export class ListingInfoComponent implements OnInit{
 	assessmentService 	= inject(AssessmentService);
 	listingService 		= inject(ListingService);
 	validErrorsService  = inject(ValidErrorsService);
+	alertService 		= inject(AlertService);
+	redirectService		= inject(RedirectService);
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
@@ -79,6 +84,10 @@ export class ListingInfoComponent implements OnInit{
 		this.getParams();
 	}
 
+	ngOnDestroy(): void {
+		this.titleService.setTitle('Guia Agudos');
+	}
+
 	getParams() {
 		this.route.params.subscribe(params => {
 			this.listingId = params['id'];
@@ -113,8 +122,15 @@ export class ListingInfoComponent implements OnInit{
 			this.cleanFormAssessment();
 			this.modal.open(this.modalAssessment, {centered: true});
 		} else {
-			const params = `/anunciantes/${this.listingId}`;
-			this.router.navigate(['/login'], {queryParams: {redirectTo: params}})
+			this.alertService.showAlert('info', 'Você precisa realizar o login para avaliar.');
+
+			const sharedData: Redirect = {
+                redirectTo: `/app/anunciante/${this.listingId}`,
+                redirectMsg: ''
+            }
+
+            this.redirectService.setData(sharedData);
+            this.router.navigate(['/app/login']);
 		}
 	}
 
