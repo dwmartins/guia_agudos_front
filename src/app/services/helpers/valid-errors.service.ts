@@ -25,11 +25,11 @@ export class ValidErrorsService {
         }
 
         if(error.status === 400) {
-            this.alertService.showAlert('info', error.error.alert);
+            this.alertService.showAlert('error', error.error.alert);
         }
 
         if(error.status === 500) {
-            this.alertService.showAlert('info', msg);
+            this.alertService.showAlert('error', msg);
         }
     }
 }

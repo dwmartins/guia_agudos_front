@@ -10,6 +10,10 @@ import { User } from '../../../models/user';
 import { Assessment } from '../../../models/Assessment';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ListingService } from '../../../services/listing.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
+import { Listing } from '../../../models/listing';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   	selector: 'app-listing-info',
@@ -18,13 +22,16 @@ import { FooterComponent } from '../../components/footer/footer.component';
   	templateUrl: './listing-info.component.html',
   	styleUrl: './listing-info.component.css'
 })
-export class ListingInfoComponent implements OnInit{	
+export class ListingInfoComponent implements OnInit{
+	titleService		= inject(Title);	
 	route 				= inject(ActivatedRoute);
 	router 				= inject(Router);
 	lightbox 			= inject(Lightbox);
 	modal 				= inject(NgbModal);
 	formBuilder 		= inject(FormBuilder);
 	assessmentService 	= inject(AssessmentService);
+	listingService 		= inject(ListingService);
+	validErrorsService  = inject(ValidErrorsService);
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
@@ -33,6 +40,7 @@ export class ListingInfoComponent implements OnInit{
 	listingId: number = 0;
 	iconCategories: boolean = false;
 	user: Partial<User> = {};
+	listing: Partial<Listing> = {};
 
 	alert: any[] = [];
 
@@ -74,6 +82,18 @@ export class ListingInfoComponent implements OnInit{
 	getParams() {
 		this.route.params.subscribe(params => {
 			this.listingId = params['id'];
+		})
+
+		this.getListing();
+	}
+
+	getListing() {
+		this.listingService.getById(this.listingId).subscribe((response) => {
+			this.listing = response;
+			this.titleService.setTitle(this.listing.title!)
+			console.log(this.listing);
+		}, (error) => {
+			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 		})
 	}
 

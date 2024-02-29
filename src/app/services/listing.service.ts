@@ -24,6 +24,10 @@ export class ListingService {
         return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/?status=ativo&category=${category}&keywords=${keywords}`);
     }
 
+    getById(id: number) {
+        return this.httpClient.get<Listing>(`${this.API_URL}/anuncios/?listingId=${id}`);
+    }
+
     newListing(listing: Listing, logoImage: File, coverImage: File, galleryImages: File[]) {
         const headers = new HttpHeaders({
             'user_id': this.user.id,

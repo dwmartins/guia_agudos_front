@@ -11,7 +11,16 @@
     height: 430px;
     top: 0;
     left: 0;
-    box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.603);
+    box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.575);
+}
+
+.listing_description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .assessments i, .user_assessments i {

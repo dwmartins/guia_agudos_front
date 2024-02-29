@@ -1,16 +1,16 @@
 <section class="container-fluid px-0">
     <!-- Banner -->
     <div class="bg-primary img_banner position-relative ">
-        <img class="img_banner img-fluid " src="../../../assets/img/listing-info/martins_refrigeracao.jpg" alt="">
+        <img class="img_banner img-fluid " [src]="listing.coverImage" alt="Imagem de capa">
         <div class="shadow_img">
             <div class="container">
                 <div class="row py-4 pt-3 pt-xl-5">
                     <div class="col-12 col-xl-1 rounded d-flex d-xl-block justify-content-center mb-2">
-                        <img class="img_logo img-fluid rounded-1" src="../../../assets/img/no-image-user.jpg" alt="">
+                        <img class="img_logo img-fluid rounded-1" [src]="listing.logoImage" alt="Imagem de logo">
                     </div>
                     <div class="col-12 col-xl-7 d-flex flex-column align-items-center align-items-xl-start px-3 text-center text-xl-start">
-                        <h2 class="fs-1 text-white fw-semibold">Martins Refrigeração</h2>
-                        <p class="fs-6 text-white">Consertos em maquinas de lavar e geladeiras.</p>
+                        <h2 class="fs-1 text-white fw-semibold">{{ listing.title }}</h2>
+                        <p class="fs-6 text-white listing_description">{{ listing.summary }}</p>
                         <span class="assessments d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
                             <p class="text-white fw-bold fs-5 mb-0">5,0</p>
                             <div>
@@ -28,11 +28,23 @@
                         </div>
                     </div>
                     <div class="col-12 col-xl-4 d-none d-xl-block px-3">
-                        <a class="link_outline_none text-white fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                            <span class="fs-5 fw-semiboldt">14991882505</span>
-                        </a>
-                        <p class="text-white fs-5 fw-semibold d-flex align-items-center "><i class="bi bi-geo-alt-fill me-2"></i>Nivaldo Bertolo 542</p>
-                        <p class="text-white fs-5 fw-semibold d-flex align-items-center "><i class="bi bi-envelope me-2"></i>douglas5422&#64;outlook.com</p>
+                        @if (listing.phone) {
+                            <a class="link_outline_none text-white fs-5 d-flex align-items-center mb-3" href="https://wa.me/{{listing.phone}}" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
+                                <span class="fs-5">{{ listing.phone }}</span>
+                            </a>
+                        }
+
+                        @if (listing.address) {
+                            <div class="text-white mb-3">
+                                <i class="bi bi-geo-alt-fill fs-5 me-1"></i>
+                                <span class="fs-5">
+                                    <span *ngIf="listing.address">{{ listing.address }}</span>
+                                    <span *ngIf="listing.city">, {{ listing.city }}</span>
+                                    <span *ngIf="listing.state">, {{ listing.state }}</span>
+                                </span>
+                            </div>
+                        }
+                        <p class="text-white fs-5 d-flex align-items-center "><i class="bi bi-envelope me-2"></i>douglas5422&#64;outlook.com</p>
                     </div>
                 </div>
             </div>
@@ -175,13 +187,13 @@
 
     <ng-template #modalAssessment let-c="close" let-d="dismiss">
         <div class="position-relative banner_assessment mb-5">
-            <img class="img-fluid rounded-top h-100" src="../../../assets/img/listing-info/martins_refrigeracao.jpg" alt="Capa">
+            <img class="img-fluid rounded-top h-100" [src]="listing.coverImage" alt="Imagem de capa">
             <i class="fs-4 bi bi-x-lg position-absolute close_modal_assessment text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
-            <img class="img-fluid rounded-pill position-absolute logo_assessments" src="../../../assets/img/no-image-user.jpg" alt="logo">
+            <img class="img-fluid rounded-pill position-absolute logo_assessments" [src]="listing.logoImage" alt="Imagem de logo">
             <div class="shadow_img_assessments"></div>
         </div>
 
-        <h5 class="fs-3 text-dark fw-semibold opacity-75 text-center">Martins Refrigeração</h5>
+        <h5 class="fs-3 text-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
         <h6 class="fs-4 text-dark fw-semibold opacity-75 text-center">Sua nota</h6>
         <div class="d-flex justify-content-center user_assessments">
             <ng-container *ngFor="let _ of [].constructor(totalStars); let i = index">
