@@ -33,6 +33,14 @@ export class ListingsComponent implements OnInit{
    searching: boolean = false;
 
    searchListing: string = '';
+   searchListingByCategory!: number;
+
+   queryParams = {
+      keywords: '',
+      categoryId: 0
+   }
+
+   categoryParamsSearch: ListingCategory[] = [];
 
    listings: Listing[] = [];
    searchItem: string = '';
@@ -56,7 +64,7 @@ export class ListingsComponent implements OnInit{
 
    getListingsAll() {
       this.searching = true;
-      this.listingService.getAll(0, this.searchListing).subscribe((response) => {
+      this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords).subscribe((response) => {
          this.listings = response;
          this.searchItensListing = response;
          this.searching = false;
@@ -67,7 +75,7 @@ export class ListingsComponent implements OnInit{
    }
 
    searchListingByFilter() {
-      this.searchListing = '';
+      this.queryParams.keywords = '';
       this.searching = true;
       this.listingService.getAll(this.filters.category, this.filters.keywords).subscribe((response) => {
          this.searchItensListing = response;
@@ -86,15 +94,22 @@ export class ListingsComponent implements OnInit{
    }
 
    cleanFilters() {
-      this.getListingsAll();
       this.filters.category = 0;
       this.filters.keywords = '';
+      this.queryParams.keywords = '';
+      this.queryParams.categoryId = 0;
+      this.categoryParamsSearch = [];
+      this.getListingsAll();
    }
 
    getCategories() {
+      this.searching = true;
       this.categoryService.categories(null).subscribe((response) => {
+         this.searching = false;
          this.categories = response;
+         this.categoryParamsSearch = this.categories.filter(object => object.id === this.queryParams.categoryId);
       }, (error) => {
+         this.searching = false;
          console.error('ERROR: ', error);
       })
    }
@@ -111,9 +126,8 @@ export class ListingsComponent implements OnInit{
 
    getParams() {
       this.route.queryParamMap.subscribe((queryParams) => {
-         if(queryParams.get('search')) {
-            this.searchListing = queryParams.get('search')!;
-         }
+         this.queryParams.keywords = queryParams.get('search')!;
+         this.queryParams.categoryId = parseInt(queryParams.get('category')!);
       });
    }
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ListingCategory } from '../../../models/listingCategory';
 import { ListingCategoryService } from '../../../services/listing-category.service';
@@ -15,6 +15,7 @@ import { ListingCategoryService } from '../../../services/listing-category.servi
 })
 export class ListingCategoryComponent implements OnInit {
    categoryService = inject(ListingCategoryService);
+   router          = inject(Router);
    
    @Input() type: string = '';
 
@@ -47,6 +48,10 @@ export class ListingCategoryComponent implements OnInit {
          this.notResults = true;
          console.error('ERROR: ', error);
       })
+   }
+
+   searchListingByCategory(categoryId: number) {
+      this.router.navigate(['/app/anunciantes'], {queryParams: {category: categoryId}});
    }
 
    filterCategories(): void {

@@ -4,8 +4,8 @@
         <h2 class="custom_title fw-semibold text-center my-5 fs-4">Explore por categorias</h2>
         <div class="row gap-2 gap-md-5 justify-content-center p-3">
 
-            <a href="#" *ngFor="let category of categories"
-                class="link_outline_none text-dark col d-flex flex-column justify-content-center align-content-center p-4 border border-1 rounded-1 text-center category_item">
+            <a (click)="searchListingByCategory(category.id)" *ngFor="let category of categories"
+                class="link_outline_none text-dark col d-flex flex-column justify-content-center align-content-center p-4 border border-1 rounded-1 text-center category_item cursor_pointer">
                 <span translate="no" class="material-symbols-outlined fs-1 mb-1"> {{ category.icon }} </span>
                 <p> {{ category.cat_name }} </p>
             </a>
@@ -54,8 +54,8 @@
 
             <div *ngFor="let category of searchItensCategory" class="d-flex align-items-center justify-content-center gap-2 col category_item_all">
                 <span class="material-symbols-outlined fs-3 mb-1"> {{ category.icon }}</span>
-                <a href="#"
-                    class="link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-dark ">
+                <a (click)="searchListingByCategory(category.id)"
+                    class="link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-dark cursor_pointer">
                     <p class="m-0 text-nowrap">
                         {{ category.cat_name  }}
                     </p>
