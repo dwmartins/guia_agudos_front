@@ -359,10 +359,8 @@ export class ListingNewComponent implements OnInit{
         this.modalListing.dismissAll();
 
         this.formListing.patchValue({
-            openingHours: this.schedules
+            openingHours: JSON.stringify(this.schedules)
         });
-        console.log(this.formListing.value.openingHours)
-        console.log(this.formListing.value);
     }
 
     removeSchedule() {
@@ -372,7 +370,6 @@ export class ListingNewComponent implements OnInit{
     }
 
     submitForm() {
-        console.log(this.formListing.value)
         if(this.formListing.valid) {
             this.spinnerService.show('Criando anúncio, aguarde...');
 
