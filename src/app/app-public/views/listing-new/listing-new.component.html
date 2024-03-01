@@ -132,6 +132,35 @@
                 </div>
             </div>
             <hr class="custom-hr-dark">
+
+            @if (getFieldPlans('Horário de trabalho')) {
+                <div class="row py-2">
+                    <div class="col-12 col-md-5 pe-3 py-2">
+                        <h4 class="custom-dark fw-bolder">Horário</h4>
+                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Garanta uma experiência ainda mais próxima e conveniente para seus clientes ao disponibilizar informações claras sobre nosso horário de funcionamento. Estejamos disponíveis para atendê-lo não apenas por telefone, e-mail ou redes sociais.</p>
+                    </div>
+                    <div class="col-12 col-md-7">
+                        @if (!this.formListing.value.openingHours) {
+                            <div class="d-flex flex-column align-items-center gap-2">
+                                <i class="fa-regular fa-clock fs-1 mb-3"></i>
+                                <h5 class="custom-subtitle-dark text-center">Nenhum horário de funcionamento adicionado</h5>
+                                <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Adicionar horário</button>
+                            </div>
+                        } @else {
+                            <div class="d-flex flex-column align-items-center gap-2">
+                                <i class="fa-regular fa-clock fs-1 mb-3"></i>
+                                <h5 class="custom-subtitle-dark text-center">Horário de funcionamento adicionado!</h5>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Atualizar horário</button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removeSchedule()">Remover</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr class="custom-hr-dark">
+            }
+
             <div class="row py-2">
                 <div class="col-12 col-md-5 pe-3 py-2">
                     <h4 class="custom-dark fw-bolder">Fotos</h4>
@@ -245,6 +274,36 @@
                 </div>
             }  
         </div>
+    </div>
+</ng-template>
+<ng-template #openingHours let-modal>
+    <div class="d-flex justify-content-end rounded-top">
+        <i class="bi bi-x-lg fs-5 p-2 text-black-50 cursor_pointer" aria-label="Close" (click)="modal.dismiss('Cross click')"></i>
+    </div>
+
+    <div class="py-3 pt-0">
+        @for (day of daysOfWeek; track $index) {
+            <div class="d-flex flex-column align-items-center p-1">
+                <p class="custom-subtitle-dark fw-semibold mb-1 letter-spacing-1">{{ day | uppercase }}</p>
+                <div class="w-100 d-flex align-items-center justify-content-evenly border-bottom py-2">
+                    <div class="d-flex">
+                        <input type="time" class="form-control form-control-sm custom_focus custom_placeholder" [(ngModel)]="schedules[day].open">
+                    </div>
+                        <label class="custom-subtitle-dark opacity-75 mx-2">Até</label>
+                    <div class="d-flex">
+                        <input type="time" class="form-control form-control-sm custom_focus custom_placeholder" [(ngModel)]="schedules[day].close">
+                    </div>
+                    <div>
+                        <button (click)="cleanScheduleByDay(day)" type="button" class="btn btn-sm btn-light ms-2"><i class="fa-solid fa-eraser"></i></button>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+    <div class="d-flex justify-content-center gap-2 p-2">
+        <button type="button" class="btn btn-outline-primary" (click)="saveSchedule()">Salvar alterações</button>
+        <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancelar</button>
     </div>
 </ng-template>
 <app-footer></app-footer>

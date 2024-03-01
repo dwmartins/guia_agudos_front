@@ -41,6 +41,7 @@ export class ListingNewComponent implements OnInit{
     router                  = inject(Router);
 
     @ViewChild('newListing', { static: true }) newListing!: ElementRef;
+    @ViewChild('openingHours', { static: true }) openingHours!: ElementRef;
 
     formListing: FormGroup;
 
@@ -73,12 +74,19 @@ export class ListingNewComponent implements OnInit{
 
     user!: User
 
+    daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    schedules: { [key: string]: { open: string; close: string } } = {};
+
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
         phone: 'Será utilizado para WhatsApp'
     }
 
     constructor() {
+        this.daysOfWeek.forEach(day => {
+            this.schedules[day] = { open: '', close: '' };
+        });
+
         this.formListing = this.formBuilder.group({
             plan_id: [],
             title: ['', [Validators.required]],
@@ -100,7 +108,6 @@ export class ListingNewComponent implements OnInit{
             url: [''],
         });
     }
-
 
     ngOnInit(): void {
         this.goToTheTopWindow();
@@ -334,6 +341,34 @@ export class ListingNewComponent implements OnInit{
             this.promotionalCode = '';
             this.validErrorsService.validError(error, 'Falha ao validar o cupom de desconto.');
         })
+    }
+
+    openOpiningHours() {
+        this.daysOfWeek.forEach(day => {
+            this.schedules[day] = { open: '09:00', close: '18:00' };
+        });
+
+        this.modalListing.open(this.openingHours, { centered: true });
+    }
+
+    cleanScheduleByDay(day: string) {
+        this.schedules[day] = { open: '', close: '' };
+    }
+
+    saveSchedule() {
+        this.modalListing.dismissAll();
+
+        this.formListing.patchValue({
+            openingHours: this.schedules
+        });
+        console.log(this.formListing.value.openingHours)
+        console.log(this.formListing.value);
+    }
+
+    removeSchedule() {
+        this.formListing.patchValue({
+            openingHours: ''
+        });
     }
 
     submitForm() {
