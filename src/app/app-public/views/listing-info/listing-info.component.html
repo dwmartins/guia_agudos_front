@@ -112,13 +112,18 @@
                                         <span>{{ day }}</span>
                                     
                                         @if(openingHours[day]) {
-                                            <span>
-                                                {{ openingHours[day].open }} - {{ openingHours[day].close }}
-                                            </span>
+
+                                            @if(!openingHours[day].open || !openingHours[day].close) {
+                                                <span>Fechado</span>
+                                            } @else {
+                                                <span>
+                                                    {{ openingHours[day].open }} - {{ openingHours[day].close }}
+                                                </span>
+                                            }
                                         }
                                     
                                         @if(!openingHours[day]) {
-                                            <span *ngIf="!openingHours[day]">Horário não definido</span>
+                                            <span>Horário não definido</span>
                                         }
                                     </div>
                                 </div>
