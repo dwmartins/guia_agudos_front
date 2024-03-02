@@ -18,6 +18,8 @@ import { AlertService } from '../../../services/components/alert.service';
 import { RedirectService } from '../../../services/redirect.service';
 import { Redirect } from '../../../models/Redirect';
 import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { SpinnerService } from '../../../services/components/spinner.service';
+import { OpeningHours } from '../../../models/OpeningHours';
 
 @Component({
   	selector: 'app-listing-info',
@@ -39,15 +41,18 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	validErrorsService  	= inject(ValidErrorsService);
 	alertService 			= inject(AlertService);
 	redirectService			= inject(RedirectService);
+	spinnerService          = inject(SpinnerService);
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
 
 
 	listingId: number = 0;
-	iconCategories: boolean = false;
 	user: Partial<User> = {};
 	listing: Partial<Listing> = {};
+	openingHours: OpeningHours = {};
+	daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+	nowOpen: boolean = false;
 
 	alert: any[] = [];
 
@@ -99,17 +104,32 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	getListing() {
+		this.spinnerService.show("Buscando anúncio, aguarde...");
 		this.listingService.getById(this.listingId).subscribe((response) => {
+			this.spinnerService.hide();
 			this.listing = response;
+			this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
 			this.titleService.setTitle(this.listing.title!);
 		}, (error) => {
+			this.spinnerService.hide();
 			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 		})
 	}
 
-	toggleIconOpeningHours() {
-      this.iconCategories = !this.iconCategories;
-   	}
+	isDayOpen(): boolean {
+		debugger
+		const today = new Date();
+		const dayOfWeek = today.getDay();
+		const day = this.daysOfWeek[dayOfWeek];
+
+		if(!this.openingHours[day]) {
+			return false;
+		}
+
+		const openTime = new Date(today.toDateString() + ' ' + this.openingHours[day].open);
+		const closeTime = new Date(today.toDateString() + ' ' + this.openingHours[day].close);
+		return today >= openTime && today <= closeTime;
+	}
 
 	openLightbox(index: number): void {
 		const album = this.galleryImages.map(link => {
