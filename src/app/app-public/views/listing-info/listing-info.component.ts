@@ -53,6 +53,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	openingHours: OpeningHours = {};
 	daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 	nowOpen: boolean = false;
+	map: string = '';
+
 
 	alert: any[] = [];
 
@@ -117,7 +119,6 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	isDayOpen(): boolean {
-		debugger
 		const today = new Date();
 		const dayOfWeek = today.getDay();
 		const day = this.daysOfWeek[dayOfWeek];
