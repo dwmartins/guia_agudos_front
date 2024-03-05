@@ -81,13 +81,32 @@
                 <!-- about -->
                 <h3 class="mb-3 custom-dark fw-bold">Sobre</h3>
 
-                <div class="long_description opacity-75">
+                <div class="long_description opacity-75 mb-5">
                     <p class="custom-dark">
                         {{listing.description}}
                     </p>
                 </div>
-            
+
                 <hr class="custom-hr-dark">
+
+                <!-- Gallery image -->
+                @if(galleryImages.length) {
+                    <h3 class="custom-dark fw-bold my-4">Galeria</h3>
+
+                    <div class="container mb-4">
+                        <div class="row">
+                            @for (img of galleryImages; track $index) {
+                                <div class="col-6 col-sm-4 p-1 cursor_pointer" (click)="openLightbox($index)"  >
+                                    <div class="">
+                                        <img class="img-gallery" [src]="img" alt="Imagem">
+                                    </div>
+                                </div>
+                            } 
+                        </div>
+                    </div>
+
+                    <hr class="custom-hr-dark">
+                }
             </div>
 
             @if(listing.openingHours) {
@@ -136,18 +155,7 @@
                 </div>
             }
         </div>
-        <hr>
-        <div>
-            <h5 class="text-dark text-opacity-50 my-3">Fotos em destaque</h5>
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2" *ngFor="let img of galleryImages; let i = index" (click)="openLightbox(i)">
-                        <img class="img-fluid" [src]="img" alt="Imagem {{ i + 1 }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
+        
         <div>
             <h5 class="text-dark text-opacity-50 my-5">Comentários</h5>
             <div class="container">
