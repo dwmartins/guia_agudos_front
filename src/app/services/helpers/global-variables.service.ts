@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalVariablesService {
 
-  title = "Guia Agudos";
+  title = "Guia Paulista";
+  logo = "GuiaPaulista"
 
   constructor() { }
 }

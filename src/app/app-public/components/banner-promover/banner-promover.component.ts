@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 
 @Component({
   selector: 'app-banner-promover',
@@ -9,5 +10,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './banner-promover.component.css'
 })
 export class BannerPromoverComponent {
-
+  globalVariables = inject(GlobalVariablesService);
 }
