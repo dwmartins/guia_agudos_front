@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -111,11 +111,22 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			this.spinnerService.hide();
 			this.listing = response;
 			this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+			this.setMap();
 			this.titleService.setTitle(this.listing.title!);
 		}, (error) => {
 			this.spinnerService.hide();
 			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 		})
+	}
+
+	setMap() {
+		if(this.listing.map) {
+			const sanitizedHTML = this.listing.map?.replace('<iframe', `<iframe style="width: 100%; height: 300px;"`);
+
+			if(sanitizedHTML) {
+				this.map = sanitizedHTML;
+			}
+		}
 	}
 
 	isDayOpen(): boolean {

@@ -79,7 +79,8 @@ export class ListingNewComponent implements OnInit{
 
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
-        phone: 'Será utilizado para WhatsApp'
+        phone: 'Será utilizado para WhatsApp',
+        map: 'A tag HTML <iframe> do Google Maps permite incorporar mapas interativos em páginas da web.'
     }
 
     constructor() {
@@ -98,6 +99,7 @@ export class ListingNewComponent implements OnInit{
             city: [''],
             state: [''],
             zipCode: [''],
+            map: [''],
             facebook: [''],
             instagram: [''],
             linkedIn: [''],

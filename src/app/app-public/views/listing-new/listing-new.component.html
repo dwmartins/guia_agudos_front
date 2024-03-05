@@ -97,15 +97,19 @@
                                 <label for="city" class="mb-2 custom-subtitle-dark letter-spacing-1">CIDADE</label>
                                 <input type="text" name="city" formControlName="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
                             </div>
-                            <div class="col-12 col-md-6 p-0 ps-md-2">
+                            <div class="col-12 col-md-6 p-0 ps-md-2 mb-3">
                                 <label for="state" class="mb-2 custom-subtitle-dark letter-spacing-1">ESTADO</label>
                                 <input type="text" name="state" formControlName="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
                             </div>
+                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
+                                <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
+                                <input type="text" name="zipCode" formControlName="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
+                            </div>
+                            <div class="col-12 col-md-6 p-0 ps-md-2">
+                                <label for="map" class="mb-2 custom-subtitle-dark letter-spacing-1">MAPA<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.map"></i></label>
+                                <input type="text" name="map" formControlName="map" id="map" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Tag <iframe> do google maps">
+                            </div>
                         </div>
-                    </div>
-                    <div class="w-100">
-                        <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
-                        <input type="text" name="zipCode" formControlName="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
                     </div>
                 </div>
             </div>
