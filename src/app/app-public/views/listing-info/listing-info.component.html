@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <!-- about -->
+
     <div class="container">
         <div class="col-12 py-4 d-xl-none">
             <a class="link_outline_none text-dark fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/{{listing.phone}}" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
@@ -160,7 +160,7 @@
     
                                 <div class="w-100 d-flex align-items-center justify-content-between">
                                     <h4 class="custom-dark fw-bold">Contato</h4>
-                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    <i class="fa-regular fa-pen-to-square icon-social-medias"></i>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 flex-column p-4">
@@ -209,59 +209,41 @@
                 </div>
             }
         </div>
-        
-        <div>
-            <h5 class="text-dark text-opacity-50 my-5">Comentários</h5>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 d-flex mb-4">
-                        <div>
-                            <img class="img-fluid rounded-circle img_user" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
-                        </div>
-                        <div class="">
-                            <div class="ms-3">
-                                <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">Douglas Martins</h6>
-                                <div class="d-sm-flex align-items-center mb-2">
-                                    <span class="text-dark opacity-75 fs-7">18 de janeiro 2024</span>
-                                    <div class="ms-0 ms-sm-2 user_assessments">
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star fs-6"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="custom-dark opacity-75 fs-7">Ótimos profissionais, minha maquina de lavar esta perfeita agora.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-12 d-flex">
-                        <div>
-                            <img class="img-fluid rounded-circle img_user" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
-                        </div>
-                        <div class="">
-                            <div class="ms-3">
-                                <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">Tatiane Oliva</h6>
-                                <div class="d-sm-flex align-items-center mb-2">
-                                    <span class="text-dark opacity-75 fs-7">14 de janeiro 2024</span>
-                                    <div class="ms-0 ms-sm-2 user_assessments">
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star fs-6"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="custom-dark opacity-75 fs-7">Minha geladeira esta gelando muito agora, está ótimo</p>
-                                </div>
+        <!-- Reviews -->
+        <div class="row px-3 my-5">
+            <div class="col-12 col-md-8">
+                <p class="text-primary fw-semibold letter-spacing-1 fs-6 p-0 m-0">AVALIAÇÕES</p>
+                <h4 class="custonm-dark fw-bold p-0 mb-5">Lista de avaliações</h4>
+
+                <div class="d-flex">
+                    <div class="d-flex flex-column align-items-center gap-2">
+                        <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
+                        <p class="custom-dark opacity-75 fs-7 text-center">18 de janeiro 2024</p>
+                    </div>
+                    <div class="ms-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">Douglas Martins</h6>
+                            <div class="d-flex justify-content-end gap-3">
+                                <i class="fa-solid fa-trash-can text-danger fs-5"></i>
+                                <i class="fa-solid fa-pen-to-square text-primary fs-5"></i>
                             </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="ms-0 user_assessments">
+                                <i class="bi bi-star-fill fs-6"></i>
+                                <i class="bi bi-star-fill fs-6"></i>
+                                <i class="bi bi-star-fill fs-6"></i>
+                                <i class="bi bi-star-fill fs-6"></i>
+                                <i class="bi bi-star fs-6"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="custom-dark opacity-75 fs-6">Ótimos profissionais, minha maquina de lavar esta perfeita agora.</p>
                         </div>
                     </div>
                 </div>
+                <hr class="custom-hr-dark">
             </div>
         </div>
     </div>
@@ -274,8 +256,8 @@
             <div class="shadow_img_assessments"></div>
         </div>
 
-        <h5 class="fs-3 text-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
-        <h6 class="fs-4 text-dark fw-semibold opacity-75 text-center">Sua nota</h6>
+        <h5 class="fs-3 custom-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
+        <h6 class="fs-4 custom-dark fw-semibold opacity-75 text-center">Sua nota</h6>
         <div class="d-flex justify-content-center user_assessments">
             <ng-container *ngFor="let _ of [].constructor(totalStars); let i = index">
               <i [class]="(i + 1 <= (hoverStars || selectedStars) ? hoverIcon : currentIcon) + ' fs-3 cursor_pointer'" 
@@ -288,13 +270,13 @@
 
         <form [formGroup]="formAssessment" (ngSubmit)="submitAssessment()" class="p-4">
             <textarea maxlength="130" (input)="countCaracterComment()" #commentAssessment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched}"></textarea>
-            <p class="mt-1 fw-semibold opacity-50 text-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
+            <p class="mt-1 fw-semibold opacity-50 custom-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
             <div *ngIf="formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched" class="text-danger fw-semibold opacity-75">
                 Digite seu comentário.
             </div>
             <div class="d-flex gap-2 justify-content-center mt-3">
                 <button class="btn btn-primary rounded-1 fw-semibold">Enviar</button>
-                <button type="button" class="btn btn-light rounded-1 text-dark fw-semibold opacity-75 border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+                <button type="button" class="btn btn-light rounded-1 custom-dark fw-semibold opacity-75 border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
             </div>
         </form>
     </ng-template>

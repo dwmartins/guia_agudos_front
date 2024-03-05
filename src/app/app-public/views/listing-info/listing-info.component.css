@@ -57,7 +57,7 @@
 }
 
 .img_user {
-    max-width: 60px;
+    max-width: 70px;
 }
 
 .banner_assessment {
@@ -93,7 +93,7 @@
     font-size: 13px;
 }
 
-.fa-clock, .fa-pen-to-square {
+.fa-clock, .icon-social-medias {
     font-size: 3rem;
 }
 
