@@ -87,6 +87,14 @@
                     </p>
                 </div>
 
+                @if(listing.map) {
+                    <h3 class="mb-3 custom-dark fw-bold">Localização</h3>
+
+                    <div class="listing_map">
+                        <div [innerHTML]="domSanitizer.bypassSecurityTrustHtml(listing.map)"></div>
+                    </div>
+                }
+
                 <hr class="custom-hr-dark">
 
                 <!-- Gallery image -->

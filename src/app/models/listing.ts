@@ -14,6 +14,7 @@ export interface Listing{
     city: string;
     state: string;
     zipCode: string;
+    map: string;
     status: string;
     plan: string;
     observation: string;

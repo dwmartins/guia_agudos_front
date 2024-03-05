@@ -13,7 +13,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { ListingService } from '../../../services/listing.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { Listing } from '../../../models/listing';
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { AlertService } from '../../../services/components/alert.service';
 import { RedirectService } from '../../../services/redirect.service';
 import { Redirect } from '../../../models/Redirect';
@@ -42,6 +42,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	alertService 			= inject(AlertService);
 	redirectService			= inject(RedirectService);
 	spinnerService          = inject(SpinnerService);
+	domSanitizer			= inject(DomSanitizer);
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
@@ -54,7 +55,6 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 	nowOpen: boolean = false;
 	map: string = '';
-
 
 	alert: any[] = [];
 
