@@ -93,8 +93,8 @@
     font-size: 13px;
 }
 
-.fa-clock {
-    font-size: 3.5rem;
+.fa-clock, .fa-pen-to-square {
+    font-size: 3rem;
 }
 
 .img-gallery {

@@ -111,7 +111,7 @@
 
             @if(listing.openingHours) {
                 <div class="col-12 col-lg-4 p-0">
-                    <div class="px-3">
+                    <div class="px-3 mb-4">
                         <div class="shadow rounded-2">
                             <div class="p-4 bg-ice-white">
     
@@ -130,7 +130,7 @@
                                 @for (day of daysOfWeek; track $index) {
                                     <div>
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span>{{ day }}</span>
+                                            <span class="fw-semibold custom-dark fs-7">{{ day }}</span>
                                         
                                             @if(openingHours[day]) {
     
@@ -149,6 +149,60 @@
                                         </div>
                                     </div>
                                 }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-3">
+                        <div class="shadow rounded-2">
+                            <div class="p-4 bg-ice-white">
+                                <p class="letter-spacing-1 text-primary fw-semibold mb-0">DEIXE-NOS UMA MENSAGEM</p>
+    
+                                <div class="w-100 d-flex align-items-center justify-content-between">
+                                    <h4 class="custom-dark fw-bold">Contato</h4>
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 flex-column p-4">
+                                @if (listing.phone) {
+                                    <a class="link_outline_none" href="https://wa.me/{{listing.phone}}" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-whatsapp me-3"></i>{{ listing.phone }}</span>
+                                    </a>
+                                }
+
+                                @if (listing.email) {
+                                    <a class="link_outline_none" href="mailto:{{listing.phone}}" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-regular fa-envelope me-3"></i>{{ listing.email }}</span>
+                                    </a>
+                                }
+
+                                @if(listing.url) {
+                                    <a class="link_outline_none" [href]="listing.url" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-solid fa-globe me-3"></i>{{ listing.url }}</span>
+                                    </a>
+                                }
+
+                                @if(listing.facebook) {
+                                    <a class="link_outline_none" [href]="listing.facebook" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-facebook me-3"></i>{{ listing.facebook }}</span>
+                                    </a>
+                                }
+
+                                @if(listing.instagram) {
+                                    <a class="link_outline_none" [href]="listing.instagram" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-instagram me-3"></i>{{ listing.instagram }}</span>
+                                    </a>
+                                }
+
+                                @if(listing.linkedIn) {
+                                    <a class="link_outline_none" [href]="listing.linkedIn" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-linkedin me-3"></i>{{ listing.linkedIn }}</span>
+                                    </a>
+                                }
+
+                                <div class="d-flex justify-content-center mt-3 my-2">
+                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-paper-plane me-2"></i>ENVIE UM MENSAGEM</button>
+                                </div>
                             </div>
                         </div>
                     </div>
