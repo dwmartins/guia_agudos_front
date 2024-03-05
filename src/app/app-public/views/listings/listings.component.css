@@ -1,49 +1,15 @@
-/* .card_categories {
-    max-height: 40px;
-}
-
-@media screen and (max-width: 1400px) {
-    .card_categories {
-        max-height: none;
-    }
-}
-
-.list_categories:hover {
-    color: var(--custom-hover-black) !important;
-}
-
-section {
-    background-color: var(--custom-light-gray);
-}
-
-.custom_search:focus {
-    box-shadow: var(--custom-input-box-shadow);
-}
-
-@media screen and (max-width: 576px) {
-    .img_listing {
-        padding: 10px;
-        border-radius: 25px !important;
-    }
-}
-
-@media screen and (min-width: 768px) {
-    .img_listing {
-        max-height: 180px;
-    }
-} */
-
-.card_listing {
-    transition: transform 0.3s ease-in-out;
-}
-
-.card_listing:hover {
-    transform: scale(1.02);
+.img_container  {
+    overflow: hidden;
+    position: relative;
 }
 
 .img_listing {
     object-fit: cover;
     width: 100%;
+}
+
+.card_listing:hover .img_listing {
+    transform: scale(1.03);
 }
 
 .listing_title {
