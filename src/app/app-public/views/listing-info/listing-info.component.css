@@ -23,7 +23,11 @@
     -webkit-line-clamp: 2;
 }
 
-.assessments i, .user_assessments i {
+.assessments i {
+    color: #f5f50c;
+}
+
+.user_assessments {
     color: #f5f50c;
 }
 

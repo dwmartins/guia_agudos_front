@@ -285,12 +285,7 @@
         <h5 class="fs-3 custom-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
         <h6 class="fs-4 custom-dark fw-semibold opacity-75 text-center">Sua nota</h6>
         <div class="d-flex justify-content-center user_assessments">
-            <ng-container *ngFor="let _ of [].constructor(totalStars); let i = index">
-              <i [class]="(i + 1 <= (hoverStars || selectedStars) ? hoverIcon : currentIcon) + ' fs-3 cursor_pointer'" 
-                 (click)="selectStars(i + 1)" 
-                 (mouseover)="hoverStar(i + 1)" 
-                 (mouseout)="resetHover()"></i>
-            </ng-container>
+            <ngb-rating [(rate)]="rating" class="fs-1"></ngb-rating>
         </div>
         <p *ngIf="notAssessment" class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
 

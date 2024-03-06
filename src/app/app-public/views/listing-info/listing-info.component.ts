@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
 import { AssessmentService } from '../../../services/assessment.service';
 import { User } from '../../../models/user';
@@ -20,15 +20,17 @@ import { Redirect } from '../../../models/Redirect';
 import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { OpeningHours } from '../../../models/OpeningHours';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   	selector: 'app-listing-info',
   	standalone: true,
-  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent],
+  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent, NgbRatingModule],
   	templateUrl: './listing-info.component.html',
   	styleUrl: './listing-info.component.css'
 })
 export class ListingInfoComponent implements OnInit, OnDestroy{
+	authService             = inject(AuthService);
 	titleService			= inject(Title);	
 	globalVariablesService  = inject(GlobalVariablesService);
 	route 					= inject(ActivatedRoute);
@@ -43,13 +45,13 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	redirectService			= inject(RedirectService);
 	spinnerService          = inject(SpinnerService);
 	domSanitizer			= inject(DomSanitizer);
+	ngbRatingConfig			= inject(NgbRatingConfig);
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
 
-
 	listingId: number = 0;
-	user: Partial<User> = {};
+	user!: User;
 	listing: Partial<Listing> = {};
 	openingHours: OpeningHours = {};
 	daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
@@ -66,6 +68,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
   	hoverIcon: string = 'bi-star-fill';
 	notAssessment!: boolean;
 
+	rating: number = 0;
 	formAssessment: FormGroup;
 	assessment: Assessment[] = [];
 
@@ -74,16 +77,19 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 
 	constructor() {
 		this.formAssessment = this.formBuilder.group({
-			listing_id: [0],
-			user_id: [''],
+			listing: [0],
+			user: [''],
 			comment: ['', [Validators.required]],
-			assessment: [0, [Validators.required]]
-		})
+			assessment: [0]
+		});
+
+		this.ngbRatingConfig.max = 5;
 	}
 
 	ngOnInit(): void {
 		this.goToTheTopWindow();
 		this.getParams();
+		this.user = this.authService.getUserLogged() || {} as User;
 	}
 
 	ngOnDestroy(): void {
@@ -151,7 +157,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}  
 	
 	OpenModalUserAssessment() {
-		if(this.getUserLogged()) {
+		if(this.authService.getUserLogged()) {
 			this.cleanFormAssessment();
 			this.modal.open(this.modalAssessment, {centered: true});
 		} else {
@@ -168,20 +174,24 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	submitAssessment() {
-		this.formAssessment.get('listing_id')?.setValue(this.listingId);
-		this.formAssessment.get('user_id')?.setValue(this.user.id);
-
-		if(!this.selectedStars) {
+		if(!this.rating) {
 			this.notAssessment = true;
 			return;
 		}
 
+		this.formAssessment.patchValue({
+			listing: this.listingId,
+			user: this.user.id,
+			assessment: this.rating
+		});
+
 		if(this.formAssessment.valid) {
 			this.assessmentService.newAssessment(this.formAssessment.value).subscribe((response) => {
 				this.modal.dismissAll(this.modalAssessment);
-				// this.alerts('success', 'Avaliação inserida com sucesso.');
+				this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');
 			},(error) => {
-				// this.alerts('error', 'Falha ao inserir sua avaliação.');
+				this.alertService.showAlert('error', 'Falha ao inserir sua avaliação.');
+				this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.')
 				console.error('ERROR: ', error);
 			})
 		}
@@ -193,32 +203,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		  assessment: ''
 		});
 
-		this.selectedStars = 0;
-	}
-
-	selectStars(stars: number): void {
 		this.notAssessment = false;
-		this.selectedStars = stars;
-		this.formAssessment.get('assessment')?.setValue(this.selectedStars);
-	}
-	
-	hoverStar(stars: number): void {
-		this.hoverStars = stars;
-	}
-	
-	resetHover(): void {
-		this.hoverStars = 0;
-	}
-
-	getUserLogged() {
-		const user = localStorage.getItem('userData');
-
-		if(user) {
-			this.user = JSON.parse(user) as User;
-			return true;
-		}
-
-		return false;
+		this.rating = 0;
 	}
 
 	maxLengthValidator(maxLength: number) {
@@ -231,15 +217,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	countCaracterComment() {
-		const currentLength = this.formAssessment.get('comment')?.value.length
+		const currentLength = this.formAssessment.value.comment.length;
 		this.currentLengthComment = Math.max(0, this.maxLengthComment - currentLength);
-	}
-
-	alerts(type: string, description: string | any) {
-		this.alert.push({
-		   type: type,
-		   description: description
-		})
 	}
 
 	goToTheTopWindow() {
