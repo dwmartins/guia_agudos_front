@@ -12,7 +12,7 @@ import { AlertsComponent } from '../../../shared/components/alerts/alerts.compon
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ListingService } from '../../../services/listing.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
-import { Listing } from '../../../models/listing';
+import { Listing, ListingGalleryImg } from '../../../models/listing';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { AlertService } from '../../../services/components/alert.service';
 import { RedirectService } from '../../../services/redirect.service';
@@ -55,6 +55,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 	nowOpen: boolean = false;
 	map: string = '';
+	galleryImages: ListingGalleryImg[] = [];
 
 	alert: any[] = [];
 
@@ -80,14 +81,6 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		})
 	}
 
-	galleryImages = [
-		'https://images.unsplash.com/photo-1682687220247-9f786e34d472?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8',
-		'https://images.unsplash.com/photo-1682687982134-2ac563b2228b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-		'https://images.unsplash.com/photo-1682686580036-b5e25932ce9a?q=80&w=1375&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-		'https://images.unsplash.com/photo-1682687220199-d0124f48f95b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8',
-		'https://images.unsplash.com/photo-1682685797828-d3b2561deef4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8fA%3D%3D'
-	]
-
 	ngOnInit(): void {
 		this.goToTheTopWindow();
 		this.getParams();
@@ -110,7 +103,13 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		this.listingService.getById(this.listingId).subscribe((response) => {
 			this.spinnerService.hide();
 			this.listing = response;
+
 			this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+
+			if(this.listing.galleryImage) {
+				this.galleryImages = this.listing.galleryImage;
+			}
+
 			this.setMap();
 			this.titleService.setTitle(this.listing.title!);
 		}, (error) => {
@@ -145,11 +144,11 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 
 	openLightbox(index: number): void {
 		const album = this.galleryImages.map(link => {
-		  return { src: link, caption: '', thumb: '' };
+		  return { src: link.imgUrl, caption: '', thumb: '' };
 		});
-  
+	  
 		this.lightbox.open(album, index);
-	}
+	}  
 	
 	OpenModalUserAssessment() {
 		if(this.getUserLogged()) {

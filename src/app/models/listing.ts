@@ -25,9 +25,18 @@ export interface Listing{
     paymentId: number;
     logoImage: string;
     coverImage: string;
+    galleryImage: ListingGalleryImg[];
     payment: number;
     promotionalCode: string;
     freePlan: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ListingGalleryImg {
+    id: number;
+    listingId: number;
+    imgUrl: string;
     createdAt: string;
     updatedAt: string;
 }

@@ -30,7 +30,9 @@
                         </span>
                         <div class="d-flex gap-2">
                             <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
-                            <button class="btn text-white border rounded-1 fw-semibold">Contato</button>
+                            @if (listing.phone) {
+                                <a href="https://wa.me/{{listing.phone}}" class="btn text-white border rounded-1 fw-semibold"><i class="bi bi-whatsapp me-2"></i>Contato</a>
+                            }
                         </div>
                     </div>
                     <div class="col-12 col-xl-4 d-none d-xl-block px-3">
@@ -61,47 +63,47 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="col-12 py-4 d-xl-none">
-            <a class="link_outline_none text-dark fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/{{listing.phone}}" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                <span class="fs-6 fw-semiboldt custom-dark">{{listing.phone}}</span>
-            </a>
-            @if (listing.address) {
-                <div class="custom-dark fw-semibold mb-3">
-                    <i class="bi bi-geo-alt-fill fs-6 me-1"></i>
-                    <span class="fs-6">
-                        <span *ngIf="listing.address">{{ listing.address }}</span>
-                        <span *ngIf="listing.city">, {{ listing.city }}</span>
-                        <span *ngIf="listing.state">, {{ listing.state }}</span>
-                    </span>
-                </div>
-            }
-            @if (listing.email) {
-                <p class="custom-dark fs-6 fw-semibold d-flex align-items-center text-break"><i class="bi bi-envelope me-2"></i>{{listing.email}}</p>
-            }
-        </div>
-    </div>
     <div class="container mb-5">
         <div class="row my-xl-5 justify-content-between">
             <div class="col-12 col-lg-8 px-3 mb-3">
-                <!-- about -->
-                <h3 class="mb-3 custom-dark fw-bold">Sobre</h3>
+                @if (listing.description) {
+                    <!-- about -->
+                    <h3 class="my-3 custom-dark fw-bold">Sobre</h3>
 
-                <div class="long_description opacity-75 mb-5">
-                    <p class="custom-dark">
-                        {{listing.description}}
-                    </p>
-                </div>
-
-                @if(listing.map) {
-                    <h3 class="mb-3 custom-dark fw-bold">Localização</h3>
-
-                    <div class="listing_map" #mapContainer>
-                        <div [innerHTML]="domSanitizer.bypassSecurityTrustHtml(map)"></div>
+                    <div class="long_description opacity-75 mb-2 mb-sm-5">
+                        <p class="custom-dark">
+                            {{ listing.description }}
+                        </p>
                     </div>
+                    
+                    <hr class="custom-hr-dark">
                 }
 
-                <hr class="custom-hr-dark">
+                @if(listing.address) {
+                    <h3 class="my-4 custom-dark fw-bold">Localização</h3>
+
+                    <div class="col-12 py-2 d-xl-none">
+                        @if (listing.address) {
+                            <div class="custom-dark mb-2 fs-5">
+                                <i class="bi bi-geo-alt-fill me-1"></i>
+                                <span>
+                                    <span *ngIf="listing.address">{{ listing.address }}</span>
+                                    <span *ngIf="listing.city">, {{ listing.city }}</span>
+                                    <span *ngIf="listing.state">, {{ listing.state }}</span>
+                                </span>
+                            </div>
+                        }
+                    </div>
+
+                    @if(listing.map) {
+
+                        <div class="listing_map" #mapContainer>
+                            <div [innerHTML]="domSanitizer.bypassSecurityTrustHtml(map)"></div>
+                        </div>
+                    }
+
+                    <hr class="custom-hr-dark">
+                }
 
                 <!-- Gallery image -->
                 @if(galleryImages.length) {
@@ -112,7 +114,7 @@
                             @for (img of galleryImages; track $index) {
                                 <div class="col-4 col-md-3 p-1 cursor_pointer" (click)="openLightbox($index)"  >
                                     <div class="img-gallery">
-                                        <img [src]="img" alt="Imagem">
+                                        <img [src]="img.imgUrl" alt="Imagem">
                                     </div>
                                 </div>
                             } 
@@ -264,9 +266,19 @@
 
     <ng-template #modalAssessment let-c="close" let-d="dismiss">
         <div class="position-relative banner_assessment mb-5">
-            <img class="img-fluid rounded-top h-100" [src]="listing.coverImage" alt="Imagem de capa">
+
+            @if(listing.coverImage) {
+                <img class="img-fluid rounded-top h-100" [src]="listing.coverImage" alt="Imagem de capa">
+            }
+
             <i class="fs-4 bi bi-x-lg position-absolute close_modal_assessment text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
-            <img class="img-fluid rounded-pill position-absolute logo_assessments" [src]="listing.logoImage" alt="Imagem de logo">
+
+            @if(listing.logoImage) {
+                <img class="img-fluid rounded-pill position-absolute logo_assessments" [src]="listing.logoImage" alt="Imagem de logo">
+            }@else {
+                <img class="img-fluid rounded-pill position-absolute logo_assessments" src="../../../../assets/img/logoDefault.png" alt="Imagem de logo">
+            }
+
             <div class="shadow_img_assessments"></div>
         </div>
 
