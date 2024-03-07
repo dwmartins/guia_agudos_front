@@ -50,6 +50,9 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
 
+	imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
+	imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
+
 	listingId: number = 0;
 	user!: User;
 	listing: Partial<Listing> = {};
@@ -70,7 +73,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 
 	rating: number = 0;
 	formAssessment: FormGroup;
-	assessment: Assessment[] = [];
+	assessments: Assessment[] = [];
 
 	maxLengthComment: number = 130;
 	currentLengthComment: number = 130
@@ -84,6 +87,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		});
 
 		this.ngbRatingConfig.max = 5;
+		this.ngbRatingConfig.readonly = true;
 	}
 
 	ngOnInit(): void {
@@ -102,6 +106,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		})
 
 		this.getListing();
+		this.getAssessments();
 	}
 
 	getListing() {
@@ -122,6 +127,32 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			this.spinnerService.hide();
 			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 		})
+	}
+
+	getAssessments() {
+		this.assessmentService.fetchAll(this.listingId).subscribe((response) => {
+			this.assessments = response;
+			this.getAllAssessment()
+		}, (error) => {
+			this.validErrorsService.validError(error, 'Falha ao buscar as avaliações');
+		})
+	}
+
+	formatDateAssessment(date: string) {
+		const data = new Date(date);
+		const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+		const formattedDate = data.toLocaleDateString('pt-BR', options);
+		return formattedDate;
+	}
+
+	getAllAssessment() {
+		if(!this.assessments.length) {
+			return 0;
+		}
+
+		const sum = this.assessments.reduce((acc, assessment) => acc + assessment.assessment, 0);
+		const result =  sum / this.assessments.length;
+		return result
 	}
 
 	setMap() {
@@ -189,6 +220,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			this.assessmentService.newAssessment(this.formAssessment.value).subscribe((response) => {
 				this.modal.dismissAll(this.modalAssessment);
 				this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');
+				this.getAssessments();
 			},(error) => {
 				this.alertService.showAlert('error', 'Falha ao inserir sua avaliação.');
 				this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.')

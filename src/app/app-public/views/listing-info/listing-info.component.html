@@ -8,26 +8,22 @@
             <div class="container">
                 <div class="row py-4 pt-3 pt-xl-5">
                     <div class="col-12 col-xl-1 rounded d-flex d-xl-block justify-content-center mb-2">
-                        @if (listing.logoImage) {
-                            <img class="img_logo img-fluid rounded-1 border border-3" [src]="listing.logoImage" alt="Imagem de logo">
-                        }@else {
-                            <img class="img_logo img-fluid rounded-1 border border-3" src="../../../../assets/img/logoDefault.png" alt="Imagem de logo">
-                        }
+                        <img class="img_logo img-fluid rounded-1 border border-3" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
                     </div>
                     <div class="col-12 col-xl-7 d-flex flex-column align-items-center align-items-xl-start px-3 text-center text-xl-start">
                         <h2 class="fs-1 text-white fw-semibold">{{ listing.title }}</h2>
                         <p class="fs-6 text-white listing_description">{{ listing.summary }}</p>
-                        <span class="assessments d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
-                            <p class="text-white fw-bold fs-5 mb-0">5,0</p>
-                            <div>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star fs-5"></i>
-                            </div>
-                            <p class="text-white mb-0 ms-2">1 avaliação</p>
-                        </span>
+
+                        @if (assessments.length) {
+                            <span class="assessments d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
+                                <p class="text-white fw-bold fs-5 mb-0">{{ getAllAssessment().toFixed(1) }}</p>
+                                <div>
+                                    <ngb-rating [rate]="getAllAssessment()" class="fs-3 allAssessments"></ngb-rating>
+                                </div>
+                                <p class="text-white mb-0 ms-2">{{ assessments.length }} avaliação</p>
+                            </span>
+                        }
+
                         <div class="d-flex gap-2">
                             <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
                             @if (listing.phone) {
@@ -227,41 +223,41 @@
         </div>
 
         <!-- Reviews -->
-        <div class="row px-3 my-5">
-            <div class="col-12 col-md-8">
-                <p class="text-primary fw-semibold letter-spacing-1 fs-6 p-0 m-0">AVALIAÇÕES</p>
-                <h4 class="custonm-dark fw-bold p-0 mb-5">Lista de avaliações</h4>
+        @if (assessments.length) {
+            <div class="row px-3 my-5">
+                <div class="col-12 col-md-8">
+                    <p class="text-primary fw-semibold letter-spacing-1 fs-6 p-0 m-0">AVALIAÇÕES</p>
+                    <h4 class="custonm-dark fw-bold p-0 mb-5">Lista de avaliações</h4>
 
-                <div class="d-flex">
-                    <div class="d-flex flex-column align-items-center gap-2">
-                        <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
-                        <p class="custom-dark opacity-75 fs-7 text-center">18 de janeiro 2024</p>
-                    </div>
-                    <div class="ms-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">Douglas Martins</h6>
-                            <div class="d-flex justify-content-end gap-3">
-                                <i class="fa-solid fa-trash-can text-danger fs-5"></i>
-                                <i class="fa-solid fa-pen-to-square text-primary fs-5"></i>
+                    @for (assessment of assessments; track $index) {
+                        <div class="d-flex w-100">
+                            <div class="d-flex flex-column align-items-center gap-2">
+                                <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="assessment.photo_url ? assessment.photo_url : imgDefaultUser" alt="Usuário">
+                                <p class="custom-dark opacity-75 fs-7 text-center">{{ formatDateAssessment(assessment.createdAt) }}</p>
+                            </div>
+                            <div class="ms-3 w-100">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">{{ assessment.name }} {{ assessment.lastName }}</h6>
+                                    <div class="d-flex justify-content-end gap-3">
+                                        <i class="fa-solid fa-trash-can text-danger fs-5"></i>
+                                        <i class="fa-solid fa-pen-to-square text-primary fs-5"></i>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="ms-0 user_assessments">
+                                        <ngb-rating [rate]="assessment.assessment" class="fs-4"></ngb-rating>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="custom-dark opacity-75 fs-6">{{ assessment.comment }}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-2">
-                            <div class="ms-0 user_assessments">
-                                <i class="bi bi-star-fill fs-6"></i>
-                                <i class="bi bi-star-fill fs-6"></i>
-                                <i class="bi bi-star-fill fs-6"></i>
-                                <i class="bi bi-star-fill fs-6"></i>
-                                <i class="bi bi-star fs-6"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <p class="custom-dark opacity-75 fs-6">Ótimos profissionais, minha maquina de lavar esta perfeita agora.</p>
-                        </div>
-                    </div>
+                        <hr class="custom-hr-dark">
+                    }
                 </div>
-                <hr class="custom-hr-dark">
-            </div>
-        </div>
+            </div> 
+        }
     </div>
 
     <ng-template #modalAssessment let-c="close" let-d="dismiss">
@@ -285,7 +281,7 @@
         <h5 class="fs-3 custom-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
         <h6 class="fs-4 custom-dark fw-semibold opacity-75 text-center">Sua nota</h6>
         <div class="d-flex justify-content-center user_assessments">
-            <ngb-rating [(rate)]="rating" class="fs-1"></ngb-rating>
+            <ngb-rating [(rate)]="rating" [readonly]="false" class="fs-1"></ngb-rating>
         </div>
         <p *ngIf="notAssessment" class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
 
@@ -303,5 +299,3 @@
     </ng-template>
 </section>
 <app-footer></app-footer>
-
-<!-- <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts> -->

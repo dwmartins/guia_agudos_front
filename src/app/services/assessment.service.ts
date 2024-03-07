@@ -29,7 +29,7 @@ export class AssessmentService {
     return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers});
   }
 
-  fetchAll(status: string | null){
-    return this.httpClient.get<Assessment[] | Responses>
+  fetchAll(listingId: number){
+    return this.httpClient.get<Assessment[]>(`${this.API_URL}/anuncios/avaliacoes?listingId=${listingId}`);
   }
 }

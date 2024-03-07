@@ -1,10 +1,13 @@
 export interface Assessment {
     id: number;
-    listing_id: number;
-    name: string;
-    comment: string;
+    user: number;
+    listing: number;
     assessment: number;
-    active: 'Y' | 'N';
+    comment: string;
     createdAt: string;
     updatedAt: string;
+
+    name: string;
+    lastName: string;
+    photo_url: string;
 }
