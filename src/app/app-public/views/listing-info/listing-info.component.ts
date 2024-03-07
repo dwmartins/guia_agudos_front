@@ -223,7 +223,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 				this.getAssessments();
 			},(error) => {
 				this.alertService.showAlert('error', 'Falha ao inserir sua avaliação.');
-				this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.')
+				this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.');
+				this.modal.dismissAll(this.modalAssessment);
 				console.error('ERROR: ', error);
 			})
 		}
