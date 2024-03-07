@@ -20,7 +20,11 @@
                                 <div>
                                     <ngb-rating [rate]="getAllAssessment()" class="fs-3 allAssessments"></ngb-rating>
                                 </div>
-                                <p class="text-white mb-0 ms-2">{{ assessments.length }} avaliação</p>
+                                @if (assessments.length == 1) {
+                                    <p class="text-white mb-0 ms-2">{{ assessments.length }} avaliação</p>
+                                }@else {
+                                    <p class="text-white mb-0 ms-2">{{ assessments.length }} avaliações</p>
+                                }
                             </span>
                         }
 
@@ -238,10 +242,13 @@
                             <div class="ms-3 w-100">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">{{ assessment.name }} {{ assessment.lastName }}</h6>
-                                    <div class="d-flex justify-content-end gap-3">
-                                        <i class="fa-solid fa-trash-can text-danger fs-5"></i>
-                                        <i class="fa-solid fa-pen-to-square text-primary fs-5"></i>
-                                    </div>
+
+                                    @if(user.id === assessment.user) {
+                                        <div class="d-flex justify-content-end gap-3">
+                                            <i class="fa-solid fa-trash-can text-danger cursor_pointer fs-5"></i>
+                                            <i class="fa-solid fa-pen-to-square text-primary cursor_pointer fs-5"></i>
+                                        </div>
+                                    }
                                 </div>
                                 <div class="mb-2">
                                     <div class="ms-0 user_assessments">
@@ -269,11 +276,7 @@
 
             <i class="fs-4 bi bi-x-lg position-absolute close_modal_assessment text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
 
-            @if(listing.logoImage) {
-                <img class="img-fluid rounded-pill position-absolute logo_assessments" [src]="listing.logoImage" alt="Imagem de logo">
-            }@else {
-                <img class="img-fluid rounded-pill position-absolute logo_assessments" src="../../../../assets/img/logoDefault.png" alt="Imagem de logo">
-            }
+            <img class="img-fluid rounded-pill position-absolute logo_assessments" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
 
             <div class="shadow_img_assessments"></div>
         </div>
