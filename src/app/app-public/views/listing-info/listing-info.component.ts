@@ -259,7 +259,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		} else {
 			if(this.formReview.valid) {
 				this.spinnerReview = true;
-				this.reviewService.newAssessment(this.formReview.value).subscribe((response) => {
+				this.reviewService.newReview(this.formReview.value).subscribe((response) => {
 					this.spinnerReview = false;
 					this.modal.dismissAll(this.modalReview);
 					this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');

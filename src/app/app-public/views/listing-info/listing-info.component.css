@@ -23,7 +23,7 @@
     -webkit-line-clamp: 2;
 }
 
-.user_assessments, .allAssessments {
+.user_reviews, .allReviews {
     color: #f5f50c;
 }
 
@@ -60,11 +60,11 @@
     max-width: 70px;
 }
 
-.banner_assessment {
+.banner_reviews {
     height: 130px;
 }
 
-.shadow_img_assessments {
+.shadow_img_reviews {
     position: absolute;
     z-index: 2;
     width: 100%;
@@ -74,13 +74,13 @@
     box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.603);
 }
 
-.close_modal_assessment {
+.close_modal_review {
     top: 8px;
     right: 8px;
     z-index: 3;
 }
 
-.logo_assessments {
+.logo_reviews {
     width: 120px;
     top: 40px;
     left: 50%;
@@ -123,6 +123,6 @@
     border: 10px solid red !important;
 }
 
-#modal_delete_assessment .fa-triangle-exclamation{
+#modal_delete_review .fa-triangle-exclamation{
     font-size: 40px;
 }

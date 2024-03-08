@@ -17,7 +17,7 @@ export class ReviewService {
 
   constructor() { }
 
-  newAssessment(review: Review) {
+  newReview(review: Review) {
     const user = this.authService.getUserLogged() || {} as User;
 
     const headers = new HttpHeaders({
@@ -43,7 +43,7 @@ export class ReviewService {
     return this.httpClient.get<Review[]>(`${this.API_URL}/anuncios/avaliacoes?listingId=${listingId}`);
   }
 
-  delete(assessmentId: number) {
+  delete(reviewId: number) {
     const user = this.authService.getUserLogged() || {} as User;
 
     const headers = new HttpHeaders({
@@ -51,6 +51,6 @@ export class ReviewService {
       'token': user.token
     }); 
 
-    return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/avaliacoes/${assessmentId}`, {headers: headers});
+    return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/avaliacoes/${reviewId}`, {headers: headers});
   }
 }

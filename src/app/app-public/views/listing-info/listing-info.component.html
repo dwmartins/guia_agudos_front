@@ -15,10 +15,10 @@
                         <p class="fs-6 text-white listing_description">{{ listing.summary }}</p>
 
                         @if (reviews.length) {
-                            <span class="assessments d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
+                            <span class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
                                 <p class="text-white fw-bold fs-5 mb-0">{{ getAllRating().toFixed(1) }}</p>
                                 <div>
-                                    <ngb-rating [rate]="getAllRating()" class="fs-3 allAssessments"></ngb-rating>
+                                    <ngb-rating [rate]="getAllRating()" class="fs-3 allReviews"></ngb-rating>
                                 </div>
                                 @if (reviews.length == 1) {
                                     <p class="text-white mb-0 ms-2">{{ reviews.length }} avaliação</p>
@@ -249,30 +249,30 @@
                     <p class="text-primary fw-semibold letter-spacing-1 fs-6 p-0 m-0">AVALIAÇÕES</p>
                     <h4 class="custonm-dark fw-bold p-0 mb-5">Lista de avaliações</h4>
 
-                    @for (assessment of reviews; track $index) {
+                    @for (review of reviews; track $index) {
                         <div class="d-flex w-100">
                             <div class="d-flex flex-column align-items-center gap-2">
-                                <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="assessment.photo_url ? assessment.photo_url : imgDefaultUser" alt="Usuário">
-                                <p class="custom-dark opacity-75 fs-7 text-center">{{ formatDateAssessment(assessment.createdAt) }}</p>
+                                <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="review.photo_url ? review.photo_url : imgDefaultUser" alt="Usuário">
+                                <p class="custom-dark opacity-75 fs-7 text-center">{{ formatDateAssessment(review.createdAt) }}</p>
                             </div>
                             <div class="ms-3 w-100">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">{{ assessment.name }} {{ assessment.lastName }}</h6>
+                                    <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">{{ review.name }} {{ review.lastName }}</h6>
 
-                                    @if(user.id === assessment.user) {
+                                    @if(user.id === review.user) {
                                         <div class="d-flex justify-content-end gap-3">
-                                            <i (click)="openModalDeleteReview(assessment)" class="fa-solid fa-trash-can text-danger cursor_pointer fs-5"></i>
-                                            <i (click)="openModalEditingReview(assessment)" class="fa-solid fa-pen-to-square text-primary cursor_pointer fs-5"></i>
+                                            <i (click)="openModalDeleteReview(review)" class="fa-solid fa-trash-can text-danger cursor_pointer fs-5"></i>
+                                            <i (click)="openModalEditingReview(review)" class="fa-solid fa-pen-to-square text-primary cursor_pointer fs-5"></i>
                                         </div>
                                     }
                                 </div>
                                 <div class="mb-2">
-                                    <div class="ms-0 user_assessments">
-                                        <ngb-rating [rate]="assessment.review" class="fs-4"></ngb-rating>
+                                    <div class="ms-0 user_reviews">
+                                        <ngb-rating [rate]="review.review" class="fs-4"></ngb-rating>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="custom-dark opacity-75 fs-6">{{ assessment.comment }}</p>
+                                    <p class="custom-dark opacity-75 fs-6">{{ review.comment }}</p>
                                 </div>
                             </div>
                         </div>
@@ -284,22 +284,22 @@
     </div>
 
     <ng-template #modalReview let-c="close" let-d="dismiss">
-        <div class="position-relative banner_assessment mb-5">
+        <div class="position-relative banner_reviews mb-5">
 
             @if(listing.coverImage) {
                 <img class="img-fluid rounded-top h-100" [src]="listing.coverImage" alt="Imagem de capa">
             }
 
-            <i class="fs-4 bi bi-x-lg position-absolute close_modal_assessment text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
+            <i class="fs-4 bi bi-x-lg position-absolute close_modal_review text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
 
-            <img class="img-fluid rounded-pill position-absolute logo_assessments" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
+            <img class="img-fluid rounded-pill position-absolute logo_reviews" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
 
-            <div class="shadow_img_assessments"></div>
+            <div class="shadow_img_reviews"></div>
         </div>
 
         <h5 class="fs-3 custom-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
         <h6 class="fs-4 custom-dark fw-semibold opacity-75 text-center">Sua nota</h6>
-        <div class="d-flex justify-content-center user_assessments">
+        <div class="d-flex justify-content-center user_reviews">
             <ngb-rating [(rate)]="rating" [readonly]="false" class="fs-1"></ngb-rating>
         </div>
 
@@ -338,7 +338,7 @@
     </ng-template>
 
     <ng-template #modalDeleteReview let-c="close" let-d="dismiss">
-        <div class="p-3" id="modal_delete_assessment">
+        <div class="p-3" id="modal_delete_review">
             <div class="d-flex gap-4">
                 <div class="pt-2">
                     <i class="fa-solid fa-triangle-exclamation text-danger"></i>
