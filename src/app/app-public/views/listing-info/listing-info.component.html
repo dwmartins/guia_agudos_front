@@ -46,9 +46,17 @@
                             <div class="text-white mb-3">
                                 <i class="bi bi-geo-alt-fill fs-5 me-1"></i>
                                 <span class="fs-5">
-                                    <span *ngIf="listing.address">{{ listing.address }}</span>
-                                    <span *ngIf="listing.city">, {{ listing.city }}</span>
-                                    <span *ngIf="listing.state">, {{ listing.state }}</span>
+                                    @if(listing.address) {
+                                        <span>{{ listing.address }}</span>
+                                    }
+
+                                    @if(listing.city) {
+                                        <span>, {{ listing.city }}</span>
+                                    }
+
+                                    @if(listing.state) {
+                                        <span>, {{ listing.state }}</span>
+                                    }
                                 </span>
                             </div>
                         }
@@ -87,9 +95,17 @@
                             <div class="custom-dark mb-2 fs-5">
                                 <i class="bi bi-geo-alt-fill me-1"></i>
                                 <span>
-                                    <span *ngIf="listing.address">{{ listing.address }}</span>
-                                    <span *ngIf="listing.city">, {{ listing.city }}</span>
-                                    <span *ngIf="listing.state">, {{ listing.state }}</span>
+                                    @if(listing.address) {
+                                        <span>{{ listing.address }}</span>
+                                    }
+
+                                    @if(listing.city) {
+                                        <span>, {{ listing.city }}</span>
+                                    }
+
+                                    @if(listing.state) {
+                                        <span>, {{ listing.state }}</span>
+                                    }
                                 </span>
                             </div>
                         }
@@ -286,14 +302,21 @@
         <div class="d-flex justify-content-center user_assessments">
             <ngb-rating [(rate)]="rating" [readonly]="false" class="fs-1"></ngb-rating>
         </div>
-        <p *ngIf="notAssessment" class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
+
+        @if(notAssessment) {
+            <p class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
+        }
 
         <form [formGroup]="formAssessment" (ngSubmit)="submitAssessment()" class="p-4">
             <textarea maxlength="130" (input)="countCaracterComment()" #commentAssessment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched}"></textarea>
             <p class="mt-1 fw-semibold opacity-50 custom-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
-            <div *ngIf="formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched" class="text-danger fw-semibold opacity-75">
-                Digite seu comentário.
-            </div>
+
+            @if(formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched) {
+                <div class="text-danger fw-semibold opacity-75">
+                    Digite seu comentário.
+                </div>
+            }
+            
             <div class="d-flex gap-2 justify-content-center mt-3">
                 <button class="btn btn-primary rounded-1 fw-semibold" [disabled]="spinnerNewAssessments">
                     @if(!spinnerNewAssessments){ 
