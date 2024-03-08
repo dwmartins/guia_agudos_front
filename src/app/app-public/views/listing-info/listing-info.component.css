@@ -122,3 +122,7 @@
     height: 300px !important;
     border: 10px solid red !important;
 }
+
+#modal_delete_assessment .fa-triangle-exclamation{
+    font-size: 40px;
+}

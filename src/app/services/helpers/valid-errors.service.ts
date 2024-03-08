@@ -12,6 +12,8 @@ export class ValidErrorsService {
     constructor() { }
 
     validError(error: any, msg: string = '') {
+        console.error('ERROR: ', error);
+        
         if (error.status === 401) {
             if (error.error.expiredToken) {
                 this.alertService.showAlert('info', 'Sua seção expirou, realize o login novamente.');

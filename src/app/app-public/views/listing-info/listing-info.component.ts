@@ -49,6 +49,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	
 	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
 	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
+	@ViewChild('modalAssessmentDelete', {static: true}) modalAssessmentDelete!: ElementRef;
 
 	imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
 	imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
@@ -74,6 +75,9 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	rating: number = 0;
 	formAssessment: FormGroup;
 	assessments: Assessment[] = [];
+	assessmentsDelete: Partial<Assessment> = {}
+	spinnerNewAssessments: boolean = false;
+	spinnerDeleteAssessments: boolean = false;
 
 	maxLengthComment: number = 130;
 	currentLengthComment: number = 130
@@ -216,18 +220,47 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			assessment: this.rating
 		});
 
+		this.spinnerNewAssessments = true;
 		if(this.formAssessment.valid) {
 			this.assessmentService.newAssessment(this.formAssessment.value).subscribe((response) => {
+				this.spinnerNewAssessments = false;
 				this.modal.dismissAll(this.modalAssessment);
 				this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');
 				this.getAssessments();
 			},(error) => {
-				this.alertService.showAlert('error', 'Falha ao inserir sua avaliação.');
+				this.spinnerNewAssessments = false;
 				this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.');
 				this.modal.dismissAll(this.modalAssessment);
-				console.error('ERROR: ', error);
 			})
 		}
+	}
+
+	openModalUserAssessmentDelete(assessment: Assessment) {
+		this.assessmentsDelete = assessment;
+		this.modal.open(this.modalAssessmentDelete, {centered: true});
+	}
+
+	deleteAssessment() {
+		if(this.assessmentsDelete.user !== this.user.id) {
+			this.alertService.showAlert('info', 'Esta avaliação não pertence a você.');
+			return
+		}
+
+		this.spinnerService.show("Deletando avaliação, aguarde...");
+		this.assessmentService.delete(this.assessmentsDelete.id!).subscribe((response) => {
+			this.spinnerService.hide();
+			this.getAssessments();
+
+			if(response.success) {
+				this.alertService.showAlert('success', 'Avaliação excluída com sucesso.');
+				this.modal.dismissAll(this.modalAssessmentDelete);
+				return;
+			}
+		}, (error) => {
+			this.spinnerService.hide();
+			this.validErrorsService.validError(error, 'Falha ao deletar a sua avaliação.');
+			this.modal.dismissAll(this.modalAssessmentDelete);
+		});
 	}
 
 	cleanFormAssessment() {

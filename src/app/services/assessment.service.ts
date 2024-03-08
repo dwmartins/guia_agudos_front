@@ -15,21 +15,26 @@ export class AssessmentService {
 
   private API_URL = environment.API_URL;
   user: User;
+  headers: HttpHeaders;
 
   constructor() { 
     this.user = this.authService.getUserLogged() || {} as User;
+
+    this.headers = new HttpHeaders({
+      'user_id': this.user.id,
+      'token': this.user.token
+    }); 
   }
 
   newAssessment(assessment: Assessment) {
-    const headers = new HttpHeaders({
-      'user_id': this.user.id,
-      'token': this.user.token
-    });
-
-    return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers});
+    return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers: this.headers});
   }
 
   fetchAll(listingId: number){
     return this.httpClient.get<Assessment[]>(`${this.API_URL}/anuncios/avaliacoes?listingId=${listingId}`);
+  }
+
+  delete(assessmentId: number) {
+    return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/avaliacoes/${assessmentId}`, {headers: this.headers});
   }
 }
