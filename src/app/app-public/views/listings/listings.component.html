@@ -86,7 +86,7 @@
                                     @if (listing.email) {
                                         <div class="text-dark d-flex">
                                             <i class="bi bi-envelope me-2 fs-6"></i>
-                                            <span class="fw-light text-break custom-subtitle-dark">{{ listing.email }}</span>
+                                            <a href="mailto:{{listing.email}}" class="fw-light text-break custom-subtitle-dark link_outline_none">{{ listing.email }}</a>
                                         </div>
                                     }
     
