@@ -14,20 +14,18 @@ export class AssessmentService {
   authService = inject(AuthService);
 
   private API_URL = environment.API_URL;
-  user: User;
-  headers: HttpHeaders;
 
-  constructor() { 
-    this.user = this.authService.getUserLogged() || {} as User;
-
-    this.headers = new HttpHeaders({
-      'user_id': this.user.id,
-      'token': this.user.token
-    }); 
-  }
+  constructor() { }
 
   newAssessment(assessment: Assessment) {
-    return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers: this.headers});
+    const user = this.authService.getUserLogged() || {} as User;
+
+    const headers = new HttpHeaders({
+      'user_id': user.id,
+      'token': user.token
+    }); 
+
+    return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers: headers});
   }
 
   fetchAll(listingId: number){
@@ -35,6 +33,13 @@ export class AssessmentService {
   }
 
   delete(assessmentId: number) {
-    return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/avaliacoes/${assessmentId}`, {headers: this.headers});
+    const user = this.authService.getUserLogged() || {} as User;
+
+    const headers = new HttpHeaders({
+      'user_id': user.id,
+      'token': user.token
+    }); 
+
+    return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/avaliacoes/${assessmentId}`, {headers: headers});
   }
 }
