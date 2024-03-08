@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Assessment } from '../models/Assessment';
+import { Review } from '../models/Review';
 import { Responses } from '../models/Responses';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
@@ -17,7 +17,7 @@ export class ReviewService {
 
   constructor() { }
 
-  newAssessment(assessment: Assessment) {
+  newAssessment(review: Review) {
     const user = this.authService.getUserLogged() || {} as User;
 
     const headers = new HttpHeaders({
@@ -25,10 +25,10 @@ export class ReviewService {
       'token': user.token
     }); 
 
-    return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers: headers});
+    return this.httpClient.post<Review | Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
   }
 
-  updateReview(review: Assessment) {
+  updateReview(review: Review) {
     const user = this.authService.getUserLogged() || {} as User;
 
     const headers = new HttpHeaders({
@@ -36,11 +36,11 @@ export class ReviewService {
       'token': user.token
     }); 
 
-    return this.httpClient.put<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
+    return this.httpClient.put<Review | Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
   }
 
   fetchAll(listingId: number){
-    return this.httpClient.get<Assessment[]>(`${this.API_URL}/anuncios/avaliacoes?listingId=${listingId}`);
+    return this.httpClient.get<Review[]>(`${this.API_URL}/anuncios/avaliacoes?listingId=${listingId}`);
   }
 
   delete(assessmentId: number) {

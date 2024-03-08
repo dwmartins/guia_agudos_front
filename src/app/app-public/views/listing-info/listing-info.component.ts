@@ -7,7 +7,7 @@ import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-boo
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
 import { ReviewService } from '../../../services/Review.service';
 import { User } from '../../../models/user';
-import { Assessment } from '../../../models/Assessment';
+import { Review } from '../../../models/Review';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ListingService } from '../../../services/listing.service';
@@ -74,8 +74,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 
 	rating: number = 0;
 	formReview: FormGroup;
-	reviews: Assessment[] = [];
-	reviewToDelete: Partial<Assessment> = {}
+	reviews: Review[] = [];
+	reviewToDelete: Partial<Review> = {}
 	spinnerReview: boolean = false;
 	spinnerDeleteReview: boolean = false;
 
@@ -88,7 +88,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			listing: [0],
 			user: [''],
 			comment: ['', [Validators.required]],
-			assessment: [0]
+			review: [0]
 		});
 
 		this.ngbRatingConfig.max = 5;
@@ -154,7 +154,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			return 0;
 		}
 
-		const sum = this.reviews.reduce((acc, assessment) => acc + assessment.assessment, 0);
+		const sum = this.reviews.reduce((acc, review) => acc + review.review, 0);
 		const result =  sum / this.reviews.length;
 		return result
 	}
@@ -211,17 +211,17 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		}
 	}
 
-	openModalEditingReview(review: Assessment) {
+	openModalEditingReview(review: Review) {
 		this.notReview = false;
 		this.editingReview = true;
-		this.rating = review.assessment;
+		this.rating = review.review;
 		
 		this.formReview.patchValue({
 			id: review.id,
 			listing: this.listingId,
 			user: this.user.id,
 			comment: review.comment,
-			assessment: review.assessment
+			review: review.review
 		});
 
 		this.modal.open(this.modalReview, {centered: true});
@@ -237,7 +237,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		this.formReview.patchValue({
 			listing: this.listingId,
 			user: this.user.id,
-			assessment: this.rating
+			review: this.rating
 		});
 
 		if(this.editingReview) {
@@ -273,8 +273,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		}
 	}
 
-	openModalDeleteReview(assessment: Assessment) {
-		this.reviewToDelete = assessment;
+	openModalDeleteReview(review: Review) {
+		this.reviewToDelete = review;
 		this.modal.open(this.modalDeleteReview, {centered: true});
 	}
 
@@ -303,7 +303,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	cleanFormReview() {
 		this.formReview.reset({
 		  comment: '',
-		  assessment: ''
+		  review: ''
 		});
 
 		this.notReview = false;

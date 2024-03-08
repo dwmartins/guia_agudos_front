@@ -1,8 +1,8 @@
-export interface Assessment {
+export interface Review {
     id: number;
     user: number;
     listing: number;
-    assessment: number;
+    review: number;
     comment: string;
     createdAt: string;
     updatedAt: string;
