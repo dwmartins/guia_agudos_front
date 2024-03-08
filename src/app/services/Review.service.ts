@@ -9,7 +9,7 @@ import { User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class AssessmentService {
+export class ReviewService {
   httpClient  = inject(HttpClient);
   authService = inject(AuthService);
 
@@ -26,6 +26,17 @@ export class AssessmentService {
     }); 
 
     return this.httpClient.post<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, assessment, {headers: headers});
+  }
+
+  updateReview(review: Assessment) {
+    const user = this.authService.getUserLogged() || {} as User;
+
+    const headers = new HttpHeaders({
+      'user_id': user.id,
+      'token': user.token
+    }); 
+
+    return this.httpClient.put<Assessment | Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
   }
 
   fetchAll(listingId: number){

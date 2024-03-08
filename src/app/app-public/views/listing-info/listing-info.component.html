@@ -14,22 +14,22 @@
                         <h2 class="fs-1 text-white fw-semibold">{{ listing.title }}</h2>
                         <p class="fs-6 text-white listing_description">{{ listing.summary }}</p>
 
-                        @if (assessments.length) {
+                        @if (reviews.length) {
                             <span class="assessments d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
-                                <p class="text-white fw-bold fs-5 mb-0">{{ getAllAssessment().toFixed(1) }}</p>
+                                <p class="text-white fw-bold fs-5 mb-0">{{ getAllRating().toFixed(1) }}</p>
                                 <div>
-                                    <ngb-rating [rate]="getAllAssessment()" class="fs-3 allAssessments"></ngb-rating>
+                                    <ngb-rating [rate]="getAllRating()" class="fs-3 allAssessments"></ngb-rating>
                                 </div>
-                                @if (assessments.length == 1) {
-                                    <p class="text-white mb-0 ms-2">{{ assessments.length }} avaliação</p>
+                                @if (reviews.length == 1) {
+                                    <p class="text-white mb-0 ms-2">{{ reviews.length }} avaliação</p>
                                 }@else {
-                                    <p class="text-white mb-0 ms-2">{{ assessments.length }} avaliações</p>
+                                    <p class="text-white mb-0 ms-2">{{ reviews.length }} avaliações</p>
                                 }
                             </span>
                         }
 
                         <div class="d-flex gap-2">
-                            <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
+                            <button (click)="OpenModalNewReview()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
                             @if (listing.phone) {
                                 <a href="https://wa.me/{{listing.phone}}" class="btn text-white border rounded-1 fw-semibold" target="_blank"><i class="bi bi-whatsapp me-2"></i>Contato</a>
                             }
@@ -243,13 +243,13 @@
         </div>
 
         <!-- Reviews -->
-        @if (assessments.length) {
+        @if (reviews.length) {
             <div class="row px-3 my-5">
                 <div class="col-12 col-md-8">
                     <p class="text-primary fw-semibold letter-spacing-1 fs-6 p-0 m-0">AVALIAÇÕES</p>
                     <h4 class="custonm-dark fw-bold p-0 mb-5">Lista de avaliações</h4>
 
-                    @for (assessment of assessments; track $index) {
+                    @for (assessment of reviews; track $index) {
                         <div class="d-flex w-100">
                             <div class="d-flex flex-column align-items-center gap-2">
                                 <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="assessment.photo_url ? assessment.photo_url : imgDefaultUser" alt="Usuário">
@@ -261,8 +261,8 @@
 
                                     @if(user.id === assessment.user) {
                                         <div class="d-flex justify-content-end gap-3">
-                                            <i (click)="openModalUserAssessmentDelete(assessment)" class="fa-solid fa-trash-can text-danger cursor_pointer fs-5"></i>
-                                            <i class="fa-solid fa-pen-to-square text-primary cursor_pointer fs-5"></i>
+                                            <i (click)="openModalDeleteReview(assessment)" class="fa-solid fa-trash-can text-danger cursor_pointer fs-5"></i>
+                                            <i (click)="openModalEditingReview(assessment)" class="fa-solid fa-pen-to-square text-primary cursor_pointer fs-5"></i>
                                         </div>
                                     }
                                 </div>
@@ -283,7 +283,7 @@
         }
     </div>
 
-    <ng-template #modalAssessment let-c="close" let-d="dismiss">
+    <ng-template #modalReview let-c="close" let-d="dismiss">
         <div class="position-relative banner_assessment mb-5">
 
             @if(listing.coverImage) {
@@ -303,24 +303,28 @@
             <ngb-rating [(rate)]="rating" [readonly]="false" class="fs-1"></ngb-rating>
         </div>
 
-        @if(notAssessment) {
+        @if(notReview) {
             <p class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
         }
 
-        <form [formGroup]="formAssessment" (ngSubmit)="submitAssessment()" class="p-4">
-            <textarea maxlength="130" (input)="countCaracterComment()" #commentAssessment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched}"></textarea>
+        <form [formGroup]="formReview" (ngSubmit)="submitReview()" class="p-4">
+            <textarea [maxlength]="maxLengthComment" (input)="countCaracterComment()" #reviewComment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formReview.get('comment')?.invalid && formReview.get('comment')?.touched}"></textarea>
             <p class="mt-1 fw-semibold opacity-50 custom-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
 
-            @if(formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched) {
+            @if(formReview.get('comment')?.invalid && formReview.get('comment')?.touched) {
                 <div class="text-danger fw-semibold opacity-75">
                     Digite seu comentário.
                 </div>
             }
             
             <div class="d-flex gap-2 justify-content-center mt-3">
-                <button class="btn btn-primary rounded-1 fw-semibold" [disabled]="spinnerNewAssessments">
-                    @if(!spinnerNewAssessments){ 
-                        <span>Enviar</span>
+                <button class="btn btn-primary rounded-1 fw-semibold" [disabled]="spinnerReview">
+                    @if(!spinnerReview){ 
+                        @if(editingReview) {
+                            <span>Atualizar</span>
+                        } @else {
+                            <span>Enviar</span>
+                        }
                     }@else {
                         <div class="d-flex gap-2">
                             <div class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status"></div>
@@ -333,7 +337,7 @@
         </form>
     </ng-template>
 
-    <ng-template #modalAssessmentDelete let-c="close" let-d="dismiss">
+    <ng-template #modalDeleteReview let-c="close" let-d="dismiss">
         <div class="p-3" id="modal_delete_assessment">
             <div class="d-flex gap-4">
                 <div class="pt-2">
@@ -346,8 +350,8 @@
             </div>
             <div class="d-flex justify-content-end gap-2">
                 <button type="button" class="btn border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
-                <button type="button" class="btn btn-danger" (click)="deleteAssessment()" [disabled]="spinnerDeleteAssessments">
-                    @if (!spinnerDeleteAssessments) {
+                <button type="button" class="btn btn-danger" (click)="deleteReview()" [disabled]="spinnerDeleteReview">
+                    @if (!spinnerDeleteReview) {
                         <span>Excluir</span>
                     }@else {
                         <div class="d-flex gap-2">

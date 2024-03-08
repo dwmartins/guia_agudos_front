@@ -5,7 +5,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
-import { AssessmentService } from '../../../services/assessment.service';
+import { ReviewService } from '../../../services/Review.service';
 import { User } from '../../../models/user';
 import { Assessment } from '../../../models/Assessment';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
@@ -38,7 +38,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	lightbox 				= inject(Lightbox);
 	modal 					= inject(NgbModal);
 	formBuilder 			= inject(FormBuilder);
-	assessmentService 		= inject(AssessmentService);
+	reviewService 			= inject(ReviewService);
 	listingService 			= inject(ListingService);
 	validErrorsService  	= inject(ValidErrorsService);
 	alertService 			= inject(AlertService);
@@ -47,9 +47,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	domSanitizer			= inject(DomSanitizer);
 	ngbRatingConfig			= inject(NgbRatingConfig);
 	
-	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
-	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
-	@ViewChild('modalAssessmentDelete', {static: true}) modalAssessmentDelete!: ElementRef;
+	@ViewChild('modalReview', {static: true}) modalReview!: ElementRef;
+	@ViewChild('modalDeleteReview', {static: true}) modalDeleteReview!: ElementRef;
 
 	imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
 	imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
@@ -70,20 +69,22 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
   	totalStars: number = 5;
   	currentIcon: string = 'bi-star';
   	hoverIcon: string = 'bi-star-fill';
-	notAssessment!: boolean;
+	notReview!: boolean;
+	editingReview: boolean = false;
 
 	rating: number = 0;
-	formAssessment: FormGroup;
-	assessments: Assessment[] = [];
-	assessmentsDelete: Partial<Assessment> = {}
-	spinnerNewAssessments: boolean = false;
-	spinnerDeleteAssessments: boolean = false;
+	formReview: FormGroup;
+	reviews: Assessment[] = [];
+	reviewToDelete: Partial<Assessment> = {}
+	spinnerReview: boolean = false;
+	spinnerDeleteReview: boolean = false;
 
 	maxLengthComment: number = 130;
 	currentLengthComment: number = 130
 
 	constructor() {
-		this.formAssessment = this.formBuilder.group({
+		this.formReview = this.formBuilder.group({
+			id: [0],
 			listing: [0],
 			user: [''],
 			comment: ['', [Validators.required]],
@@ -110,7 +111,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		})
 
 		this.getListing();
-		this.getAssessments();
+		this.getReviews();
 	}
 
 	getListing() {
@@ -133,10 +134,9 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		})
 	}
 
-	getAssessments() {
-		this.assessmentService.fetchAll(this.listingId).subscribe((response) => {
-			this.assessments = response;
-			this.getAllAssessment()
+	getReviews() {
+		this.reviewService.fetchAll(this.listingId).subscribe((response) => {
+			this.reviews = response;
 		}, (error) => {
 			this.validErrorsService.validError(error, 'Falha ao buscar as avaliações');
 		})
@@ -149,13 +149,13 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		return formattedDate;
 	}
 
-	getAllAssessment() {
-		if(!this.assessments.length) {
+	getAllRating() {
+		if(!this.reviews.length) {
 			return 0;
 		}
 
-		const sum = this.assessments.reduce((acc, assessment) => acc + assessment.assessment, 0);
-		const result =  sum / this.assessments.length;
+		const sum = this.reviews.reduce((acc, assessment) => acc + assessment.assessment, 0);
+		const result =  sum / this.reviews.length;
 		return result
 	}
 
@@ -191,10 +191,13 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		this.lightbox.open(album, index);
 	}  
 	
-	OpenModalUserAssessment() {
+	OpenModalNewReview() {
+		this.notReview = false;
+		this.editingReview = false;
+		this.rating = 0;
 		if(this.authService.getUserLogged()) {
-			this.cleanFormAssessment();
-			this.modal.open(this.modalAssessment, {centered: true});
+			this.cleanFormReview();
+			this.modal.open(this.modalReview, {centered: true});
 		} else {
 			this.alertService.showAlert('info', 'Você precisa realizar o login para avaliar.');
 
@@ -208,68 +211,102 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		}
 	}
 
-	submitAssessment() {
+	openModalEditingReview(review: Assessment) {
+		this.notReview = false;
+		this.editingReview = true;
+		this.rating = review.assessment;
+		
+		this.formReview.patchValue({
+			id: review.id,
+			listing: this.listingId,
+			user: this.user.id,
+			comment: review.comment,
+			assessment: review.assessment
+		});
+
+		this.modal.open(this.modalReview, {centered: true});
+		this.countCaracterComment();
+	}
+
+	submitReview() {
 		if(!this.rating) {
-			this.notAssessment = true;
+			this.notReview = true;
 			return;
 		}
 
-		this.formAssessment.patchValue({
+		this.formReview.patchValue({
 			listing: this.listingId,
 			user: this.user.id,
 			assessment: this.rating
 		});
 
-		this.spinnerNewAssessments = true;
-		if(this.formAssessment.valid) {
-			this.assessmentService.newAssessment(this.formAssessment.value).subscribe((response) => {
-				this.spinnerNewAssessments = false;
-				this.modal.dismissAll(this.modalAssessment);
-				this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');
-				this.getAssessments();
-			},(error) => {
-				this.spinnerNewAssessments = false;
-				this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.');
-				this.modal.dismissAll(this.modalAssessment);
-			})
+		if(this.editingReview) {
+			if(this.formReview.valid) {
+				this.spinnerReview = true;
+				this.reviewService.updateReview(this.formReview.value).subscribe((response) => {
+					this.spinnerReview = false;
+					this.modal.dismissAll(this.modalReview);
+					this.alertService.showAlert('success', 'Avaliação atualizada com sucesso.');
+					this.getReviews();
+					return;
+				}, (error) => {
+					this.spinnerReview = false;
+					this.validErrorsService.validError(error, 'Falha ao atualizar sua avaliação.');
+					this.modal.dismissAll(this.modalReview);
+					return;
+				});
+			}
+		} else {
+			if(this.formReview.valid) {
+				this.spinnerReview = true;
+				this.reviewService.newAssessment(this.formReview.value).subscribe((response) => {
+					this.spinnerReview = false;
+					this.modal.dismissAll(this.modalReview);
+					this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');
+					this.getReviews();
+				},(error) => {
+					this.spinnerReview = false;
+					this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.');
+					this.modal.dismissAll(this.modalReview);
+				});
+			}
 		}
 	}
 
-	openModalUserAssessmentDelete(assessment: Assessment) {
-		this.assessmentsDelete = assessment;
-		this.modal.open(this.modalAssessmentDelete, {centered: true});
+	openModalDeleteReview(assessment: Assessment) {
+		this.reviewToDelete = assessment;
+		this.modal.open(this.modalDeleteReview, {centered: true});
 	}
 
-	deleteAssessment() {
-		if(this.assessmentsDelete.user !== this.user.id) {
+	deleteReview() {
+		if(this.reviewToDelete.user !== this.user.id) {
 			this.alertService.showAlert('info', 'Esta avaliação não pertence a você.');
 			return
 		}
-
-		this.spinnerService.show("Deletando avaliação, aguarde...");
-		this.assessmentService.delete(this.assessmentsDelete.id!).subscribe((response) => {
-			this.spinnerService.hide();
-			this.getAssessments();
+		this.spinnerDeleteReview = true;
+		this.reviewService.delete(this.reviewToDelete.id!).subscribe((response) => {
+			this.spinnerDeleteReview = false;
+			this.getReviews();
 
 			if(response.success) {
 				this.alertService.showAlert('success', 'Avaliação excluída com sucesso.');
-				this.modal.dismissAll(this.modalAssessmentDelete);
+				this.modal.dismissAll(this.modalDeleteReview);
 				return;
 			}
 		}, (error) => {
-			this.spinnerService.hide();
+			this.spinnerDeleteReview = false;
 			this.validErrorsService.validError(error, 'Falha ao deletar a sua avaliação.');
-			this.modal.dismissAll(this.modalAssessmentDelete);
+			this.modal.dismissAll(this.modalDeleteReview);
 		});
 	}
 
-	cleanFormAssessment() {
-		this.formAssessment.reset({
+	cleanFormReview() {
+		this.formReview.reset({
 		  comment: '',
 		  assessment: ''
 		});
 
-		this.notAssessment = false;
+		this.notReview = false;
 		this.rating = 0;
 	}
 
@@ -283,7 +320,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	countCaracterComment() {
-		const currentLength = this.formAssessment.value.comment.length;
+		const currentLength = this.formReview.value.comment.length;
 		this.currentLengthComment = Math.max(0, this.maxLengthComment - currentLength);
 	}
 
