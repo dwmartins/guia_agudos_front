@@ -21,6 +21,7 @@ import { GlobalVariablesService } from '../../../services/helpers/global-variabl
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { OpeningHours } from '../../../models/OpeningHours';
 import { AuthService } from '../../../services/auth.service';
+import { DateService } from '../../../services/helpers/date.service';
 
 @Component({
   	selector: 'app-listing-info',
@@ -46,6 +47,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	spinnerService          = inject(SpinnerService);
 	domSanitizer			= inject(DomSanitizer);
 	ngbRatingConfig			= inject(NgbRatingConfig);
+	dateService 			= inject(DateService);
 	
 	@ViewChild('modalReview', {static: true}) modalReview!: ElementRef;
 	@ViewChild('modalDeleteReview', {static: true}) modalDeleteReview!: ElementRef;
@@ -140,13 +142,6 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 		}, (error) => {
 			this.validErrorsService.validError(error, 'Falha ao buscar as avaliações');
 		})
-	}
-
-	formatDateAssessment(date: string) {
-		const data = new Date(date);
-		const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-		const formattedDate = data.toLocaleDateString('pt-BR', options);
-		return formattedDate;
 	}
 
 	getAllRating() {
