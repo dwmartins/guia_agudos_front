@@ -15,7 +15,7 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 import { Listing, ListingGalleryImg } from '../../../models/listing';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { AlertService } from '../../../services/components/alert.service';
-import { RedirectService } from '../../../services/redirect.service';
+import { RedirectService } from '../../../services/helpers/redirect.service';
 import { Redirect } from '../../../models/Redirect';
 import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 import { SpinnerService } from '../../../services/components/spinner.service';

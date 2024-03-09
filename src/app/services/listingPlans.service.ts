@@ -7,7 +7,7 @@ import { ListingPlans } from '../models/ListingPlans';
 @Injectable({
   providedIn: 'root'
 })
-export class PlansService {
+export class ListingPlansService {
 
   private API_URL = environment.API_URL;
 
@@ -20,10 +20,10 @@ export class PlansService {
   }
 
   getPlans(status: string | null) {
-    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/precos?status=${status}`);
+    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/planos?status=${status}`);
   }
 
   getPlansById(id: number, status: string | null) {
-    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/precos?status=${status}&listingId=${id}`);
+    return this.httpClient.get<ListingPlans[]>(`${this.API_URL}/anuncios/planos?status=${status}&listingId=${id}`);
   }
 }

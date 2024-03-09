@@ -7,7 +7,7 @@ import { ListingsComponent } from './app-public/views/listings/listings.componen
 import { ListingCategoryAllComponent } from './app-public/views/listing-category-all/listing-category-all.component';
 import { ListingNewComponent } from './app-public/views/listing-new/listing-new.component';
 import { ListingInfoComponent } from './app-public/views/listing-info/listing-info.component';
-import { PlansComponent } from './app-public/views/plans/plans.component';
+import { PlansComponent } from './app-public/views/listing-plans/plans.component';
 import { AppPublicComponent } from './app-public/app-public.component';
 import { AppAdminComponent } from './app-admin/app-admin.component';
 import { DashboardComponent } from './app-admin/views/dashboard/dashboard.component';

@@ -1,12 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { PlansService } from '../../../services/plans.service';
-import { RedirectService } from '../../../services/redirect.service';
+import { ListingPlansService } from '../../../services/listingPlans.service';
+import { RedirectService } from '../../../services/helpers/redirect.service';
 import { BannerPrice } from '../../../models/BannerPrice';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
-import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { ListingPlans } from '../../../models/ListingPlans';
@@ -23,7 +22,7 @@ import { SpinnerService } from '../../../services/components/spinner.service';
 export class PlansComponent implements OnInit {
     route 			= inject(ActivatedRoute);
 	router 			= inject(Router);
-    plansService    = inject(PlansService);
+    listingPlansService    = inject(ListingPlansService);
     redirectService = inject(RedirectService);
     alertService    = inject(AlertService);
     authService     = inject(AuthService);
@@ -61,7 +60,7 @@ export class PlansComponent implements OnInit {
     }
 
     getBanners() {
-        this.plansService.banners("Y").subscribe((response) => {
+        this.listingPlansService.banners("Y").subscribe((response) => {
             this.banners = response;
         }, (error) => {
             console.error('ERROR: ', error);
@@ -70,7 +69,7 @@ export class PlansComponent implements OnInit {
 
     getListingPlans() {
         this.spinnerService.show('Buscando planos, aguarde...');
-        this.plansService.getPlans("Y").subscribe(response => {
+        this.listingPlansService.getPlans("Y").subscribe(response => {
             this.spinnerService.hide();
             this.listingPlans = response;
         }, error => {

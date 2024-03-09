@@ -7,7 +7,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
-import { PlansService } from '../../../services/plans.service';
+import { ListingPlansService } from '../../../services/listingPlans.service';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { PromotionalCodeService } from '../../../services/promotional-code.service';
@@ -29,7 +29,7 @@ export class ListingNewComponent implements OnInit{
     categoryService         = inject(ListingCategoryService);
     alertService            = inject(AlertService);
     route                   = inject(ActivatedRoute);
-    plansService            = inject(PlansService);
+    listingPlansService     = inject(ListingPlansService);
     imageService            = inject(ImageValidationService);
     promotionalCodeService  = inject(PromotionalCodeService);
     spinnerService          = inject(SpinnerService);
@@ -121,7 +121,7 @@ export class ListingNewComponent implements OnInit{
 
     getListingPlans() {
         this.spinnerService.show();
-        this.plansService.getPlansById(this.planId,"Y").subscribe(response => {
+        this.listingPlansService.getPlansById(this.planId,"Y").subscribe(response => {
             this.spinnerService.hide(); 
             this.showView = true;
             this.listingPlans = response;

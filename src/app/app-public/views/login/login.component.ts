@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { RedirectService } from '../../../services/redirect.service';
+import { RedirectService } from '../../../services/helpers/redirect.service';
 import { UserService } from '../../../services/user.service';
 import { HeaderService } from '../../../services/components/header.service';
 import { User } from '../../../models/user';
