@@ -98,7 +98,8 @@ export class ListingsComponent implements OnInit, OnDestroy{
 
    searchListingFilter() {
       this.searchItensListing = this.listings.filter(object =>
-         object.title.toLowerCase().includes(this.searchItem.toLowerCase())
+         object.title.toLowerCase().includes(this.searchItem.toLowerCase()) ||
+         object.summary.toLowerCase().includes(this.searchItem.toLowerCase())
       );
    }
 
