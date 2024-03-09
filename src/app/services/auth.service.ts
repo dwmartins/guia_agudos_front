@@ -40,7 +40,7 @@ export class AuthService {
 	logout() {
 		localStorage.removeItem('userData');
 		this.headerService.update(true);
-		this.router.navigate(['/app']);
+		this.router.navigate(['/']);
 	}
 
 	checkAdmin() : Observable<boolean>{

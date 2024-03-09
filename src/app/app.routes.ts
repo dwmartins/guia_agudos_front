@@ -15,7 +15,7 @@ import { adminGuard, authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
     // Rotas do site publicas!! **Usar canActivate: [authGuard] em rotas que precis de auth**
-    {path: 'app', component: AppPublicComponent,
+    {path: '', component: AppPublicComponent,
         children: [
             {path: '', component: HomeComponent},
             {path: 'login', component: LoginComponent},
@@ -35,6 +35,6 @@ export const routes: Routes = [
         ]
     },
     // Rotas default
-    {path: '', redirectTo: 'app', pathMatch: 'full'},
-    {path: '**', redirectTo: 'app'}
+    {path: '', redirectTo: '', pathMatch: 'full'},
+    {path: '**', redirectTo: ''}
 ];

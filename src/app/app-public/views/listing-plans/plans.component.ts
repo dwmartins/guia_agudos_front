@@ -42,16 +42,16 @@ export class PlansComponent implements OnInit {
             this.alertService.showAlert('info', 'Você precisa estar logado para criar um anúncio');
 
             const sharedData: Redirect = {
-                redirectTo: '/app/planos',
+                redirectTo: '/planos',
                 redirectMsg: ''
             }
 
             this.redirectService.setData(sharedData);
-            this.router.navigate(['/app/login']);
+            this.router.navigate(['/login']);
             return;
         }
 
-        this.router.navigate([`/app/anunciantes/novo/${planId}`]);
+        this.router.navigate([`/anunciantes/novo/${planId}`]);
     }
 
     getAllPlans() {

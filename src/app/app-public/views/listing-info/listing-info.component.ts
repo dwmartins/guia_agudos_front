@@ -197,12 +197,12 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			this.alertService.showAlert('info', 'Você precisa realizar o login para avaliar.');
 
 			const sharedData: Redirect = {
-                redirectTo: `/app/anunciante/${this.listingId}`,
+                redirectTo: `/anunciante/${this.listingId}`,
                 redirectMsg: ''
             }
 
             this.redirectService.setData(sharedData);
-            this.router.navigate(['/app/login']);
+            this.router.navigate(['/login']);
 		}
 	}
 

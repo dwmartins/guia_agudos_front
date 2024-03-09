@@ -132,7 +132,7 @@ export class ListingNewComponent implements OnInit{
         }, error => {
             this.showView = true;
             this.spinnerService.hide(); 
-            this.router.navigate(['/app']);
+            this.router.navigate(['/']);
             this.validErrorsService.validError(error, 'Falha ao buscar os planos.');
         })
     }

@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit{
                   return;
                }
 
-               this.router.navigate(['/app']);
+               this.router.navigate(['/']);
                return;
             }, 1000);
 
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit{
 
    checkUserLogged() {
       if(this.authService.getUserLogged()) {
-         this.router.navigate(['/app']);
+         this.router.navigate(['/']);
       }
    }
 
