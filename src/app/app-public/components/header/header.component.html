@@ -25,7 +25,7 @@
                         <a (click)="closeNavbar()" class="nav-link" href="#">Painel</a>
                     </li>
                     <li class="nav-item logged_small">
-                        <a (click)="closeNavbar()" class="nav-link">
+                        <a (click)="closeNavbar()" [routerLink]="['/perfil']" class="nav-link">
                             Perfil
                         </a>
                     </li>
@@ -83,7 +83,7 @@
                     </button>
                     <ul class="dropdown-menu">
                         <button class="dropdown-item">Painel</button>
-                        <button class="dropdown-item">Perfil</button>
+                        <button class="dropdown-item" [routerLink]="['/perfil']">Perfil</button>
                         <button (click)="logout()" class="dropdown-item cursor_pointer">Sair</button>
                     </ul>
                 </div>
