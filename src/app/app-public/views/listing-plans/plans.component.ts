@@ -55,17 +55,17 @@ export class PlansComponent implements OnInit {
     }
 
     getAllPlans() {
-        this.getBanners();
+        // this.getBanners();
         this.getListingPlans();
     }
 
-    getBanners() {
-        this.listingPlansService.banners("Y").subscribe((response) => {
-            this.banners = response;
-        }, (error) => {
-            console.error('ERROR: ', error);
-        })
-    }
+    // getBanners() {
+    //     this.listingPlansService.banners("Y").subscribe((response) => {
+    //         this.banners = response;
+    //     }, (error) => {
+    //         console.error('ERROR: ', error);
+    //     })
+    // }
 
     getListingPlans() {
         this.spinnerService.show('Buscando planos, aguarde...');
