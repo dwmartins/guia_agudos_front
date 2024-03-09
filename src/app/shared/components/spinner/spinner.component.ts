@@ -12,7 +12,7 @@ import { SpinnerService } from '../../../services/components/spinner.service';
                 <div class="spinner-border text-primary custom_spinner mb-2" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <p class="custom-dark fw-semibold fs-5">{{this.spinnerText}}</p>
+                <p class="custom-dark fw-semibold fs-5 text-center">{{this.spinnerText}}</p>
             </div>
         </div>`,
     styleUrl: './spinner.component.css'

@@ -1,10 +1,70 @@
 <section class="container-fluid bg-ice-whit">
-    <div class="container">
-        <div>
-            <!-- profile -->
-        </div>
-        <div>
-            <!-- Listings -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 col-lg-3 p-2">
+                <!-- profile -->
+                <div class="d-flex flex-column align-items-center shadow rounded py-4">
+                    <div class="img_user shadow border border-5 border-white">
+                        <img src="../../../../assets/img/bannerPromover.png" alt="Usuário">
+                    </div>
+                    <p class="custom-dark fw-bolder fs-5 mb-0">{{ user.name }} {{ user.lastName }}</p>
+                    <p class="custom-dark opacity-75">{{ user.email }}</p>
+                    <p class="text-primary fw-semibold mb-0">Membro desde:</p>
+                    <p class="custom-dark opacity-75">{{ dateService.getDateAsString(user.createdAt) }}</p>
+                    <div>
+                        <a [routerLink]="['/perfil/editar']" class="btn btn-sm btn-outline-primary">Editar perfil</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 p-2 ps-lg-5">
+                <!-- Listings -->
+                <div>
+                    <h2 class="custom-dark fw-semibold mb-4">{{ setGreeting() }} {{ user.name }}!</h2>
+                    <p class="custom-subtitle-dark">Bem-vindo à sua área do usuário! Aqui, você pode gerenciar seus anúncios e visualizar informações pessoais. Tenha controle total sobre o conteúdo que você compartilha e mantenha seus dados atualizados.</p>
+                    <p class="custom-subtitle-dark">Visualize e atualize suas informações de perfil. Certifique-se de que seus dados estejam corretos para uma experiência personalizada e segura em nosso site.</p>
+                    <hr class="custom-hr-dark">
+
+                    @if(!listings.length) {
+                        <div class="py-5 d-flex flex-column align-items-center">
+                            <h4 class="text-center custom-dark fw-semibold">Parece que você não possui nenhum anúncio em nosso site.</h4>
+                            <p class="custom-subtitle-dark text-center">Adicione o seu primeiro anúncio e compartilhar suas ofertas com a comunidade</p>
+                            <a [routerLink]="['/planos']" class="btn btn-outline-primary letter-spacing-1">ANUNCIAR AGORA</a>
+                        </div>
+                    } @else {
+
+                        <div class="container py-3">
+                            <h4 class="custom-dark fw-semibold">Seu anúncios</h4>
+                            <div class="row">
+                                @for (listing of listings; track $index) {
+                                    <div class="p-3 col-md-6 col-lg-4">
+                                        <div class="card shadow">
+                                            <div class="logo-listing rounded">
+                                                <img [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="fw-bold" [ngClass]="{
+                                                    'text-success': listing.status === 'ativo',
+                                                    'text-warning': listing.status === 'pendente',
+                                                    'text-danger': listing.status === 'finalizado'}">
+
+                                                    <span>{{ listing.status.charAt(0).toUpperCase() + listing.status.slice(1).toLowerCase() }}</span>
+                                                  </div>
+                                                <h5 class="custom-dark fw-bold listing_title">{{ listing.title }}</h5>
+                                                <p class="custom-subtitle-dark listing_summary">{{ listing.summary }}</p>
+                                                <div class="d-flex gap-1 justify-content-center">
+                                                    <a class="btn btn-sm btn-primary" [routerLink]="['/perfil/anuncio/{{ listing.id }}']">Editar</a>
+                                                    <a class="btn btn-sm btn-danger" [routerLink]="['/perfil/anuncio/{{ listing.id }}']">Excluir</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </section>
+<app-footer></app-footer>

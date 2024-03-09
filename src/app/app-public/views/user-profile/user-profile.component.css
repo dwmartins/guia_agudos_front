@@ -1,0 +1,35 @@
+.img_user {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+.img_user img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.logo-listing {
+    max-height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-listing img {
+    width: 100%;
+    height: 95%;
+    object-fit: cover;
+}
+
+.listing_summary, .listing_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
