@@ -11,11 +11,12 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 import { AlertService } from '../../../services/components/alert.service';
 import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
+import { NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-user-profile',
     standalone: true,
-    imports: [CommonModule, RouterModule, FooterComponent],
+    imports: [CommonModule, RouterModule, FooterComponent, NgbRatingModule],
     templateUrl: './user-profile.component.html',
     styleUrl: './user-profile.component.css'
 })
@@ -29,12 +30,18 @@ export class UserProfileComponent implements OnInit{
     route 					= inject(ActivatedRoute);
 	router 					= inject(Router);
     spinnerService          = inject(SpinnerService);
+    ngbRatingConfig			= inject(NgbRatingConfig);
 
     user!: User;
     listings: Listing[] = [];
 
     imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
     imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
+
+    constructor() {
+        this.ngbRatingConfig.max = 5;
+		this.ngbRatingConfig.readonly = true;
+    }
 
     ngOnInit(): void {
         this.user = this.authService.getUserLogged() || {} as User;
