@@ -5,7 +5,7 @@
                 <!-- profile -->
                 <div class="d-flex flex-column align-items-center shadow rounded py-4">
                     <div class="img_user shadow border border-5 border-white">
-                        <img src="../../../../assets/img/bannerPromover.png" alt="Usuário">
+                        <img [src]="user.photo_url ? user.photo_url : imgDefaultUser" alt="Usuário">
                     </div>
                     <p class="custom-dark fw-bolder fs-5 mb-0">{{ user.name }} {{ user.lastName }}</p>
                     <p class="custom-dark opacity-75">{{ user.email }}</p>

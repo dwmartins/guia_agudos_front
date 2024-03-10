@@ -34,6 +34,7 @@ export class UserProfileComponent implements OnInit{
     listings: Listing[] = [];
 
     imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
+    imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
 
     ngOnInit(): void {
         this.user = this.authService.getUserLogged() || {} as User;
