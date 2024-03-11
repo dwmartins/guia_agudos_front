@@ -1,3 +1,5 @@
+import { Review } from "./Review";
+
 export interface Listing{
     id: number;
     user_id: number;
@@ -17,6 +19,7 @@ export interface Listing{
     map: string;
     status: string;
     plan: string;
+    planId: number;
     observation: string;
     facebook: string;
     instagram: string;
@@ -29,6 +32,7 @@ export interface Listing{
     payment: number;
     promotionalCode: string;
     freePlan: boolean;
+    reviews: Review[];
     createdAt: string;
     updatedAt: string;
 }
