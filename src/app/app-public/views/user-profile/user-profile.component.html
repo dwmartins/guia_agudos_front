@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 col-lg-3 p-2">
                 <!-- profile -->
-                <div class="d-flex flex-column align-items-center shadow rounded py-4">
+                <div class="d-flex flex-column align-items-center shadow rounded py-4 mb-3">
                     <div class="img_user shadow border border-5 border-white">
                         <img [src]="user.photo_url ? user.photo_url : imgDefaultUser" alt="Usuário">
                     </div>
@@ -33,7 +33,7 @@
                     } @else {
 
                         <div class="container py-3">
-                            <h4 class="custom-dark fw-semibold">Seu anúncios</h4>
+                            <h4 class="custom-dark fw-semibold">Seus anúncios</h4>
                             <div class="row">
                                 @for (listing of listings; track $index) {
                                     <div class="p-3 col-12">
@@ -41,7 +41,7 @@
                                             <div class="logo-listing d-flex flex-column justify-content-center rounded rounded w-100">
                                                 <img class="rounded" [ngClass]="{'cursor_pointer': hasDetailsPage(listing)}" (click)="viewListing(listing)" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
                                                 @if(listing.reviews.length) {
-                                                    <ngb-rating [rate]="5" class="fs-3 iconAllReviews"></ngb-rating>
+                                                    <ngb-rating [rate]="getAllRating(listing)" class="fs-2 iconAllReviews"></ngb-rating>
                                                 }
                                             </div>
                                             <div class="p-2 ps-2 w-100 d-flex flex-column justify-content-between">
@@ -51,15 +51,15 @@
                                                         'text-warning': listing.status === 'pendente',
                                                         'text-danger': listing.status === 'finalizado'}">
     
-                                                        <div class="d-flex gap-2">
-                                                            <span><i class="fa-solid fa-circle me-2"></i>{{ listing.status.charAt(0).toUpperCase() + listing.status.slice(1).toLowerCase() }}</span>
-                                                            <span>({{ listing.plan }})</span>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span class="d-flex align-items-center"><i class="fa-solid fa-circle fs-10 me-2"></i>{{ listing.status.charAt(0).toUpperCase() + listing.status.slice(1).toLowerCase() }}</span>
+                                                            <span class="custom-subtitle-dark fs-7 opacity-75">Plano ({{ listing.plan }})</span>
                                                         </div>
                                                         <button class="btn btn-sm btn-outline-danger px-3"><i class="fa-solid fa-trash-can"></i></button>
                                                     </div>
     
                                                     <h5 class="custom-dark fw-bold listing_title" [ngClass]="{'cursor_pointer': hasDetailsPage(listing)}" (click)="viewListing(listing)">{{ listing.title }}</h5>
-                                                    <p class="custom-subtitle-dark listing_summary mb-1">{{ listing.summary }}</p>
+                                                    <p (click)="getAllRating(listing)" class="custom-subtitle-dark listing_summary mb-1">{{ listing.summary }}</p>
                                                     
                                                     @if (listing.phone) {
                                                         <p class="custom-subtitle-dark mb-1"><i class="fa-brands fa-whatsapp me-2"></i>{{ listing.phone }}</p>

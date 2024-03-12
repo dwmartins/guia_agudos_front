@@ -30,6 +30,12 @@
     }
 }
 
+@media screen and (max-width: 768px){
+    .iconAllReviews {
+        font-size: 2rem !important;
+    }
+}
+
 .listing_summary, .listing_title {
     overflow: hidden;
     text-overflow: ellipsis;

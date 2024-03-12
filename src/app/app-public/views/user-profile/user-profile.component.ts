@@ -93,6 +93,16 @@ export class UserProfileComponent implements OnInit, OnDestroy{
         );
     }
 
+    getAllRating(listing: Listing) {
+		if(!listing.reviews) {
+			return 0;
+		}
+
+		const sum = listing.reviews.reduce((acc, review) => acc + review.review, 0);
+		const result =  sum / listing.reviews.length;
+		return result
+	}
+
     viewListing(listing: Listing) {
         if(this.hasDetailsPage(listing)) {
             this.router.navigate(['/anunciante', listing.id]);
