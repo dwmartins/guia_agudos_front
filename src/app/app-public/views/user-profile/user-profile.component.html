@@ -1,5 +1,5 @@
 <section class="container-fluid bg-ice-whit">
-    <div class="container my-5">
+    <div class="container my-2 my-md-5">
         <div class="row">
             <div class="col-12 col-lg-3 p-2">
                 <!-- profile -->
@@ -55,10 +55,10 @@
                                                             <span class="d-flex align-items-center"><i class="fa-solid fa-circle fs-10 me-2"></i>{{ listing.status.charAt(0).toUpperCase() + listing.status.slice(1).toLowerCase() }}</span>
                                                             <span class="custom-subtitle-dark fs-7 opacity-75">Plano ({{ listing.plan }})</span>
                                                         </div>
-                                                        <button type="button" (click)="openModalDeleteReview(listing)" class="btn btn-sm btn-outline-danger px-3"><i class="fa-solid fa-trash-can"></i></button>
+                                                        <i (click)="openModalDeleteReview(listing)" class="fa-solid fa-trash-can text-danger fs-5 cursor_pointer"></i>
                                                     </div>
     
-                                                    <h5 class="custom-dark fw-bold listing_title" [ngClass]="{'cursor_pointer': hasDetailsPage(listing)}" (click)="viewListing(listing)">{{ listing.title }}</h5>
+                                                    <h5 class="custom-dark fw-bold listing_title d-inline" [ngClass]="{'cursor_pointer': hasDetailsPage(listing)}" (click)="viewListing(listing)">{{ listing.title }}</h5>
                                                     <p (click)="getAllRating(listing)" class="custom-subtitle-dark listing_summary mb-1">{{ listing.summary }}</p>
                                                     
                                                     @if (listing.phone) {
