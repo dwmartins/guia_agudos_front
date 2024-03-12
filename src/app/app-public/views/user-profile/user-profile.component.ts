@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { User } from '../../../models/user';
 import { AuthService } from '../../../services/auth.service';
@@ -11,7 +11,7 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 import { AlertService } from '../../../services/components/alert.service';
 import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
-import { NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
 import { ListingPlansService } from '../../../services/listingPlans.service';
 import { ListingPlans } from '../../../models/ListingPlans';
@@ -26,6 +26,7 @@ import { forkJoin } from 'rxjs';
 })
 export class UserProfileComponent implements OnInit, OnDestroy{
     titleService		    = inject(Title);	
+    modal 					= inject(NgbModal);
     authService             = inject(AuthService);
     dateService             = inject(DateService);
     listingService          = inject(ListingService);
@@ -38,12 +39,17 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     ngbRatingConfig			= inject(NgbRatingConfig);
     listingPlansService     = inject(ListingPlansService);
 
+    @ViewChild('modalDeleteListing', {static: true}) modalDeleteListing!: ElementRef;
+
     user!: User;
     listings: Listing[] = [];
     listingPlans: ListingPlans[] = [];
+    listingToDelete: Partial<Listing> = {};
 
     imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
     imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
+
+    spinnerDeleteListing: boolean = false;
 
     constructor() {
         this.ngbRatingConfig.max = 5;
@@ -93,6 +99,14 @@ export class UserProfileComponent implements OnInit, OnDestroy{
         );
     }
 
+    getListings() {
+        this.listingService.getByUser(this.user.id).subscribe((response) => {
+            this.listings = response;
+        }, (error) => {
+            this.validErrorsService.validError(error, "Falha ao buscar os anúncios.");
+        });
+    }
+
     getAllRating(listing: Listing) {
 		if(!listing.reviews) {
 			return 0;
@@ -102,6 +116,26 @@ export class UserProfileComponent implements OnInit, OnDestroy{
 		const result =  sum / listing.reviews.length;
 		return result
 	}
+
+    openModalDeleteReview(listing: Listing) {
+		this.listingToDelete = listing;
+		this.modal.open(this.modalDeleteListing, {centered: true});
+	}
+
+    deleteListing() {
+        this.spinnerDeleteListing = true;
+        this.listingService.delete(this.listingToDelete.id!).subscribe((response) => {
+            this.modal.dismissAll(this.modalDeleteListing);
+            this.spinnerDeleteListing = false;
+            this.alertService.showAlert('success', 'Anúncio excluído com sucesso.');
+            this.getListings();
+
+        }, (error) => {
+            this.modal.dismissAll(this.modalDeleteListing);
+            this.spinnerDeleteListing = false;
+            this.validErrorsService.validError(error, "Falha ao excluir o anúncio.");
+        });
+    }
 
     viewListing(listing: Listing) {
         if(this.hasDetailsPage(listing)) {

@@ -64,4 +64,13 @@ export class ListingService {
 
         return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
     }
+
+    delete(id: number) {
+        const headers = new HttpHeaders({
+            'user_id': this.user.id,
+            'token': this.user.token
+        });
+
+        return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/${id}`, {headers: headers});
+    }
 }

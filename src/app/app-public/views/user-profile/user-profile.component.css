@@ -48,3 +48,7 @@
 .iconAllReviews {
     color: #f5f50c;
 }
+
+#modal_delete_listing .fa-triangle-exclamation{
+    font-size: 40px;
+}
