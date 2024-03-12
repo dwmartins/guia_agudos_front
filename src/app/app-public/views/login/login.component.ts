@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit{
    submitForm() {
       if(this.formLogin.valid) {
          this.loadSpinner = true;
-         this.userService.login(this.formLogin.value).subscribe((response) => {
+         this.authService.login(this.formLogin.value).subscribe((response) => {
             this.loadSpinner = false;
             if('alert' in response) {
                this.alertService.showAlert('info', response.alert);

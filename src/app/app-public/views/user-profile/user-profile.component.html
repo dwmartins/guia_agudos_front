@@ -4,8 +4,16 @@
             <div class="col-12 col-lg-3 p-2">
                 <!-- profile -->
                 <div class="d-flex flex-column align-items-center shadow rounded py-4 mb-3">
-                    <div class="img_user shadow border border-5 border-white">
+                    <div class="img_user shadow border border-5 border-white position-relative cursor_pointer mb-2">
                         <img [src]="user.photo_url ? user.photo_url : imgDefaultUser" alt="Usuário">
+                       
+                        <div class="text-center position-absolute change-photo-user cursor_pointer">
+                            <label for="img_user" class="text-white fw-semibold cursor_pointer w-100 h-100 d-flex flex-column justify-content-center align-items-center"><i class="fa-solid fa-camera fs-3"></i><span>Alterar foto</span></label>
+                        </div>
+
+                        <form>
+                            <input (change)="previewPhotoUser($event)" type="file" id="img_user" class="d-none" accept="image/*">
+                        </form>
                     </div>
                     <p class="custom-dark fw-bolder fs-5 mb-0">{{ user.name }} {{ user.lastName }}</p>
                     <p class="custom-dark opacity-75">{{ user.email }}</p>
@@ -129,6 +137,27 @@
                     </div>
                 }
             </button>
+        </div>
+    </div>
+</ng-template>
+<app-footer></app-footer>
+
+<ng-template #modalChangePhotoUser let-c="close" let-d="dismiss">
+    <div class="p-3 py-5 d-flex flex-column align-items-center gap-3">
+        <div class="img_user shadow border border-5 border-white position-relative cursor_pointer mb-2">
+            <img [src]="previewNewPhotoUser" alt="Usuário">
+        </div>
+        <h5 class="custom-dark text-center fw-semibold">Deseja alterar sua foto de perfil?</h5>
+        <div class="d-flex gap-2">
+            @if(!spinnerChangePhotoUser) {
+                <button (click)="ChangePhotoUser()" type="button" class="btn btn-sm btn-primary" [disabled]="spinnerChangePhotoUser">Confirmar</button>
+                <button type="button" class="btn btn-sm btn-danger" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+            }@else {
+                <div class="d-flex align-items-center gap-2">
+                    <div class="spinner-border spinner-border m-0 text-primary" role="status"></div>
+                    <span>Alterando sua foto, Aguarde...</span>
+                </div>
+            }
         </div>
     </div>
 </ng-template>

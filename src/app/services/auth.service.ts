@@ -5,15 +5,20 @@ import { UserService } from './user.service';
 import { AlertService } from './components/alert.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Responses } from '../models/Responses';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
 	headerService 	= inject(HeaderService);
-	userService 	= inject(UserService);
 	alertService 	= inject(AlertService);
 	router			= inject(Router);
+	httpClient  	= inject(HttpClient);
+
+	private API_URL = environment.API_URL;
 
 	userData!: User;
 
@@ -32,15 +37,35 @@ export class AuthService {
 		return null;
 	}
 
+	updateUserLogged(userData: User) {
+		localStorage.removeItem('userData');
+		const user = JSON.stringify(userData);
+		localStorage.setItem('userData', user);
+	}
+
 	setUserLogged(userData: User) {
 		const user = JSON.stringify(userData);
 		localStorage.setItem('userData', user);
+	}
+
+	login(user: User) {    
+		return this.httpClient.post<User | Responses>(`${this.API_URL}/user/login`, user);
 	}
 
 	logout() {
 		localStorage.removeItem('userData');
 		this.headerService.update(true);
 		this.router.navigate(['/']);
+	}
+
+	validToken(user: User) {
+		const headers = new HttpHeaders({
+		  'Content-Type': 'application/json',
+		  'user_id': user.id,
+		  'token': user.token
+		});
+		
+		return this.httpClient.get<Responses>(`${this.API_URL}/user/auth`, {headers: headers });
 	}
 
 	checkAdmin() : Observable<boolean>{
@@ -52,7 +77,7 @@ export class AuthService {
 				observer.complete();
 			}
 
-			this.userService.validToken(this.userData).subscribe(
+			this.validToken(this.userData).subscribe(
 				(response) => {
 					if (response.success) {
 						if(response.userType === "admin") {
@@ -98,7 +123,7 @@ export class AuthService {
 				observer.complete();
 			}
 			
-			this.userService.validToken(this.userData).subscribe(
+			this.validToken(this.userData).subscribe(
 				(response) => {
 					if (response.success) {
 						observer.next(true);

@@ -18,20 +18,30 @@ export class ValidErrorsService {
             if (error.error.expiredToken) {
                 this.alertService.showAlert('info', 'Sua seção expirou, realize o login novamente.');
                 this.authService.logout();
+                return;
 
             } else if (error.error.invalidToken) {
                 this.alertService.showAlert('info', 'Realize o login para acessar esta área.');
                 this.authService.logout();
-                
+                return;
             }
         }
 
         if(error.status === 400) {
-            this.alertService.showAlert('error', error.error.alert);
+            this.alertService.showAlert('error', error.error.alert ? error.error.alert : error.error.error);
+            return;
         }
 
         if(error.status === 500) {
             this.alertService.showAlert('error', msg);
+            return;
         }
+
+        if(error.status === 404) {
+            this.alertService.showAlert('error', error.error.error);
+            return;
+        }
+
+        this.alertService.showAlert('error', error.error.error);
     }
 }

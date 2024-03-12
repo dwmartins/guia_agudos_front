@@ -16,6 +16,8 @@ import { Title } from '@angular/platform-browser';
 import { ListingPlansService } from '../../../services/listingPlans.service';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { forkJoin } from 'rxjs';
+import { ImageValidationService } from '../../../services/helpers/image-validation.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
     selector: 'app-user-profile',
@@ -28,6 +30,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     titleService		    = inject(Title);	
     modal 					= inject(NgbModal);
     authService             = inject(AuthService);
+    userService             = inject(UserService);
     dateService             = inject(DateService);
     listingService          = inject(ListingService);
     validErrorsService  	= inject(ValidErrorsService);
@@ -38,10 +41,16 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     spinnerService          = inject(SpinnerService);
     ngbRatingConfig			= inject(NgbRatingConfig);
     listingPlansService     = inject(ListingPlansService);
+    imageService            = inject(ImageValidationService);
+
 
     @ViewChild('modalDeleteListing', {static: true}) modalDeleteListing!: ElementRef;
+    @ViewChild('modalChangePhotoUser', {static: true}) modalChangePhotoUser!: ElementRef;
 
     user!: User;
+    newPhotoUser!: File;
+    previewNewPhotoUser: string | null | undefined;
+
     listings: Listing[] = [];
     listingPlans: ListingPlans[] = [];
     listingToDelete: Partial<Listing> = {};
@@ -50,20 +59,28 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
 
     spinnerDeleteListing: boolean = false;
+    spinnerChangePhotoUser: boolean = false;
 
     constructor() {
+        this.getUserLogged();
         this.ngbRatingConfig.max = 5;
 		this.ngbRatingConfig.readonly = true;
     }
 
     ngOnInit(): void {
-        this.user = this.authService.getUserLogged() || {} as User;
         this.titleService.setTitle(`Perfil - ${this.user.name} ${this.user.lastName}`);
         this.getData();
     }
 
     ngOnDestroy(): void {
         this.titleService.setTitle(this.globalVariablesService.title);
+    }
+
+    getUserLogged() {
+        const user = this.authService.getUserLogged();
+        if(user) {
+            this.user = user;
+        }
     }
 
     setGreeting() {
@@ -82,7 +99,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     getData() {
         this.spinnerService.show("Buscando dados do seu perfil, aguarde...");
     
-        const listingsObservable = this.listingService.getByUser(this.user.id);
+        const listingsObservable = this.listingService.getByUser(this.user.id!);
         const plansObservable = this.listingPlansService.getPlans("Y");
     
         forkJoin([listingsObservable, plansObservable]).subscribe(
@@ -100,7 +117,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     }
 
     getListings() {
-        this.listingService.getByUser(this.user.id).subscribe((response) => {
+        this.listingService.getByUser(this.user.id!).subscribe((response) => {
             this.listings = response;
         }, (error) => {
             this.validErrorsService.validError(error, "Falha ao buscar os anúncios.");
@@ -154,5 +171,41 @@ export class UserProfileComponent implements OnInit, OnDestroy{
         }
 
         return false;
+    }
+
+    previewPhotoUser(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const file = fileInput.files?.[0];
+
+        if(file) {
+            this.newPhotoUser = file;
+            if(this.imageService.validImage(file)){
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    this.previewNewPhotoUser = reader.result?.toString();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            this.modal.open(this.modalChangePhotoUser, {centered: true});
+        }
+	}
+
+    ChangePhotoUser() {
+        this.spinnerChangePhotoUser = true;
+        this.userService.updatePhoto(this.newPhotoUser).subscribe((response) => {
+            this.modal.dismissAll(this.modalChangePhotoUser);
+            this.spinnerChangePhotoUser = false;
+            this.alertService.showAlert('success', 'Foto de perfil atualizada com sucesso.');
+
+            
+            this.authService.updateUserLogged(response);
+            this.getUserLogged();
+        }, (error) => {
+            this.modal.dismissAll(this.modalChangePhotoUser);
+            this.spinnerChangePhotoUser = false;
+            this.validErrorsService.validError(error, "Falha ao atualizar sua foto de perfil.");
+        })
     }
 }
