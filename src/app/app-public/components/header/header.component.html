@@ -21,9 +21,11 @@
                         <span>{{ user.name }}</span>
                     </li>
                     <hr>
-                    <li class="nav-item logged_small">
-                        <a (click)="closeNavbar()" class="nav-link" href="#">Painel</a>
-                    </li>
+                    @if (user.user_type === "admin") {
+                        <li class="nav-item logged_small">
+                            <a (click)="closeNavbar()" class="nav-link" href="#">Painel</a>
+                        </li>
+                    }
                     <li class="nav-item logged_small">
                         <a (click)="closeNavbar()" [routerLink]="['/perfil']" class="nav-link">
                             Perfil
@@ -82,9 +84,13 @@
                         {{ user.name }}
                     </button>
                     <ul class="dropdown-menu">
-                        <button class="dropdown-item">Painel</button>
-                        <button class="dropdown-item" [routerLink]="['/perfil']">Perfil</button>
-                        <button (click)="logout()" class="dropdown-item cursor_pointer">Sair</button>
+
+                        @if (user.user_type === "admin") {
+                            <button class="dropdown-item mb-1"><i class="fa-solid fa-chart-line me-2"></i>Painel</button>
+                        }
+
+                        <button class="dropdown-item mb-1" [routerLink]="['/perfil']"><i class="fa-regular fa-user me-2"></i>Perfil</button>
+                        <button (click)="logout()" class="dropdown-item cursor_pointer mb-1"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</button>
                     </ul>
                 </div>
             </div>
