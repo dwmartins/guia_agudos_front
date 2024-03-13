@@ -1,2 +1,120 @@
-<p>user-edit works!</p>
+<section class="container-fluid bg-ice-white">
+    <div class="container py-4">
+        <div class="row mb-5">
+            <h1 class="text-primary fw-bold fs-2 mb-0 text-center text-md-start">Informações pessoais</h1>
+            <p class="custom-subtitle-dark text-center text-md-start mb-2 mb-md-5">Gerencie suas informações pessoais aqui.</p>
+
+            <div class="col-12 col-lg-3 p-2">
+                <div class="d-flex flex-column align-items-center p-2">
+                    <div class="img_user shadow border border-5 border-white position-relative cursor_pointer mb-2">
+                        <img [src]="user.photo_url ? user.photo_url : imgDefaultUser" alt="Usuário">
+                       
+                        <div class="text-center position-absolute change-photo-user cursor_pointer">
+                            <label for="img_user" class="text-white fw-semibold cursor_pointer w-100 h-100 d-flex flex-column justify-content-center align-items-center"><i class="fa-solid fa-camera fs-3"></i><span>Alterar foto</span></label>
+                        </div>
+    
+                        <form>
+                            <input type="file" id="img_user" class="d-none" accept="image/*">
+                        </form>
+                    </div>
+                    <div class="text-center">
+                        <p class="custom-subtitle-dark fw-bolder mb-1">{{ user.name }} {{ user.lastName }}</p>
+                        <p class="text-primary fw-semibold mb-0">Membro desde:</p>
+                        <p class="custom-dark opacity-75">{{ dateService.getDateAsString(user.createdAt) }}</p>
+                    </div>
+                    <label for="img_user" class="d-flex justify-content-center">
+                        <span type="button" class="btn btn-sm btn-outline-primary">Alterar foto</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9 p-2 ps-lg-5">
+                <div class="container">
+                    <form class="row">
+                        <div class="col-12 col-md-3 mb-3">
+                            <div>
+                                <label for="name" class="mb-1 custom-subtitle-dark letter-spacing-1">Nome:</label>
+                                <input type="text" name="name" class="form-control custom_focus custom_placeholder" [value]="user.name">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 mb-3">
+                            <div>
+                                <label for="lastName" class="mb-1 custom-subtitle-dark letter-spacing-1">Sobrenome:</label>
+                                <input type="text" name="lastName" class="form-control custom_focus custom_placeholder" [value]="user.lastName">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="email" class="mb-1 custom-subtitle-dark letter-spacing-1">E-mail:</label>
+                                <input type="text" name="email" class="form-control custom_focus custom_placeholder" [value]="user.email">
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div>
+                                <label for="aboutMe" class="mb-1 custom-subtitle-dark letter-spacing-1">Sobre mim:</label>
+                                <textarea name="aboutMe" id="aboutMe" cols="30" rows="5" class="form-control custom_focus"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="password" class="mb-1 custom-subtitle-dark letter-spacing-1">Senha Atual:</label>
+                                <input type="password" id="password" name="password" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="newPassword" class="mb-1 custom-subtitle-dark letter-spacing-1">Nova Senha:</label>
+                                <input type="newPassword" id="newPassword" name="newPassword" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="address" class="mb-1 custom-subtitle-dark letter-spacing-1">Endereço:</label>
+                                <input type="text" id="address" name="address" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="complement" class="mb-1 custom-subtitle-dark letter-spacing-1">Complemento:</label>
+                                <input type="text" id="complement" name="complement" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <div>
+                                <label for="country" class="mb-1 custom-subtitle-dark letter-spacing-1">País:</label>
+                                <input type="text" id="country" name="country" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <div>
+                                <label for="state" class="mb-1 custom-subtitle-dark letter-spacing-1">Estado:</label>
+                                <input type="text" id="state" name="state" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <div>
+                                <label for="city" class="mb-1 custom-subtitle-dark letter-spacing-1">Cidade:</label>
+                                <input type="text" id="city" name="city" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="cep" class="mb-1 custom-subtitle-dark letter-spacing-1">Cep:</label>
+                                <input type="number" id="cep" name="cep" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <div>
+                                <label for="phone" class="mb-1 custom-subtitle-dark letter-spacing-1">Telefone:</label>
+                                <input type="number" id="phone" name="phone" class="form-control custom_focus custom_placeholder">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-outline-primary">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <app-footer></app-footer>
