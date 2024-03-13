@@ -64,8 +64,12 @@
                 <div *ngFor="let listing of searchItensListing" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 cursor_pointer card_listing">
                     <div class="card border-0 shadow">
                         <div class="row g-0">
-                            <div class="col-md-4" (click)="viewListing(listing)">
-                                <img [src]="listing.logoImage" class="img-fluid img_listing rounded" alt="...">
+                            <div class="col-md-4 img_container rounded p-4 p-sm-2" (click)="viewListing(listing)">
+                                @if (listing.logoImage) {
+                                    <img [src]="listing.logoImage" class="img-fluid img_listing rounded" alt="Imagem de logo">
+                                } @else {
+                                    <img src="../../../../assets/img/logoDefault.png" class="img-fluid img_listing rounded" alt="Imagem de logo">
+                                }
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body pt-2">
@@ -73,23 +77,23 @@
                                     <p class="card-text custom-subtitle-dark listing_description mb-2" (click)="viewListing(listing)" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
     
                                     @if (listing.phone) {
-                                        <a class="link_outline_none custom-subtitle-dark fs-7" href="https://wa.me/14991882505" target="_blank">
+                                        <a class="link_outline_none custom-subtitle-dark fs-6" href="https://wa.me/{{listing.phone}}" target="_blank">
                                             <i class="bi bi-whatsapp me-2"></i>
-                                            <span class="fs-7 fw-light">{{ listing.phone }}</span>
+                                            <span class="fw-light">{{ listing.phone }}</span>
                                         </a>
                                     }
                                     
                                     @if (listing.email) {
-                                        <div class="text-dark d-flex align-items-center">
-                                            <i class="bi bi-envelope me-2 fs-7"></i>
-                                            <span class="fs-6 fw-light text-break custom-subtitle-dark">{{ listing.email }}</span>
+                                        <div class="text-dark d-flex">
+                                            <i class="bi bi-envelope me-2 fs-6"></i>
+                                            <a href="mailto:{{listing.email}}" class="fw-light text-break custom-subtitle-dark link_outline_none">{{ listing.email }}</a>
                                         </div>
                                     }
     
                                     @if (listing.address) {
                                         <div class="text-dark">
-                                            <i class="bi bi-geo-alt-fill fs-7 px-0 me-1"></i>
-                                            <span class="fs-7 fw-light custom-subtitle-dark">
+                                            <i class="bi bi-geo-alt-fill fs-6 px-0 me-1"></i>
+                                            <span class="fw-light custom-subtitle-dark">
                                                 <span *ngIf="listing.address">{{ listing.address }}</span>
                                                 <span *ngIf="listing.city">, {{ listing.city }}</span>
                                                 <span *ngIf="listing.state">, {{ listing.state }}</span>

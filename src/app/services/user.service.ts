@@ -1,20 +1,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { User } from '../models/user';
 import { Responses } from '../models/Responses';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  httpClient  = inject(HttpClient);
+  authService = inject(AuthService);
 
   private API_URL = environment.API_URL;
+  user!: User;
 
-  constructor(private httpClient: HttpClient) { }
-
-  login(user: User) {    
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/login`, user);
+  constructor() {
+    this.user = this.authService.getUserLogged() || {} as User;
   }
 
   sendNewPassword(user: User) {
@@ -33,13 +35,20 @@ export class UserService {
     return this.httpClient.post<User | Responses>(`${this.API_URL}/user/create`, formData);
   }
 
-  validToken(user: User) {
+  updatePhoto(photo: File) {
+
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'user_id': user.id,
-      'token': user.token
+      'user_id': this.user.id,
+      'token': this.user.token
     });
-    
-    return this.httpClient.get<Responses>(`${this.API_URL}/user/auth`, { headers });
+
+    const formData = new FormData();
+    formData.append('photo', photo);
+
+    Object.keys(this.user).forEach(key => {
+        formData.append(key, String(this.user[key]));
+    });
+
+    return this.httpClient.put<User>(`${this.API_URL}/user/update-photo`, formData, {headers: headers});
   }
 }

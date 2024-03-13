@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Redirect } from '../models/Redirect';
+import { Redirect } from '../../models/Redirect';
 
 @Injectable({
     providedIn: 'root'

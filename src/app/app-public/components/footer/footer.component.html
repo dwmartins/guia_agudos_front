@@ -6,7 +6,7 @@
                     <a class="navbar-brand" href="#">
                         <div class="my_logo d-flex align-items-center justify-content-center">
                             <i class="bi bi-geo-alt-fill text-primary fs-3 "></i>
-                            <span class="fs-5 fw-bold custom-dark">GuiaAgudos</span>
+                            <span class="fs-5 fw-bold custom-dark">{{ logo }}</span>
                         </div>
                     </a>
                 </div>
@@ -17,8 +17,8 @@
                 <div class="row align">
                     <ul class="navbar-nav col px-3">
                         <li class="nav-item">
-                            <a [routerLink]="['/app']" class="nav-link custom-dark">Home</a>
-                            <a [routerLink]="['/app/anunciantes']" class="nav-link custom-dark">Anúncios</a>
+                            <a [routerLink]="['/']" class="nav-link custom-dark">Home</a>
+                            <a [routerLink]="['/anunciantes']" class="nav-link custom-dark">Anúncios</a>
                             <a href="#" class="nav-link custom-dark">Eventos</a>
                         </li>
                     </ul>

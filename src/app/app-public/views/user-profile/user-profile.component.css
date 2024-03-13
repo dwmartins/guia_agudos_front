@@ -1,0 +1,74 @@
+.img_user {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.img_user img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.change-photo-user {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000000cc;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.img_user:hover .change-photo-user  {
+    opacity: 1;
+}
+
+.logo-listing {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-listing img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+@media screen and (min-width: 768px){
+    .logo-listing {
+        max-width: 250px;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .iconAllReviews {
+        font-size: 2rem !important;
+    }
+}
+
+.listing_summary, .listing_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.iconAllReviews {
+    color: #f5f50c;
+}
+
+#modal_delete_listing .fa-triangle-exclamation{
+    font-size: 40px;
+}

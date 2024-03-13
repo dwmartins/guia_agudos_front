@@ -24,6 +24,14 @@ export class ListingService {
         return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/?status=ativo&category=${category}&keywords=${keywords}`);
     }
 
+    getById(id: number) {
+        return this.httpClient.get<Listing>(`${this.API_URL}/anuncios/?listingId=${id}`);
+    }
+
+    getByUser(userId: number){
+        return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/usuario?userId=${userId}`);
+    }
+
     newListing(listing: Listing, logoImage: File, coverImage: File, galleryImages: File[]) {
         const headers = new HttpHeaders({
             'user_id': this.user.id,
@@ -55,5 +63,14 @@ export class ListingService {
         }
 
         return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
+    }
+
+    delete(id: number) {
+        const headers = new HttpHeaders({
+            'user_id': this.user.id,
+            'token': this.user.token
+        });
+
+        return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/${id}`, {headers: headers});
     }
 }

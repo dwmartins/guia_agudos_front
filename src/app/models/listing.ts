@@ -1,3 +1,5 @@
+import { Review } from "./Review";
+
 export interface Listing{
     id: number;
     user_id: number;
@@ -14,8 +16,10 @@ export interface Listing{
     city: string;
     state: string;
     zipCode: string;
+    map: string;
     status: string;
     plan: string;
+    planId: number;
     observation: string;
     facebook: string;
     instagram: string;
@@ -24,9 +28,19 @@ export interface Listing{
     paymentId: number;
     logoImage: string;
     coverImage: string;
+    galleryImage: ListingGalleryImg[];
     payment: number;
     promotionalCode: string;
     freePlan: boolean;
+    reviews: Review[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ListingGalleryImg {
+    id: number;
+    listingId: number;
+    imgUrl: string;
     createdAt: string;
     updatedAt: string;
 }

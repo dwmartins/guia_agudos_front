@@ -1,38 +1,68 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { Lightbox, LightboxModule } from 'ngx-lightbox';
-import { AssessmentService } from '../../../services/assessment.service';
+import { ReviewService } from '../../../services/Review.service';
 import { User } from '../../../models/user';
-import { Assessment } from '../../../models/Assessment';
+import { Review } from '../../../models/Review';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ListingService } from '../../../services/listing.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
+import { Listing, ListingGalleryImg } from '../../../models/listing';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
+import { AlertService } from '../../../services/components/alert.service';
+import { RedirectService } from '../../../services/helpers/redirect.service';
+import { Redirect } from '../../../models/Redirect';
+import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { SpinnerService } from '../../../services/components/spinner.service';
+import { OpeningHours } from '../../../models/OpeningHours';
+import { AuthService } from '../../../services/auth.service';
+import { DateService } from '../../../services/helpers/date.service';
 
 @Component({
   	selector: 'app-listing-info',
   	standalone: true,
-  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent],
+  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent, NgbRatingModule],
   	templateUrl: './listing-info.component.html',
   	styleUrl: './listing-info.component.css'
 })
-export class ListingInfoComponent implements OnInit{	
-	route 				= inject(ActivatedRoute);
-	router 				= inject(Router);
-	lightbox 			= inject(Lightbox);
-	modal 				= inject(NgbModal);
-	formBuilder 		= inject(FormBuilder);
-	assessmentService 	= inject(AssessmentService);
+export class ListingInfoComponent implements OnInit, OnDestroy{
+	authService             = inject(AuthService);
+	titleService			= inject(Title);	
+	globalVariablesService  = inject(GlobalVariablesService);
+	route 					= inject(ActivatedRoute);
+	router 					= inject(Router);
+	lightbox 				= inject(Lightbox);
+	modal 					= inject(NgbModal);
+	formBuilder 			= inject(FormBuilder);
+	reviewService 			= inject(ReviewService);
+	listingService 			= inject(ListingService);
+	validErrorsService  	= inject(ValidErrorsService);
+	alertService 			= inject(AlertService);
+	redirectService			= inject(RedirectService);
+	spinnerService          = inject(SpinnerService);
+	domSanitizer			= inject(DomSanitizer);
+	ngbRatingConfig			= inject(NgbRatingConfig);
+	dateService 			= inject(DateService);
 	
-	@ViewChild('modalAssessment', {static: true}) modalAssessment!: ElementRef;
-	@ViewChild('commentAssessment', {static: true}) commentAssessment!: ElementRef;
+	@ViewChild('modalReview', {static: true}) modalReview!: ElementRef;
+	@ViewChild('modalDeleteReview', {static: true}) modalDeleteReview!: ElementRef;
 
+	imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
+	imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
 
 	listingId: number = 0;
-	iconCategories: boolean = false;
-	user: Partial<User> = {};
+	user!: User;
+	listing: Partial<Listing> = {};
+	openingHours: OpeningHours = {};
+	daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+	nowOpen: boolean = false;
+	map: string = '';
+	galleryImages: ListingGalleryImg[] = [];
 
 	alert: any[] = [];
 
@@ -41,116 +71,238 @@ export class ListingInfoComponent implements OnInit{
   	totalStars: number = 5;
   	currentIcon: string = 'bi-star';
   	hoverIcon: string = 'bi-star-fill';
-	notAssessment!: boolean;
+	notReview!: boolean;
+	editingReview: boolean = false;
 
-	formAssessment: FormGroup;
-	assessment: Assessment[] = [];
+	rating: number = 0;
+	formReview: FormGroup;
+	reviews: Review[] = [];
+	reviewToDelete: Partial<Review> = {}
+	spinnerReview: boolean = false;
+	spinnerDeleteReview: boolean = false;
 
 	maxLengthComment: number = 130;
 	currentLengthComment: number = 130
 
 	constructor() {
-		this.formAssessment = this.formBuilder.group({
-			listing_id: [0],
-			user_id: [''],
+		this.formReview = this.formBuilder.group({
+			id: [0],
+			listing: [0],
+			user: [''],
 			comment: ['', [Validators.required]],
-			assessment: [0, [Validators.required]]
-		})
-	}
+			review: [0]
+		});
 
-	galleryImages = [
-		'https://images.unsplash.com/photo-1682687220247-9f786e34d472?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8',
-		'https://images.unsplash.com/photo-1682687982134-2ac563b2228b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-		'https://images.unsplash.com/photo-1682686580036-b5e25932ce9a?q=80&w=1375&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-		'https://images.unsplash.com/photo-1682687220199-d0124f48f95b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHx8',
-		'https://images.unsplash.com/photo-1682685797828-d3b2561deef4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8fA%3D%3D'
-	]
+		this.ngbRatingConfig.max = 5;
+		this.ngbRatingConfig.readonly = true;
+	}
 
 	ngOnInit(): void {
 		this.goToTheTopWindow();
 		this.getParams();
+		this.user = this.authService.getUserLogged() || {} as User;
+	}
+
+	ngOnDestroy(): void {
+		this.titleService.setTitle(this.globalVariablesService.title);
 	}
 
 	getParams() {
 		this.route.params.subscribe(params => {
 			this.listingId = params['id'];
 		})
+
+		this.getListing();
+		this.getReviews();
 	}
 
-	toggleIconOpeningHours() {
-      this.iconCategories = !this.iconCategories;
-   	}
+	getListing() {
+		this.spinnerService.show("Buscando anúncio, aguarde...");
+		this.listingService.getById(this.listingId).subscribe((response) => {
+			this.spinnerService.hide();
+			this.listing = response;
+
+			this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+
+			if(this.listing.galleryImage) {
+				this.galleryImages = this.listing.galleryImage;
+			}
+
+			this.setMap();
+			this.titleService.setTitle(this.listing.title!);
+		}, (error) => {
+			this.spinnerService.hide();
+			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
+		})
+	}
+
+	getReviews() {
+		this.reviewService.fetchAll(this.listingId).subscribe((response) => {
+			this.reviews = response;
+		}, (error) => {
+			this.validErrorsService.validError(error, 'Falha ao buscar as avaliações');
+		})
+	}
+
+	getAllRating() {
+		if(!this.reviews.length) {
+			return 0;
+		}
+
+		const sum = this.reviews.reduce((acc, review) => acc + review.review, 0);
+		const result =  sum / this.reviews.length;
+		return result
+	}
+
+	setMap() {
+		if(this.listing.map) {
+			const sanitizedHTML = this.listing.map?.replace('<iframe', `<iframe style="width: 100%; height: 300px;"`);
+
+			if(sanitizedHTML) {
+				this.map = sanitizedHTML;
+			}
+		}
+	}
+
+	isDayOpen(): boolean {
+		const today = new Date();
+		const dayOfWeek = today.getDay();
+		const day = this.daysOfWeek[dayOfWeek];
+
+		if(!this.openingHours[day]) {
+			return false;
+		}
+
+		const openTime = new Date(today.toDateString() + ' ' + this.openingHours[day].open);
+		const closeTime = new Date(today.toDateString() + ' ' + this.openingHours[day].close);
+		return today >= openTime && today <= closeTime;
+	}
 
 	openLightbox(index: number): void {
 		const album = this.galleryImages.map(link => {
-		  return { src: link, caption: '', thumb: '' };
+		  return { src: link.imgUrl, caption: '', thumb: '' };
 		});
-  
+	  
 		this.lightbox.open(album, index);
-	}
+	}  
 	
-	OpenModalUserAssessment() {
-		if(this.getUserLogged()) {
-			this.cleanFormAssessment();
-			this.modal.open(this.modalAssessment, {centered: true});
+	OpenModalNewReview() {
+		this.notReview = false;
+		this.editingReview = false;
+		this.rating = 0;
+		if(this.authService.getUserLogged()) {
+			this.cleanFormReview();
+			this.modal.open(this.modalReview, {centered: true});
 		} else {
-			const params = `/anunciantes/${this.listingId}`;
-			this.router.navigate(['/login'], {queryParams: {redirectTo: params}})
+			this.alertService.showAlert('info', 'Você precisa realizar o login para avaliar.');
+
+			const sharedData: Redirect = {
+                redirectTo: `/anunciante/${this.listingId}`,
+                redirectMsg: ''
+            }
+
+            this.redirectService.setData(sharedData);
+            this.router.navigate(['/login']);
 		}
 	}
 
-	submitAssessment() {
-		this.formAssessment.get('listing_id')?.setValue(this.listingId);
-		this.formAssessment.get('user_id')?.setValue(this.user.id);
+	openModalEditingReview(review: Review) {
+		this.notReview = false;
+		this.editingReview = true;
+		this.rating = review.review;
+		
+		this.formReview.patchValue({
+			id: review.id,
+			listing: this.listingId,
+			user: this.user.id,
+			comment: review.comment,
+			review: review.review
+		});
 
-		if(!this.selectedStars) {
-			this.notAssessment = true;
+		this.modal.open(this.modalReview, {centered: true});
+		this.countCaracterComment();
+	}
+
+	submitReview() {
+		if(!this.rating) {
+			this.notReview = true;
 			return;
 		}
 
-		if(this.formAssessment.valid) {
-			this.assessmentService.newAssessment(this.formAssessment.value).subscribe((response) => {
-				this.modal.dismissAll(this.modalAssessment);
-				// this.alerts('success', 'Avaliação inserida com sucesso.');
-			},(error) => {
-				// this.alerts('error', 'Falha ao inserir sua avaliação.');
-				console.error('ERROR: ', error);
-			})
-		}
-	}
-
-	cleanFormAssessment() {
-		this.formAssessment.reset({
-		  comment: '',
-		  assessment: ''
+		this.formReview.patchValue({
+			listing: this.listingId,
+			user: this.user.id,
+			review: this.rating
 		});
 
-		this.selectedStars = 0;
-	}
-
-	selectStars(stars: number): void {
-		this.notAssessment = false;
-		this.selectedStars = stars;
-		this.formAssessment.get('assessment')?.setValue(this.selectedStars);
-	}
-	
-	hoverStar(stars: number): void {
-		this.hoverStars = stars;
-	}
-	
-	resetHover(): void {
-		this.hoverStars = 0;
-	}
-
-	getUserLogged() {
-		const user = localStorage.getItem('userData');
-
-		if(user) {
-			this.user = JSON.parse(user) as User;
-			return true;
+		if(this.editingReview) {
+			if(this.formReview.valid) {
+				this.spinnerReview = true;
+				this.reviewService.updateReview(this.formReview.value).subscribe((response) => {
+					this.spinnerReview = false;
+					this.modal.dismissAll(this.modalReview);
+					this.alertService.showAlert('success', 'Avaliação atualizada com sucesso.');
+					this.getReviews();
+					return;
+				}, (error) => {
+					this.spinnerReview = false;
+					this.validErrorsService.validError(error, 'Falha ao atualizar sua avaliação.');
+					this.modal.dismissAll(this.modalReview);
+					return;
+				});
+			}
+		} else {
+			if(this.formReview.valid) {
+				this.spinnerReview = true;
+				this.reviewService.newReview(this.formReview.value).subscribe((response) => {
+					this.spinnerReview = false;
+					this.modal.dismissAll(this.modalReview);
+					this.alertService.showAlert('success', 'Avaliação inserida com sucesso.');
+					this.getReviews();
+				},(error) => {
+					this.spinnerReview = false;
+					this.validErrorsService.validError(error, 'Falha ao inserir sua avaliação.');
+					this.modal.dismissAll(this.modalReview);
+				});
+			}
 		}
+	}
 
-		return false;
+	openModalDeleteReview(review: Review) {
+		this.reviewToDelete = review;
+		this.modal.open(this.modalDeleteReview, {centered: true});
+	}
+
+	deleteReview() {
+		if(this.reviewToDelete.user !== this.user.id) {
+			this.alertService.showAlert('info', 'Esta avaliação não pertence a você.');
+			return
+		}
+		this.spinnerDeleteReview = true;
+		this.reviewService.delete(this.reviewToDelete.id!).subscribe((response) => {
+			this.spinnerDeleteReview = false;
+			this.getReviews();
+
+			if(response.success) {
+				this.alertService.showAlert('success', 'Avaliação excluída com sucesso.');
+				this.modal.dismissAll(this.modalDeleteReview);
+				return;
+			}
+		}, (error) => {
+			this.spinnerDeleteReview = false;
+			this.validErrorsService.validError(error, 'Falha ao deletar a sua avaliação.');
+			this.modal.dismissAll(this.modalDeleteReview);
+		});
+	}
+
+	cleanFormReview() {
+		this.formReview.reset({
+		  comment: '',
+		  review: ''
+		});
+
+		this.notReview = false;
+		this.rating = 0;
 	}
 
 	maxLengthValidator(maxLength: number) {
@@ -163,15 +315,8 @@ export class ListingInfoComponent implements OnInit{
 	}
 
 	countCaracterComment() {
-		const currentLength = this.formAssessment.get('comment')?.value.length
+		const currentLength = this.formReview.value.comment.length;
 		this.currentLengthComment = Math.max(0, this.maxLengthComment - currentLength);
-	}
-
-	alerts(type: string, description: string | any) {
-		this.alert.push({
-		   type: type,
-		   description: description
-		})
 	}
 
 	goToTheTopWindow() {

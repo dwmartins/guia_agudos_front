@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { RedirectService } from '../../../services/redirect.service';
+import { RedirectService } from '../../../services/helpers/redirect.service';
 import { UserService } from '../../../services/user.service';
 import { HeaderService } from '../../../services/components/header.service';
 import { User } from '../../../models/user';
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit{
    submitForm() {
       if(this.formLogin.valid) {
          this.loadSpinner = true;
-         this.userService.login(this.formLogin.value).subscribe((response) => {
+         this.authService.login(this.formLogin.value).subscribe((response) => {
             this.loadSpinner = false;
             if('alert' in response) {
                this.alertService.showAlert('info', response.alert);
@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit{
                   return;
                }
 
-               this.router.navigate(['/app']);
+               this.router.navigate(['/']);
                return;
             }, 1000);
 
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit{
 
    checkUserLogged() {
       if(this.authService.getUserLogged()) {
-         this.router.navigate(['/app']);
+         this.router.navigate(['/']);
       }
    }
 

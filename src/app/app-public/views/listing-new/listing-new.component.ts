@@ -7,7 +7,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingPlans } from '../../../models/ListingPlans';
-import { PlansService } from '../../../services/plans.service';
+import { ListingPlansService } from '../../../services/listingPlans.service';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { PromotionalCodeService } from '../../../services/promotional-code.service';
@@ -29,7 +29,7 @@ export class ListingNewComponent implements OnInit{
     categoryService         = inject(ListingCategoryService);
     alertService            = inject(AlertService);
     route                   = inject(ActivatedRoute);
-    plansService            = inject(PlansService);
+    listingPlansService     = inject(ListingPlansService);
     imageService            = inject(ImageValidationService);
     promotionalCodeService  = inject(PromotionalCodeService);
     spinnerService          = inject(SpinnerService);
@@ -41,6 +41,7 @@ export class ListingNewComponent implements OnInit{
     router                  = inject(Router);
 
     @ViewChild('newListing', { static: true }) newListing!: ElementRef;
+    @ViewChild('openingHours', { static: true }) openingHours!: ElementRef;
 
     formListing: FormGroup;
 
@@ -73,12 +74,20 @@ export class ListingNewComponent implements OnInit{
 
     user!: User
 
+    daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    schedules: { [key: string]: { open: string; close: string } } = {};
+
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
-        phone: 'Será utilizado para WhatsApp'
+        phone: 'Será utilizado para WhatsApp',
+        map: 'A tag HTML <iframe> do Google Maps permite incorporar mapas interativos em páginas da web.'
     }
 
     constructor() {
+        this.daysOfWeek.forEach(day => {
+            this.schedules[day] = { open: '', close: '' };
+        });
+
         this.formListing = this.formBuilder.group({
             plan_id: [],
             title: ['', [Validators.required]],
@@ -90,6 +99,7 @@ export class ListingNewComponent implements OnInit{
             city: [''],
             state: [''],
             zipCode: [''],
+            map: [''],
             facebook: [''],
             instagram: [''],
             linkedIn: [''],
@@ -101,7 +111,6 @@ export class ListingNewComponent implements OnInit{
         });
     }
 
-
     ngOnInit(): void {
         this.goToTheTopWindow();
         this.getParameterData();
@@ -112,7 +121,7 @@ export class ListingNewComponent implements OnInit{
 
     getListingPlans() {
         this.spinnerService.show();
-        this.plansService.getPlansById(this.planId,"Y").subscribe(response => {
+        this.listingPlansService.getPlansById(this.planId,"Y").subscribe(response => {
             this.spinnerService.hide(); 
             this.showView = true;
             this.listingPlans = response;
@@ -123,7 +132,7 @@ export class ListingNewComponent implements OnInit{
         }, error => {
             this.showView = true;
             this.spinnerService.hide(); 
-            this.router.navigate(['/app']);
+            this.router.navigate(['/']);
             this.validErrorsService.validError(error, 'Falha ao buscar os planos.');
         })
     }
@@ -336,8 +345,33 @@ export class ListingNewComponent implements OnInit{
         })
     }
 
+    openOpiningHours() {
+        this.daysOfWeek.forEach(day => {
+            this.schedules[day] = { open: '09:00', close: '18:00' };
+        });
+
+        this.modalListing.open(this.openingHours, { centered: true });
+    }
+
+    cleanScheduleByDay(day: string) {
+        this.schedules[day] = { open: '', close: '' };
+    }
+
+    saveSchedule() {
+        this.modalListing.dismissAll();
+
+        this.formListing.patchValue({
+            openingHours: JSON.stringify(this.schedules)
+        });
+    }
+
+    removeSchedule() {
+        this.formListing.patchValue({
+            openingHours: ''
+        });
+    }
+
     submitForm() {
-        console.log(this.formListing.value)
         if(this.formListing.valid) {
             this.spinnerService.show('Criando anúncio, aguarde...');
 

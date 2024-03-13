@@ -1,211 +1,367 @@
 <section class="container-fluid px-0">
     <!-- Banner -->
     <div class="bg-primary img_banner position-relative ">
-        <img class="img_banner img-fluid " src="../../../assets/img/listing-info/martins_refrigeracao.jpg" alt="">
+        @if (listing.coverImage) {
+            <img class="img_banner img-fluid " [src]="listing.coverImage" alt="Imagem de capa">
+        }
         <div class="shadow_img">
             <div class="container">
                 <div class="row py-4 pt-3 pt-xl-5">
                     <div class="col-12 col-xl-1 rounded d-flex d-xl-block justify-content-center mb-2">
-                        <img class="img_logo img-fluid rounded-1" src="../../../assets/img/no-image-user.jpg" alt="">
+                        <img class="img_logo img-fluid rounded-1 border border-3" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
                     </div>
                     <div class="col-12 col-xl-7 d-flex flex-column align-items-center align-items-xl-start px-3 text-center text-xl-start">
-                        <h2 class="fs-1 text-white fw-semibold">Martins Refrigeração</h2>
-                        <p class="fs-6 text-white">Consertos em maquinas de lavar e geladeiras.</p>
-                        <span class="assessments d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
-                            <p class="text-white fw-bold fs-5 mb-0">5,0</p>
-                            <div>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star-fill fs-5"></i>
-                                <i class="bi bi-star fs-5"></i>
-                            </div>
-                            <p class="text-white mb-0 ms-2">1 avaliação</p>
-                        </span>
+                        <h2 class="fs-1 text-white fw-semibold">{{ listing.title }}</h2>
+                        <p class="fs-6 text-white listing_description">{{ listing.summary }}</p>
+
+                        @if (reviews.length) {
+                            <span class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-sm-2 mb-2 mb-sm-4 ">
+                                <p class="text-white fw-bold fs-5 mb-0">{{ getAllRating().toFixed(1) }}</p>
+                                <div>
+                                    <ngb-rating [rate]="getAllRating()" class="fs-3 allReviews"></ngb-rating>
+                                </div>
+                                @if (reviews.length == 1) {
+                                    <p class="text-white mb-0 ms-2">{{ reviews.length }} avaliação</p>
+                                }@else {
+                                    <p class="text-white mb-0 ms-2">{{ reviews.length }} avaliações</p>
+                                }
+                            </span>
+                        }
+
                         <div class="d-flex gap-2">
-                            <button (click)="OpenModalUserAssessment()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
-                            <button class="btn text-white border rounded-1 fw-semibold">Contato</button>
+                            <button (click)="OpenModalNewReview()" class="btn btn-primary rounded-1 fw-semibold ">Avalie</button>
+                            @if (listing.phone) {
+                                <a href="https://wa.me/{{listing.phone}}" class="btn text-white border rounded-1 fw-semibold" target="_blank"><i class="bi bi-whatsapp me-2"></i>Contato</a>
+                            }
                         </div>
                     </div>
                     <div class="col-12 col-xl-4 d-none d-xl-block px-3">
-                        <a class="link_outline_none text-white fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                            <span class="fs-5 fw-semiboldt">14991882505</span>
-                        </a>
-                        <p class="text-white fs-5 fw-semibold d-flex align-items-center "><i class="bi bi-geo-alt-fill me-2"></i>Nivaldo Bertolo 542</p>
-                        <p class="text-white fs-5 fw-semibold d-flex align-items-center "><i class="bi bi-envelope me-2"></i>douglas5422&#64;outlook.com</p>
+                        @if (listing.phone) {
+                            <a class="link_outline_none text-white fs-5 d-flex align-items-center mb-3" href="https://wa.me/{{listing.phone}}" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
+                                <span class="fs-5">{{ listing.phone }}</span>
+                            </a>
+                        }
+
+                        @if (listing.address) {
+                            <div class="text-white mb-3">
+                                <i class="bi bi-geo-alt-fill fs-5 me-1"></i>
+                                <span class="fs-5">
+                                    @if(listing.address) {
+                                        <span>{{ listing.address }}</span>
+                                    }
+
+                                    @if(listing.city) {
+                                        <span>, {{ listing.city }}</span>
+                                    }
+
+                                    @if(listing.state) {
+                                        <span>, {{ listing.state }}</span>
+                                    }
+                                </span>
+                            </div>
+                        }
+
+                        @if (listing.email) {
+                            <a href="mailto:{{listing.email}}" class="text-white fs-5 d-flex align-items-center link_outline_none"><i class="bi bi-envelope me-2"></i>{{listing.email}}</a>
+                        }
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- about -->
-    <div class="container">
-        <div class="col-12 py-4 d-xl-none">
-            <a class="link_outline_none text-dark fs-5 fw-semibold d-flex align-items-center mb-3" href="https://wa.me/14991882505" target="_blank"><i class="bi bi-whatsapp me-2 fs-5"></i>
-                <span class="fs-6 fw-semiboldt custom-dark">14991882505</span>
-            </a>
-            <p class="custom-dark fs-6 fw-semibold d-flex align-items-center"><i class="bi bi-geo-alt-fill me-2"></i>Nivaldo Bertolo 542</p>
-            <p class="custom-dark fs-6 fw-semibold d-flex align-items-center text-break"><i class="bi bi-envelope me-2"></i>douglas5422&#64;outlook.com</p>
-        </div>
-    </div>
+
     <div class="container mb-5">
-        <div class="row gap-1 my-xl-5 justify-content-between">
-            <div class="col-12 col-sm-7">
-                <!-- about -->
-                <h5 class="text-dark text-opacity-50 mb-3">Sobre</h5>
+        <div class="row my-xl-5 justify-content-between">
+            <div class="col-12 col-lg-8 px-3 mb-3">
+                @if (listing.description) {
+                    <!-- about -->
+                    <h3 class="my-3 custom-dark fw-bold">Sobre</h3>
 
-                <div class="long_description">
-                    <p class="custom-dark">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed diam sed massa mollis facilisis. Aliquam sollicitudin, ligula sit amet egestas lacinia, diam elit vulputate risus
-                        nec imperdiet arcu turpis vitae ante. Nunc porta pellentesque felis, a bibendum velit bibendum eu. Etiam ullamcorper ex eros, vitae auctor lorem blandit non. Donec venenatis varius dui in auctor. Donec elit ex, elementum et elementum quis, vulputate sed turpis.
-                    </p>
+                    <div class="long_description opacity-75 mb-2 mb-sm-5">
+                        <p class="custom-dark">
+                            {{ listing.description }}
+                        </p>
+                    </div>
+                    
+                    <hr class="custom-hr-dark">
+                }
 
-                    <p class="custom-dark">
-                        am et quam nisi. Sed mi elit, imperdiet eu lacus at, viverra gravida nunc. Pellentesque pellentesque vestibulum venenatis. Nullam sapien leo, fermentum dictum dui id, porta tempus turpis. Nullam posuere lorem fermentum, lacinia est in, porttitor nibh. Vestibulum non neque eu sem accumsan dapibus eget ut velit.
-                    </p>
+                @if(listing.address) {
+                    <h3 class="my-4 custom-dark fw-bold">Localização</h3>
 
-                    <p class="custom-dark">
-                        Praesent ullamcorper, nunc nec malesuada pulvinar, est odio maximus ipsum, eget facilisis erat ligula id purus. Quisque tincidunt nisi ipsum, eu rutrum orci ultricies at.
-                    </p>
-                </div>
-            
-            </div>
-            <div class="col-12 col-sm-4">
-                <!-- hours -->
-                <h5 class="text-dark text-opacity-50 my-3">Horas</h5>
-                <div>
-                    <p (click)="toggleIconOpeningHours()" class="text-danger fw-semibold text-opacity-75 d-flex align-items-center cursor_pointer" data-bs-toggle="collapse" href="#openingHours" role="button" aria-expanded="false" aria-controls="openingHours">
-                        Fechado agora
-                        <i [class.bi-plus]="!iconCategories" [class.bi-dash]="iconCategories" class="bi fs-4 ms-2"></i>
-                    </p>
-                    <div class="collapse bg-white bg-opacity-50 w-100 px-2" id="openingHours">
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">DOM fechado</p>
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">SEG 08:00 - 18:00</p>
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">TER 08:00 - 18:00</p>
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">QUA 08:00 - 18:00</p>
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">QUI 08:00 - 18:00</p>
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">SEX 08:00 - 18:00</p>
-                        <p class="mb-1 fw-semibold text-dark text-opacity-75">SAB 08:00 - 12:00</p>
+                    <div class="col-12 py-2 d-xl-none">
+                        @if (listing.address) {
+                            <div class="custom-dark mb-2 fs-5">
+                                <i class="bi bi-geo-alt-fill me-1"></i>
+                                <span>
+                                    @if(listing.address) {
+                                        <span>{{ listing.address }}</span>
+                                    }
+
+                                    @if(listing.city) {
+                                        <span>, {{ listing.city }}</span>
+                                    }
+
+                                    @if(listing.state) {
+                                        <span>, {{ listing.state }}</span>
+                                    }
+                                </span>
+                            </div>
+                        }
                     </div>
-                </div>
-                <hr>
-                <div>
-                    <p class="text-dark text-opacity-75">Localização</p>
-                    <p class="fw-semibold text-dark text-opacity-75">Nivaldo Bertolo 542 Agudos SP</p>
-                </div>
-                <hr>
-                <div>
-                    <p class="text-dark text-opacity-75">redes sociais:</p>
-                    <div class="d-flex justify-content-between gap-1 social_media_content">
-                        <a href="#" class="rounded-circle bg-primary text-white"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="rounded-circle bg-primary text-white"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="rounded-circle bg-primary text-white"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="rounded-circle bg-primary text-white"><i class="bi bi-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div>
-            <h5 class="text-dark text-opacity-50 my-3">Fotos em destaque</h5>
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 col-sm-4 col-md-3 col-xl-2 p-2" *ngFor="let img of galleryImages; let i = index" (click)="openLightbox(i)">
-                        <img class="img-fluid" [src]="img" alt="Imagem {{ i + 1 }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div>
-            <h5 class="text-dark text-opacity-50 my-5">Comentários</h5>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 d-flex mb-4">
-                        <div>
-                            <img class="img-fluid rounded-circle img_user" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
+
+                    @if(listing.map) {
+
+                        <div class="listing_map" #mapContainer>
+                            <div [innerHTML]="domSanitizer.bypassSecurityTrustHtml(map)"></div>
                         </div>
-                        <div class="">
-                            <div class="ms-3">
-                                <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">Douglas Martins</h6>
-                                <div class="d-sm-flex align-items-center mb-2">
-                                    <span class="text-dark opacity-75 fs-7">18 de janeiro 2024</span>
-                                    <div class="ms-0 ms-sm-2 user_assessments">
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star fs-6"></i>
+                    }
+
+                    <hr class="custom-hr-dark">
+                }
+
+                <!-- Gallery image -->
+                @if(galleryImages.length) {
+                    <h3 class="custom-dark fw-bold my-4">Galeria</h3>
+
+                    <div class="container mb-4">
+                        <div class="row">
+                            @for (img of galleryImages; track $index) {
+                                <div class="col-4 col-md-3 p-1 cursor_pointer" (click)="openLightbox($index)"  >
+                                    <div class="img-gallery">
+                                        <img [src]="img.imgUrl" alt="Imagem">
                                     </div>
                                 </div>
-                                <div>
-                                    <p class="custom-dark opacity-75 fs-7">Ótimos profissionais, minha maquina de lavar esta perfeita agora.</p>
+                            } 
+                        </div>
+                    </div>
+
+                    <hr class="custom-hr-dark">
+                }
+            </div>
+
+            @if(listing.openingHours) {
+                <div class="col-12 col-lg-4 p-0">
+                    <div class="px-3 mb-4">
+                        <div class="shadow rounded-2">
+                            <div class="p-4 bg-ice-white">
+    
+                                @if (isDayOpen()) {
+                                    <p class="letter-spacing-1 text-primary fw-semibold mb-1">ABERTO AGORA</p>
+                                } @else {
+                                    <p class="letter-spacing-1 text-danger fw-semibold mb-1">FECHADO AGORA</p>
+                                }
+    
+                                <div class="w-100 d-flex align-items-center justify-content-between">
+                                    <h4 class="custom-dark fw-bold">Horário de funcionamento</h4>
+                                    <i class="fa-regular fa-clock"></i>
                                 </div>
+                            </div>
+                            <div class="d-flex flex-column p-4">
+                                @for (day of daysOfWeek; track $index) {
+                                    <div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="fw-semibold custom-dark fs-7">{{ day }}</span>
+                                        
+                                            @if(openingHours[day]) {
+    
+                                                @if(!openingHours[day].open || !openingHours[day].close) {
+                                                    <span>Fechado</span>
+                                                } @else {
+                                                    <span>
+                                                        {{ openingHours[day].open }} - {{ openingHours[day].close }}
+                                                    </span>
+                                                }
+                                            }
+                                        
+                                            @if(!openingHours[day]) {
+                                                <span>Horário não definido</span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 d-flex">
-                        <div>
-                            <img class="img-fluid rounded-circle img_user" src="../../../assets/img/no-image-user.jpg" alt="Usuário">
-                        </div>
-                        <div class="">
-                            <div class="ms-3">
-                                <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">Tatiane Oliva</h6>
-                                <div class="d-sm-flex align-items-center mb-2">
-                                    <span class="text-dark opacity-75 fs-7">14 de janeiro 2024</span>
-                                    <div class="ms-0 ms-sm-2 user_assessments">
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star-fill fs-6"></i>
-                                        <i class="bi bi-star fs-6"></i>
-                                    </div>
+                    <div class="px-3">
+                        <div class="shadow rounded-2">
+                            <div class="p-4 bg-ice-white">
+                                <p class="letter-spacing-1 text-primary fw-semibold mb-0">DEIXE-NOS UMA MENSAGEM</p>
+    
+                                <div class="w-100 d-flex align-items-center justify-content-between">
+                                    <h4 class="custom-dark fw-bold">Contato</h4>
+                                    <i class="fa-regular fa-pen-to-square icon-social-medias"></i>
                                 </div>
-                                <div>
-                                    <p class="custom-dark opacity-75 fs-7">Minha geladeira esta gelando muito agora, está ótimo</p>
+                            </div>
+                            <div class="d-flex gap-2 flex-column p-4">
+                                @if (listing.phone) {
+                                    <a class="link_outline_none" href="https://wa.me/{{listing.phone}}" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-whatsapp me-3"></i>{{ listing.phone }}</span>
+                                    </a>
+                                }
+
+                                @if (listing.email) {
+                                    <a class="link_outline_none" href="mailto:{{listing.email}}" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-regular fa-envelope me-3"></i>{{ listing.email }}</span>
+                                    </a>
+                                }
+
+                                @if(listing.url) {
+                                    <a class="link_outline_none" [href]="listing.url" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-solid fa-globe me-3"></i>{{ listing.url }}</span>
+                                    </a>
+                                }
+
+                                @if(listing.facebook) {
+                                    <a class="link_outline_none" [href]="listing.facebook" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-facebook me-3"></i>Facebook</span>
+                                    </a>
+                                }
+
+                                @if(listing.instagram) {
+                                    <a class="link_outline_none" [href]="listing.instagram" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-instagram me-3"></i>Instagram</span>
+                                    </a>
+                                }
+
+                                @if(listing.linkedIn) {
+                                    <a class="link_outline_none" [href]="listing.linkedIn" target="_blank">
+                                        <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-linkedin me-3"></i>LinkedIn</span>
+                                    </a>
+                                }
+
+                                <div class="d-flex justify-content-center mt-3 my-2">
+                                    <a href="mailto:{{listing.email}}" class="btn btn-outline-primary"><i class="fa-regular fa-paper-plane me-2"></i>ENVIE UM MENSAGEM</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
+
+        <!-- Reviews -->
+        @if (reviews.length) {
+            <div class="row px-3 my-5">
+                <div class="col-12 col-md-8">
+                    <p class="text-primary fw-semibold letter-spacing-1 fs-6 p-0 m-0">AVALIAÇÕES</p>
+                    <h4 class="custonm-dark fw-bold p-0 mb-5">Lista de avaliações</h4>
+
+                    @for (review of reviews; track $index) {
+                        <div class="d-flex w-100">
+                            <div class="d-flex flex-column align-items-center gap-2">
+                                <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="review.photo_url ? review.photo_url : imgDefaultUser" alt="Usuário">
+                                <p class="custom-dark opacity-75 fs-7 text-center">{{ dateService.getDateAsString(review.createdAt) }}</p>
+                            </div>
+                            <div class="ms-3 w-100">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="fs-6 fw-semibold text-primary text-opacity-75 mb-0">{{ review.name }} {{ review.lastName }}</h6>
+
+                                    @if(user.id === review.user) {
+                                        <div class="d-flex justify-content-end gap-3">
+                                            <i (click)="openModalDeleteReview(review)" class="fa-solid fa-trash-can text-danger cursor_pointer fs-5"></i>
+                                            <i (click)="openModalEditingReview(review)" class="fa-solid fa-pen-to-square text-primary cursor_pointer fs-5"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="mb-2">
+                                    <div class="ms-0 user_reviews">
+                                        <ngb-rating [rate]="review.review" class="fs-4"></ngb-rating>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="custom-dark opacity-75 fs-6">{{ review.comment }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="custom-hr-dark">
+                    }
+                </div>
+            </div> 
+        }
     </div>
 
-    <ng-template #modalAssessment let-c="close" let-d="dismiss">
-        <div class="position-relative banner_assessment mb-5">
-            <img class="img-fluid rounded-top h-100" src="../../../assets/img/listing-info/martins_refrigeracao.jpg" alt="Capa">
-            <i class="fs-4 bi bi-x-lg position-absolute close_modal_assessment text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
-            <img class="img-fluid rounded-pill position-absolute logo_assessments" src="../../../assets/img/no-image-user.jpg" alt="logo">
-            <div class="shadow_img_assessments"></div>
+    <ng-template #modalReview let-c="close" let-d="dismiss">
+        <div class="position-relative banner_reviews mb-5">
+
+            @if(listing.coverImage) {
+                <img class="img-fluid rounded-top h-100" [src]="listing.coverImage" alt="Imagem de capa">
+            }
+
+            <i class="fs-4 bi bi-x-lg position-absolute close_modal_review text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
+
+            <img class="img-fluid rounded-pill position-absolute logo_reviews" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
+
+            <div class="shadow_img_reviews"></div>
         </div>
 
-        <h5 class="fs-3 text-dark fw-semibold opacity-75 text-center">Martins Refrigeração</h5>
-        <h6 class="fs-4 text-dark fw-semibold opacity-75 text-center">Sua nota</h6>
-        <div class="d-flex justify-content-center user_assessments">
-            <ng-container *ngFor="let _ of [].constructor(totalStars); let i = index">
-              <i [class]="(i + 1 <= (hoverStars || selectedStars) ? hoverIcon : currentIcon) + ' fs-3 cursor_pointer'" 
-                 (click)="selectStars(i + 1)" 
-                 (mouseover)="hoverStar(i + 1)" 
-                 (mouseout)="resetHover()"></i>
-            </ng-container>
+        <h5 class="fs-3 custom-dark fw-semibold opacity-75 text-center">{{ listing.title }}</h5>
+        <h6 class="fs-4 custom-dark fw-semibold opacity-75 text-center">Sua nota</h6>
+        <div class="d-flex justify-content-center user_reviews">
+            <ngb-rating [(rate)]="rating" [readonly]="false" class="fs-1"></ngb-rating>
         </div>
-        <p *ngIf="notAssessment" class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
 
-        <form [formGroup]="formAssessment" (ngSubmit)="submitAssessment()" class="p-4">
-            <textarea maxlength="130" (input)="countCaracterComment()" #commentAssessment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched}"></textarea>
-            <p class="mt-1 fw-semibold opacity-50 text-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
-            <div *ngIf="formAssessment.get('comment')?.invalid && formAssessment.get('comment')?.touched" class="text-danger fw-semibold opacity-75">
-                Digite seu comentário.
-            </div>
+        @if(notReview) {
+            <p class="text-center mb-0 text-danger fw-semibold opacity-75">Sua nota é importante.</p>
+        }
+
+        <form [formGroup]="formReview" (ngSubmit)="submitReview()" class="p-4">
+            <textarea [maxlength]="maxLengthComment" (input)="countCaracterComment()" #reviewComment class="form-control custom_focus custom_placeholder" name="comment" id="comment" placeholder="Seu comentário" rows="4" formControlName="comment" [ngClass]="{'invalid_input': formReview.get('comment')?.invalid && formReview.get('comment')?.touched}"></textarea>
+            <p class="mt-1 fw-semibold opacity-50 custom-dark max_caracter text-end">{{ currentLengthComment }} caracteres restantes</p>
+
+            @if(formReview.get('comment')?.invalid && formReview.get('comment')?.touched) {
+                <div class="text-danger fw-semibold opacity-75">
+                    Digite seu comentário.
+                </div>
+            }
+            
             <div class="d-flex gap-2 justify-content-center mt-3">
-                <button class="btn btn-primary rounded-1 fw-semibold">Enviar</button>
-                <button type="button" class="btn btn-light rounded-1 text-dark fw-semibold opacity-75 border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+                <button class="btn btn-primary rounded-1 fw-semibold" [disabled]="spinnerReview">
+                    @if(!spinnerReview){ 
+                        @if(editingReview) {
+                            <span>Atualizar</span>
+                        } @else {
+                            <span>Enviar</span>
+                        }
+                    }@else {
+                        <div class="d-flex gap-2">
+                            <div class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status"></div>
+                            <span>Aguarde...</span>
+                        </div>
+                    }
+                </button>
+                <button type="button" class="btn btn-light rounded-1 custom-dark fw-semibold opacity-75 border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
             </div>
         </form>
     </ng-template>
+
+    <ng-template #modalDeleteReview let-c="close" let-d="dismiss">
+        <div class="p-3" id="modal_delete_review">
+            <div class="d-flex gap-4">
+                <div class="pt-2">
+                    <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+                </div>
+                <div>
+                    <h4 class="custom-dark">Excluir avaliação</h4>
+                    <p>Você tem certeza que deseja excluir essa avaliação? Essa ação não poderá ser desfeita.</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="deleteReview()" [disabled]="spinnerDeleteReview">
+                    @if (!spinnerDeleteReview) {
+                        <span>Excluir</span>
+                    }@else {
+                        <div class="d-flex gap-2">
+                            <div class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status"></div>
+                            <span>Aguarde...</span>
+                        </div>
+                    }
+                </button>
+            </div>
+        </div>
+    </ng-template>
 </section>
 <app-footer></app-footer>
-
-<!-- <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts> -->

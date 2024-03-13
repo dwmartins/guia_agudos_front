@@ -1,12 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { PlansService } from '../../../services/plans.service';
-import { RedirectService } from '../../../services/redirect.service';
+import { ListingPlansService } from '../../../services/listingPlans.service';
+import { RedirectService } from '../../../services/helpers/redirect.service';
 import { BannerPrice } from '../../../models/BannerPrice';
 import { User } from '../../../models/user';
 import { Redirect } from '../../../models/Redirect';
-import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { ListingPlans } from '../../../models/ListingPlans';
@@ -23,7 +22,7 @@ import { SpinnerService } from '../../../services/components/spinner.service';
 export class PlansComponent implements OnInit {
     route 			= inject(ActivatedRoute);
 	router 			= inject(Router);
-    plansService    = inject(PlansService);
+    listingPlansService    = inject(ListingPlansService);
     redirectService = inject(RedirectService);
     alertService    = inject(AlertService);
     authService     = inject(AuthService);
@@ -43,34 +42,34 @@ export class PlansComponent implements OnInit {
             this.alertService.showAlert('info', 'Você precisa estar logado para criar um anúncio');
 
             const sharedData: Redirect = {
-                redirectTo: '/app/planos',
+                redirectTo: '/planos',
                 redirectMsg: ''
             }
 
             this.redirectService.setData(sharedData);
-            this.router.navigate(['/app/login']);
+            this.router.navigate(['/login']);
             return;
         }
 
-        this.router.navigate([`/app/anunciantes/novo/${planId}`]);
+        this.router.navigate([`/anunciantes/novo/${planId}`]);
     }
 
     getAllPlans() {
-        this.getBanners();
+        // this.getBanners();
         this.getListingPlans();
     }
 
-    getBanners() {
-        this.plansService.banners("Y").subscribe((response) => {
-            this.banners = response;
-        }, (error) => {
-            console.error('ERROR: ', error);
-        })
-    }
+    // getBanners() {
+    //     this.listingPlansService.banners("Y").subscribe((response) => {
+    //         this.banners = response;
+    //     }, (error) => {
+    //         console.error('ERROR: ', error);
+    //     })
+    // }
 
     getListingPlans() {
         this.spinnerService.show('Buscando planos, aguarde...');
-        this.plansService.getPlans("Y").subscribe(response => {
+        this.listingPlansService.getPlans("Y").subscribe(response => {
             this.spinnerService.hide();
             this.listingPlans = response;
         }, error => {

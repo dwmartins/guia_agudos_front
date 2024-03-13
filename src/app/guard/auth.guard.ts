@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
         return true;
     }
 
-    router.navigate(['/app']);
+    router.navigate(['/']);
     return false
 };
 
@@ -29,6 +29,6 @@ export const adminGuard: CanActivateFn = async (route, state) => {
         return true;
     }
 
-    router.navigate(['/app']);
+    router.navigate(['/']);
     return false;
 };

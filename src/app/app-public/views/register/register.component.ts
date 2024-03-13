@@ -110,6 +110,6 @@ export class RegisterComponent {
 
    redirectToLogin() {
       this.modalRegister.dismissAll(this.register);
-      this.router.navigate(['/app/login']);
+      this.router.navigate(['/login']);
    }
 }

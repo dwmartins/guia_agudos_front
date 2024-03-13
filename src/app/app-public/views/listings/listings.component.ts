@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingCategoryService } from '../../../services/listing-category.service';
@@ -10,6 +10,8 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgModel } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
 
 @Component({
    selector: 'app-listings',
@@ -18,13 +20,15 @@ import { FormsModule, NgModel } from '@angular/forms';
    templateUrl: './listings.component.html',
    styleUrl: './listings.component.css'
 })
-export class ListingsComponent implements OnInit{
-   categoryService      = inject(ListingCategoryService);
-   listingService       = inject(ListingService);
-   route                = inject(ActivatedRoute);
-   router               = inject(Router);
-   validErrorsService   = inject(ValidErrorsService);
-   spinnerService       = inject(SpinnerService);
+export class ListingsComponent implements OnInit, OnDestroy{
+   titleService		      = inject(Title);	
+   globalVariablesService  = inject(GlobalVariablesService);
+   categoryService         = inject(ListingCategoryService);
+   listingService          = inject(ListingService);
+   route                   = inject(ActivatedRoute);
+   router                  = inject(Router);
+   validErrorsService      = inject(ValidErrorsService);
+   spinnerService          = inject(SpinnerService);
 
    iconCategories: boolean = false;
 
@@ -52,10 +56,15 @@ export class ListingsComponent implements OnInit{
    }
 
    ngOnInit(): void {
+      this.titleService.setTitle(`${this.globalVariablesService.title} - Anunciantes`);
       this.goToTheTopWindow();
       this.getParams();
       this.getListingsAll();
       this.getCategories();
+   }
+
+   ngOnDestroy(): void {
+      this.titleService.setTitle(this.globalVariablesService.title);
    }
 
    toggleIconCategories() {
@@ -89,7 +98,8 @@ export class ListingsComponent implements OnInit{
 
    searchListingFilter() {
       this.searchItensListing = this.listings.filter(object =>
-         object.title.toLowerCase().includes(this.searchItem.toLowerCase())
+         object.title.toLowerCase().includes(this.searchItem.toLowerCase()) ||
+         object.summary.toLowerCase().includes(this.searchItem.toLowerCase())
       );
    }
 
@@ -116,7 +126,7 @@ export class ListingsComponent implements OnInit{
 
    viewListing(listing: Listing) {
       if(listing.plan != "GRÁTIS") {
-         this.router.navigate(['/app/anunciante', listing.id]);
+         this.router.navigate(['/anunciante', listing.id]);
       }
    }
 
