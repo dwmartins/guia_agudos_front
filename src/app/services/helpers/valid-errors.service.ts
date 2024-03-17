@@ -42,6 +42,6 @@ export class ValidErrorsService {
             return;
         }
 
-        this.alertService.showAlert('error', error.error.error);
+        this.alertService.showAlert('error', msg);
     }
 }

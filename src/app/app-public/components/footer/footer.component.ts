@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
   selector: 'app-footer',
@@ -11,7 +11,7 @@ import { GlobalVariablesService } from '../../../services/helpers/global-variabl
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  globalVariables = inject(GlobalVariablesService);
+  constantsService = inject(ConstantsService);
 
-  logo: string = this.globalVariables.logo;
+  logo: string = this.constantsService.websiteLogo;
 }

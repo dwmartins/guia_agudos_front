@@ -9,7 +9,7 @@ import { ListingService } from '../../../services/listing.service';
 import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { AlertService } from '../../../services/components/alert.service';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
@@ -35,7 +35,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     listingService          = inject(ListingService);
     validErrorsService  	= inject(ValidErrorsService);
     alertService 			= inject(AlertService);
-    globalVariablesService  = inject(GlobalVariablesService);
+    constantsService        = inject(ConstantsService);
     route 					= inject(ActivatedRoute);
 	router 					= inject(Router);
     spinnerService          = inject(SpinnerService);
@@ -73,7 +73,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy(): void {
-        this.titleService.setTitle(this.globalVariablesService.title);
+        this.titleService.setTitle(this.constantsService.siteTitle);
     }
 
     getUserLogged() {

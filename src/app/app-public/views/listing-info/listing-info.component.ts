@@ -17,7 +17,7 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { AlertService } from '../../../services/components/alert.service';
 import { RedirectService } from '../../../services/helpers/redirect.service';
 import { Redirect } from '../../../models/Redirect';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { OpeningHours } from '../../../models/OpeningHours';
 import { AuthService } from '../../../services/auth.service';
@@ -33,7 +33,7 @@ import { DateService } from '../../../services/helpers/date.service';
 export class ListingInfoComponent implements OnInit, OnDestroy{
 	authService             = inject(AuthService);
 	titleService			= inject(Title);	
-	globalVariablesService  = inject(GlobalVariablesService);
+	constantsService  		= inject(ConstantsService);
 	route 					= inject(ActivatedRoute);
 	router 					= inject(Router);
 	lightbox 				= inject(Lightbox);
@@ -104,7 +104,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	ngOnDestroy(): void {
-		this.titleService.setTitle(this.globalVariablesService.title);
+		this.titleService.setTitle(this.constantsService.siteTitle);
 	}
 
 	getParams() {

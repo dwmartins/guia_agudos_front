@@ -5,7 +5,7 @@ import { User } from '../../../models/user';
 import { HeaderService } from '../../../services/components/header.service';
 import { AuthService } from '../../../services/auth.service';
 import { AlertService } from '../../../services/components/alert.service';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
    selector: 'app-header',
@@ -15,17 +15,17 @@ import { GlobalVariablesService } from '../../../services/helpers/global-variabl
    styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-   authService     = inject(AuthService);
-   headerService   = inject(HeaderService);
-   router          = inject(Router);
-   alertService    = inject(AlertService);
-   globalVariables = inject(GlobalVariablesService);
+   authService       = inject(AuthService);
+   headerService     = inject(HeaderService);
+   router            = inject(Router);
+   alertService      = inject(AlertService);
+   constantsService  = inject(ConstantsService);
 
    @ViewChild('navbar', {static: true}) navbar!: ElementRef;
 
    user: Partial<User> = {};
    userLogged: boolean = false;
-   logo: string = this.globalVariables.logo;
+   logo: string = this.constantsService.websiteLogo;
 
    constructor() {}
 
