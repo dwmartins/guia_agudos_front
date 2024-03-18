@@ -9,11 +9,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AlertService } from '../../../services/components/alert.service';
 import { UserService } from '../../../services/user.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
     selector: 'app-user-edit',
     standalone: true,
-    imports: [CommonModule, FooterComponent, ReactiveFormsModule, HttpClientModule],
+    imports: [CommonModule, FooterComponent, ReactiveFormsModule, HttpClientModule, SpinnerLoadingComponent],
     templateUrl: './user-edit.component.html',
     styleUrl: './user-edit.component.css'
 })
@@ -73,9 +74,13 @@ export class UserEditComponent implements OnInit {
 
     submitFormNewPassword() {
         if(this.formNewPassword.valid) {
+            this.spinnerNewPassword = true;
             this.userService.updatePassword(this.formNewPassword.value).subscribe((response) => {
+                this.formNewPassword.reset();
+                this.spinnerNewPassword = false;
                 this.alertService.showAlert("success", response.success);
             }, (error) => {
+                this.spinnerNewPassword = false;
                 this.validErrorsService.validError(error, "Falha ao atualizar a senha.");
             });
         } else {
