@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClientModule } from '@angular/common/http';
 import { AlertService } from '../../../services/components/alert.service';
 import { UserService } from '../../../services/user.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 
 @Component({
     selector: 'app-user-edit',
@@ -17,11 +18,12 @@ import { UserService } from '../../../services/user.service';
     styleUrl: './user-edit.component.css'
 })
 export class UserEditComponent implements OnInit {
-    authService     = inject(AuthService);
-    dateService     = inject(DateService);
-    alertService    = inject(AlertService);
-    userService     = inject(UserService);
-    formBuilder     = inject(FormBuilder);
+    authService         = inject(AuthService);
+    dateService         = inject(DateService);
+    alertService        = inject(AlertService);
+    userService         = inject(UserService);
+    formBuilder         = inject(FormBuilder);
+    validErrorsService  = inject(ValidErrorsService);
 
     icon_password: string = 'fa-eye';
     showPassword: string = 'password';
@@ -29,6 +31,9 @@ export class UserEditComponent implements OnInit {
     showNewPassword: string = 'password';
 
     formEdit: FormGroup;
+    formNewPassword: FormGroup;
+
+    spinnerNewPassword: boolean = false;
 
     user!: User;
 
@@ -47,7 +52,12 @@ export class UserEditComponent implements OnInit {
             city: [''],
             cep: [''],
             phone: ['']
-        })
+        });
+
+        this.formNewPassword = this.formBuilder.group({
+            password: ['', Validators.required],
+            newPassword: ['', Validators.required]
+        });
     }
 
     ngOnInit(): void {
@@ -58,6 +68,19 @@ export class UserEditComponent implements OnInit {
         const user = this.authService.getUserLogged();
         if (user) {
             this.user = user;
+        }
+    }
+
+    submitFormNewPassword() {
+        if(this.formNewPassword.valid) {
+            this.userService.updatePassword(this.formNewPassword.value).subscribe((response) => {
+                this.alertService.showAlert("success", response.success);
+            }, (error) => {
+                this.validErrorsService.validError(error, "Falha ao atualizar a senha.");
+            });
+        } else {
+            this.formNewPassword.markAllAsTouched();
+            alert("Invalido");
         }
     }
     

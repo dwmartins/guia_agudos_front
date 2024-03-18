@@ -3,6 +3,8 @@ export interface User {
     name: string;
     lastName: string;
     email: string;
+    password: string;
+    newPassword: string;
     active: 'Y' | 'N';
     user_type: 'admin' | 'common';
     photo_url: string;

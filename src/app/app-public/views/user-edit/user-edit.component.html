@@ -102,13 +102,15 @@
                         </div>
                     </form>
                     <hr class="custom-hr-dark">
-                    <form class="row">
+                    <form class="row" [formGroup]="formNewPassword" (ngSubmit)="submitFormNewPassword()">
                         <h5 class="custom-subtitle-dark letter-spacing-1 mb-4">ALTERAÇÃO DE SENHA</h5>
                         <div class="col-12 col-md-6 mb-3">
                             <div>
                                 <label for="password" class="mb-1 custom-subtitle-dark letter-spacing-1">Senha Atual:</label>
                                 <div class="position-relative">
-                                    <input [type]="showPassword" id="password" name="password" class="form-control custom_focus custom_placeholder">
+                                    <input [type]="showPassword" id="password" name="password" class="form-control custom_focus custom_placeholder"
+                                        formControlName="password"
+                                        [ngClass]="{'invalid_input': formNewPassword.get('password')?.invalid && formNewPassword.get('password')?.touched}">
                                     <i (click)="viePassword('password')" [class]="icon_password" class="fa-regular eye_password position-absolute text-secondary"></i>
                                 </div>
                             </div>
@@ -117,7 +119,9 @@
                             <div>
                                 <label for="newPassword" class="mb-1 custom-subtitle-dark letter-spacing-1">Nova Senha:</label>
                                 <div class="position-relative">
-                                    <input [type]="showNewPassword" id="newPassword" name="newPassword" class="form-control custom_focus custom_placeholder">
+                                    <input [type]="showNewPassword" id="newPassword" name="newPassword" class="form-control custom_focus custom_placeholder"
+                                    formControlName="newPassword"
+                                    [ngClass]="{'invalid_input': formNewPassword.get('newPassword')?.invalid && formNewPassword.get('newPassword')?.touched}">
                                     <i (click)="viePassword('newPassword')" [class]="icon_NewPassword" class="fa-regular eye_newPassword position-absolute text-secondary"></i>
                                 </div>
                             </div>
