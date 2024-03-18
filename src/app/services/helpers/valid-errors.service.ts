@@ -25,6 +25,9 @@ export class ValidErrorsService {
                 this.authService.logout();
                 return;
             }
+
+            this.alertService.showAlert('info', error.error.error);
+            return;
         }
 
         if(error.status === 400) {

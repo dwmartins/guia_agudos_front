@@ -30,3 +30,20 @@
 .img_user:hover .change-photo-user  {
     opacity: 1;
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.eye_password, .eye_newPassword {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 21px;
+    cursor: pointer;
+}
