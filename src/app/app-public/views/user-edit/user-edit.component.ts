@@ -35,6 +35,7 @@ export class UserEditComponent implements OnInit {
     formNewPassword: FormGroup;
 
     spinnerNewPassword: boolean = false;
+    spinnerEdit: boolean = false;
 
     user!: User;
 
@@ -42,9 +43,14 @@ export class UserEditComponent implements OnInit {
 
     constructor() {
         this.formEdit = this.formBuilder.group({
+            id: [],
             name: ['', [Validators.required]],
             lastName: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
+            active: [''],
+            token: [''],
+            user_type: [''],
+            photo_url: [''],
             aboutMe: [''],
             address: [''],
             complement: [''],
@@ -69,6 +75,43 @@ export class UserEditComponent implements OnInit {
         const user = this.authService.getUserLogged();
         if (user) {
             this.user = user;
+            console.log(this.user)
+            this.formEdit.patchValue({
+                id: this.user.id,
+                name: this.user.name,
+                lastName: this.user.lastName,
+                email: this.user.email,
+                active: this.user.active,
+                token: this.user.token,
+                user_type: this.user.user_type,
+                photo_url: this.user.photo_url,
+                aboutMe: this.user.aboutMe,
+                address: this.user.address,
+                complement: this.user.complement,
+                country: this.user.country,
+                state: this.user.state,
+                city: this.user.city,
+                cep: this.user.cep,
+                phone: this.user.phone
+            });
+        }
+    }
+
+    submitFormEdit() {
+        if(this.formEdit.valid) {
+            this.spinnerEdit = true;
+            console.log(this.formEdit.value)
+            this.userService.updateUser(this.formEdit.value).subscribe((response) => {
+                this.spinnerEdit = false;
+                this.authService.updateUserLogged(this.formEdit.value);
+                this.getUserLogged();
+                this.alertService.showAlert("success", "Usuário atualizado com sucesso.");
+            }, (error) => {
+                this.spinnerEdit = false;
+                this.validErrorsService.validError(error, "Falha ao atualizar o usuário.");
+            });
+        } else {
+            this.formEdit.markAllAsTouched();
         }
     }
 
@@ -85,7 +128,6 @@ export class UserEditComponent implements OnInit {
             });
         } else {
             this.formNewPassword.markAllAsTouched();
-            alert("Invalido");
         }
     }
     

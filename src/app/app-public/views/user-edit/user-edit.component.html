@@ -29,72 +29,93 @@
             </div>
             <div class="col-12 col-lg-9 p-2 ps-lg-5">
                 <div class="container">
-                    <form class="row mb-5">
+                    <form class="row mb-5" [formGroup]="formEdit" (submit)="submitFormEdit()">
                         <h5 class="custom-subtitle-dark letter-spacing-1 mb-4">EDITAR INFORMAÇÕES</h5>
                         <div class="col-12 col-md-3 mb-3">
                             <div>
                                 <label for="name" class="mb-1 custom-subtitle-dark letter-spacing-1">Nome:</label>
-                                <input type="text" name="name" class="form-control custom_focus custom_placeholder" [value]="user.name">
+                                <input type="text" name="name" id="name" class="form-control custom_focus custom_placeholder"
+                                formControlName="name" [ngClass]="{'invalid_input': formEdit.get('name')?.invalid && formEdit.get('name')?.touched}"
+                                autocomplete="name">
                             </div>
                         </div>
                         <div class="col-12 col-md-3 mb-3">
                             <div>
                                 <label for="lastName" class="mb-1 custom-subtitle-dark letter-spacing-1">Sobrenome:</label>
-                                <input type="text" name="lastName" class="form-control custom_focus custom_placeholder" [value]="user.lastName">
+                                <input type="text" name="lastName" id="lastName" class="form-control custom_focus custom_placeholder"
+                                formControlName="lastName" [ngClass]="{'invalid_input': formEdit.get('lastName')?.invalid && formEdit.get('lastName')?.touched}"
+                                autocomplete="family-name">
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <div>
                                 <label for="email" class="mb-1 custom-subtitle-dark letter-spacing-1">E-mail:</label>
-                                <input type="text" name="email" class="form-control custom_focus custom_placeholder" [value]="user.email">
+                                <input type="text" name="email" id="email" class="form-control custom_focus custom_placeholder" 
+                                formControlName="email" [ngClass]="{'invalid_input': formEdit.get('email')?.invalid && formEdit.get('email')?.touched}"
+                                autocomplete="email">
                             </div>
                         </div>
                         <div class="col-12 mb-3">
                             <div>
                                 <label for="aboutMe" class="mb-1 custom-subtitle-dark letter-spacing-1">Sobre mim:</label>
-                                <textarea name="aboutMe" id="aboutMe" cols="30" rows="5" class="form-control custom_focus"></textarea>
+                                <textarea name="aboutMe" id="aboutMe" cols="30" rows="5" class="form-control custom_focus" 
+                                formControlName="aboutMe" [ngClass]="{'invalid_input': formEdit.get('aboutMe')?.invalid && formEdit.get('aboutMe')?.touched}">
+                                </textarea>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <div>
                                 <label for="address" class="mb-1 custom-subtitle-dark letter-spacing-1">Endereço:</label>
-                                <input type="text" id="address" name="address" class="form-control custom_focus custom_placeholder">
+                                <input type="text" id="address" name="address" class="form-control custom_focus custom_placeholder"
+                                formControlName="address" [ngClass]="{'invalid_input': formEdit.get('address')?.invalid && formEdit.get('address')?.touched}"
+                                autocomplete="street-address">
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <div>
                                 <label for="complement" class="mb-1 custom-subtitle-dark letter-spacing-1">Complemento:</label>
-                                <input type="text" id="complement" name="complement" class="form-control custom_focus custom_placeholder">
+                                <input type="text" id="complement" name="complement" class="form-control custom_focus custom_placeholder"
+                                formControlName="complement" [ngClass]="{'invalid_input': formEdit.get('complement')?.invalid && formEdit.get('complement')?.touched}">
                             </div>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                             <div>
                                 <label for="country" class="mb-1 custom-subtitle-dark letter-spacing-1">País:</label>
-                                <input type="text" id="country" name="country" class="form-control custom_focus custom_placeholder">
+                                <input type="text" id="country" name="country" class="form-control custom_focus custom_placeholder"
+                                formControlName="country" [ngClass]="{'invalid_input': formEdit.get('country')?.invalid && formEdit.get('country')?.touched}"
+                                autocomplete="country">
                             </div>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                             <div>
                                 <label for="state" class="mb-1 custom-subtitle-dark letter-spacing-1">Estado:</label>
-                                <input type="text" id="state" name="state" class="form-control custom_focus custom_placeholder">
+                                <input type="text" id="state" name="state" class="form-control custom_focus custom_placeholder" 
+                                formControlName="state" [ngClass]="{'invalid_input': formEdit.get('state')?.invalid && formEdit.get('state')?.touched}"
+                                autocomplete="address-level1">
                             </div>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                             <div>
                                 <label for="city" class="mb-1 custom-subtitle-dark letter-spacing-1">Cidade:</label>
-                                <input type="text" id="city" name="city" class="form-control custom_focus custom_placeholder">
+                                <input type="text" id="city" name="city" class="form-control custom_focus custom_placeholder" 
+                                formControlName="city" [ngClass]="{'invalid_input': formEdit.get('city')?.invalid && formEdit.get('city')?.touched}"
+                                autocomplete="address-level2">
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <div>
                                 <label for="cep" class="mb-1 custom-subtitle-dark letter-spacing-1">Cep:</label>
-                                <input type="number" id="cep" name="cep" class="form-control custom_focus custom_placeholder">
+                                <input type="number" id="cep" name="cep" class="form-control custom_focus custom_placeholder" 
+                                formControlName="cep" [ngClass]="{'invalid_input': formEdit.get('cep')?.invalid && formEdit.get('cep')?.touched}"
+                                autocomplete="postal-code">
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <div>
                                 <label for="phone" class="mb-1 custom-subtitle-dark letter-spacing-1">Telefone:</label>
-                                <input type="number" id="phone" name="phone" class="form-control custom_focus custom_placeholder">
+                                <input type="number" id="phone" name="phone" class="form-control custom_focus custom_placeholder" 
+                                formControlName="phone" [ngClass]="{'invalid_input': formEdit.get('phone')?.invalid && formEdit.get('phone')?.touched}"
+                                autocomplete="tel">
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">

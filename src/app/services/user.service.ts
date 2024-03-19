@@ -35,6 +35,15 @@ export class UserService {
     return this.httpClient.post<User | Responses>(`${this.API_URL}/user/create`, formData);
   }
 
+  updateUser(user: User) {
+    const headers = new HttpHeaders({
+      'user_id': this.user.id,
+      'token': this.user.token
+    });
+
+    return this.httpClient.put<User>(`${this.API_URL}/user/update`, user, {headers: headers})
+  }
+
   updatePhoto(photo: File) {
 
     const headers = new HttpHeaders({

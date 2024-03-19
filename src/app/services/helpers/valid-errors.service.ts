@@ -45,6 +45,11 @@ export class ValidErrorsService {
             return;
         }
 
+        if(error.status === 409) {
+            this.alertService.showAlert('error', error.error.error);
+            return;
+        }
+
         this.alertService.showAlert('error', msg);
     }
 }

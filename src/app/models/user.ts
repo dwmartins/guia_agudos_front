@@ -3,6 +3,14 @@ export interface User {
     name: string;
     lastName: string;
     email: string;
+    aboutMe: string;
+    address: string;
+    complement: string;
+    country: string;
+    state: string;
+    city: string;
+    cep: number;
+    phone: number;
     password: string;
     newPassword: string;
     active: 'Y' | 'N';
