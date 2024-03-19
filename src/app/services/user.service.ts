@@ -16,11 +16,13 @@ export class UserService {
   user!: User;
 
   constructor() {
-    this.user = this.authService.getUserLogged() || {} as User;
-  }
+    this.authService.userData$.subscribe(userData => {
+      this.user = userData || {} as User;
+    });
 
-  sendNewPassword(user: User) {
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/new-password`, user);
+    if(!Object.keys(this.user).length) {
+      this.user = this.authService.getUserLogged() || {} as User;
+    }
   }
 
   newUser(user: User, photo: File) {
@@ -68,5 +70,9 @@ export class UserService {
     });
 
     return this.httpClient.put<Responses>(`${this.API_URL}/user/update-password`, user, {headers: headers});
+  }
+
+  sendNewPassword(user: User) {
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/new-password`, user);
   }
 }
