@@ -156,8 +156,8 @@ export class UserEditComponent implements OnInit {
         const file = fileInput.files?.[0];
 
         if(file) {
-            this.newPhotoUser = file;
             if(this.imageService.validImage(file)){
+                this.newPhotoUser = file;
                 const reader = new FileReader();
 
                 reader.onload = () => {

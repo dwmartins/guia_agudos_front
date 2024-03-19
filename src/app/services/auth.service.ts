@@ -56,7 +56,7 @@ export class AuthService {
 	}
 
 	login(user: User) {    
-		return this.httpClient.post<User | Responses>(`${this.API_URL}/user/login`, user);
+		return this.httpClient.post<User>(`${this.API_URL}/user/login`, user);
 	}
 
 	logout() {

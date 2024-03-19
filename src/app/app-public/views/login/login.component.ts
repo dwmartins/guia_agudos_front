@@ -12,6 +12,7 @@ import { AlertsComponent } from '../../../shared/components/alerts/alerts.compon
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { AuthService } from '../../../services/auth.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 
 @Component({
    selector: 'app-login',
@@ -21,14 +22,15 @@ import { AuthService } from '../../../services/auth.service';
    styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-   route             = inject(ActivatedRoute);
-   router            = inject(Router);
-   redirectService   = inject(RedirectService);
-   alertService      = inject(AlertService);
-   authService       = inject(AuthService);
-   userService       = inject(UserService);
-   headerService     = inject(HeaderService);
-   formBuilder       = inject(FormBuilder);
+   validErrorsService   = inject(ValidErrorsService);
+   route                = inject(ActivatedRoute);
+   router               = inject(Router);
+   redirectService      = inject(RedirectService);
+   alertService         = inject(AlertService);
+   authService          = inject(AuthService);
+   userService          = inject(UserService);
+   headerService        = inject(HeaderService);
+   formBuilder          = inject(FormBuilder);
 
    formLogin: FormGroup;
    user: Partial<User> = {};
@@ -60,11 +62,6 @@ export class LoginComponent implements OnInit{
          this.loadSpinner = true;
          this.authService.login(this.formLogin.value).subscribe((response) => {
             this.loadSpinner = false;
-            if('alert' in response) {
-               this.alertService.showAlert('info', response.alert);
-               return;
-            }
-
             this.user = response;
             this.authService.setUserLogged(response);
             this.headerService.update(true);
@@ -81,9 +78,8 @@ export class LoginComponent implements OnInit{
             }, 1000);
 
          }, (error) => {
-            this.loadSpinner = false
-            this.alertService.showAlert('error', 'Falha ao realizar o login');
-            console.error('ERROR: ', error);
+            this.loadSpinner = false;
+            this.validErrorsService.validError(error, "Falha ao realizar o login");
          })
       } else {
          this.formLogin.markAllAsTouched();

@@ -251,8 +251,8 @@ export class ListingNewComponent implements OnInit{
         const file = fileInput.files?.[0];
         
         if(file) {
-            this.logoImage = file;
             if(this.imageService.validImage(file)) {
+                this.logoImage = file;
                 const reader = new FileReader();
 
                 reader.onload = () => {
@@ -268,8 +268,8 @@ export class ListingNewComponent implements OnInit{
         const file = fileInput.files?.[0];
 
         if(file) {
-            this.coverImage = file;
             if(this.imageService.validImage(file)) {
+                this.coverImage = file;
                 const reader = new FileReader();
 
                 reader.onload = () => {
