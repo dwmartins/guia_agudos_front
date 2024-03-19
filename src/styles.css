@@ -173,6 +173,11 @@
     animation: fadeIn 0.8s ease-in-out forwards;
 }
 
+.show-animation-2 {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -181,6 +186,7 @@
         opacity: 1;
     }
 }
+/* End Animations */
 
 .custom_spinner_btn {
     height: 22px;
