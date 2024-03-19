@@ -132,6 +132,10 @@
     cursor: pointer;
 }
 
+.cursor_wait {
+    cursor: wait;
+}
+
 .link_outline_none {
     text-decoration: none;
 }

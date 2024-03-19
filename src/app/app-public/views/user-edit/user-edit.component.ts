@@ -75,7 +75,7 @@ export class UserEditComponent implements OnInit {
         const user = this.authService.getUserLogged();
         if (user) {
             this.user = user;
-            console.log(this.user)
+
             this.formEdit.patchValue({
                 id: this.user.id,
                 name: this.user.name,
@@ -100,7 +100,7 @@ export class UserEditComponent implements OnInit {
     submitFormEdit() {
         if(this.formEdit.valid) {
             this.spinnerEdit = true;
-            console.log(this.formEdit.value)
+
             this.userService.updateUser(this.formEdit.value).subscribe((response) => {
                 this.spinnerEdit = false;
                 this.authService.updateUserLogged(this.formEdit.value);
