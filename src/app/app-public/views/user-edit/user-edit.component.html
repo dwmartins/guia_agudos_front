@@ -14,7 +14,7 @@
                         </div>
     
                         <form>
-                            <input type="file" id="img_user" class="d-none" accept="image/*">
+                            <input (change)="previewPhotoUser($event)" type="file" id="img_user" class="d-none" accept="image/*">
                         </form>
                     </div>
                     <div class="text-center">
@@ -167,3 +167,23 @@
     </div>
 </section>
 <app-footer></app-footer>
+
+<ng-template #modalChangePhotoUser let-c="close" let-d="dismiss">
+    <div class="p-3 py-5 d-flex flex-column align-items-center gap-3">
+        <div class="img_user shadow border border-5 border-white position-relative cursor_pointer mb-2">
+            <img [src]="previewNewPhotoUser" alt="Usuário">
+        </div>
+        <h5 class="custom-dark text-center fw-semibold">Deseja alterar sua foto de perfil?</h5>
+        <div class="d-flex gap-2">
+            @if(!spinnerChangePhotoUser) {
+                <button (click)="changePhotoUser()" type="button" class="btn btn-sm btn-primary" [disabled]="spinnerChangePhotoUser">Confirmar</button>
+                <button type="button" class="btn btn-sm btn-danger" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+            }@else {
+                <div class="d-flex align-items-center gap-2">
+                    <div class="spinner-border spinner-border m-0 text-primary" role="status"></div>
+                    <span>Alterando sua foto, Aguarde...</span>
+                </div>
+            }
+        </div>
+    </div>
+</ng-template>
