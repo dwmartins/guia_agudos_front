@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { User } from '../models/user';
 import { HeaderService } from './components/header.service';
-import { UserService } from './user.service';
 import { AlertService } from './components/alert.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -41,7 +40,9 @@ export class AuthService {
 	}
 
 	updateUserLogged(userData: User) {
+		const token = this.userData?.token;
 		this.userData = userData;
+		this.userData.token = token!;
 		localStorage.removeItem('userData');
 		const user = JSON.stringify(userData);
 		localStorage.setItem('userData', user);

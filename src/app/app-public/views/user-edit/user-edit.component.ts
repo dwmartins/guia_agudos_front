@@ -115,7 +115,7 @@ export class UserEditComponent implements OnInit {
 
             this.userService.updateUser(this.formEdit.value).subscribe((response) => {
                 this.spinnerEdit = false;
-                this.authService.updateUserLogged(this.formEdit.value);
+                this.authService.updateUserLogged(response);
                 this.getUserLogged();
                 this.alertService.showAlert("success", "Usuário atualizado com sucesso.");
             }, (error) => {
