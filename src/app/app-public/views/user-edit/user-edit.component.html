@@ -158,10 +158,11 @@
                             </button>
                         </div>
                     </form>
+                    <hr class="custom-hr-dark">
+                    <div class="mt-5 d-flex justify-content-end">
+                        <button (click)="openModalDeleteAccount()" type="button" class="btn btn-sm btn-danger">Excluir minha conta</button>
+                    </div>
                 </div>
-            </div>
-            <div>
-
             </div>
         </div>
     </div>
@@ -179,11 +180,32 @@
                 <button (click)="changePhotoUser()" type="button" class="btn btn-sm btn-primary" [disabled]="spinnerChangePhotoUser">Confirmar</button>
                 <button type="button" class="btn btn-sm btn-danger" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
             }@else {
-                <div class="d-flex align-items-center gap-2">
-                    <div class="spinner-border spinner-border m-0 text-primary" role="status"></div>
-                    <span>Alterando sua foto, Aguarde...</span>
-                </div>
+                <app-spinner-loading text="Alterando sua foto, Aguarde..."/>
             }
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalDeleteAccount let-c="close" let-d="dismiss">
+    <div class="p-3" id="modal_delete_account">
+        <div class="d-flex gap-4">
+            <div class="pt-2">
+                <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+            </div>
+            <div>
+                <h4 class="custom-dark">Excluir conta</h4>
+                <p>Você tem certeza que deseja excluir sua conta? Essa ação não poderá ser desfeita.</p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="deleteAccount()" [disabled]="spinnerDeleteAccount">
+                @if (!spinnerDeleteAccount) {
+                    <span>Excluir</span>
+                }@else {
+                    <app-spinner-loading color="text-white" text="Aguarde..."/>
+                }
+            </button>
         </div>
     </div>
 </ng-template>

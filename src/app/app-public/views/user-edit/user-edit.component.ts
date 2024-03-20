@@ -31,6 +31,7 @@ export class UserEditComponent implements OnInit {
     imageService        = inject(ImageValidationService);
 
     @ViewChild('modalChangePhotoUser', {static: true}) modalChangePhotoUser!: ElementRef;
+    @ViewChild('modalDeleteAccount', {static: true}) modalDeleteAccount!: ElementRef;
 
     icon_password: string = 'fa-eye';
     showPassword: string = 'password';
@@ -43,6 +44,7 @@ export class UserEditComponent implements OnInit {
     spinnerNewPassword: boolean = false;
     spinnerEdit: boolean = false;
     spinnerChangePhotoUser: boolean = false;
+    spinnerDeleteAccount: boolean = false;
 
     user!: User;
 
@@ -184,6 +186,23 @@ export class UserEditComponent implements OnInit {
             this.modal.dismissAll(this.modalChangePhotoUser);
             this.spinnerChangePhotoUser = false;
             this.validErrorsService.validError(error, "Falha ao atualizar sua foto de perfil.");
+        })
+    }
+
+    openModalDeleteAccount() {
+		this.modal.open(this.modalDeleteAccount, {centered: true});
+	}
+
+    deleteAccount() {
+        this.spinnerDeleteAccount = true;
+        this.userService.deleteUser(this.user.id).subscribe((response) => {
+            this.spinnerDeleteAccount = false;
+            this.alertService.showAlert('success', 'Conta excluída com sucesso.');
+            this.modal.dismissAll(this.modalDeleteAccount);
+            this.authService.logout();
+        }, (error) => {
+            this.spinnerDeleteAccount = false;
+            this.validErrorsService.validError(error, "Falha ao excluir a conta");
         })
     }
 }

@@ -72,6 +72,15 @@ export class UserService {
     return this.httpClient.put<Responses>(`${this.API_URL}/user/update-password`, user, {headers: headers});
   }
 
+  deleteUser(id: number) {
+    const headers = new HttpHeaders({
+      'user_id': this.user.id,
+      'token': this.user.token
+    });
+
+    return this.httpClient.delete<Responses>(`${this.API_URL}/user/delete/${id}`, {headers: headers});
+  }
+
   sendNewPassword(user: User) {
     return this.httpClient.post<User | Responses>(`${this.API_URL}/user/new-password`, user);
   }

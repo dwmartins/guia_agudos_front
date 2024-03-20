@@ -47,3 +47,7 @@ input[type="number"] {
     font-size: 21px;
     cursor: pointer;
 }
+
+#modal_delete_account .fa-triangle-exclamation{
+    font-size: 40px;
+}
