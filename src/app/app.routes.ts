@@ -13,6 +13,7 @@ import { AppAdminComponent } from './app-admin/app-admin.component';
 import { DashboardComponent } from './app-admin/views/dashboard/dashboard.component';
 import { adminGuard, authGuard } from './guard/auth.guard';
 import { UserProfileComponent } from './app-public/views/user-profile/user-profile.component';
+import { UserEditComponent } from './app-public/views/user-edit/user-edit.component';
 
 export const routes: Routes = [
     // Rotas do site publicas!! **Usar canActivate: [authGuard] em rotas que precis de auth**
@@ -27,7 +28,8 @@ export const routes: Routes = [
             {path: 'anunciantes/novo/:planId', component: ListingNewComponent, canActivate: [authGuard]},
             {path: 'anunciante/:id', component: ListingInfoComponent},
             {path: 'planos', component: PlansComponent},
-            {path: 'perfil', component: UserProfileComponent, canActivate: [authGuard]}
+            {path: 'perfil', component: UserProfileComponent, canActivate: [authGuard]},
+            {path: 'perfil/editar', component: UserEditComponent, canActivate: [authGuard]}
         ]
     },
     // Rotas apenas para admin

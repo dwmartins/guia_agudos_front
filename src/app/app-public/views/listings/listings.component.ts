@@ -11,7 +11,7 @@ import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
    selector: 'app-listings',
@@ -22,7 +22,7 @@ import { GlobalVariablesService } from '../../../services/helpers/global-variabl
 })
 export class ListingsComponent implements OnInit, OnDestroy{
    titleService		      = inject(Title);	
-   globalVariablesService  = inject(GlobalVariablesService);
+   constantsService        = inject(ConstantsService);
    categoryService         = inject(ListingCategoryService);
    listingService          = inject(ListingService);
    route                   = inject(ActivatedRoute);
@@ -56,7 +56,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    ngOnInit(): void {
-      this.titleService.setTitle(`${this.globalVariablesService.title} - Anunciantes`);
+      this.titleService.setTitle(`${this.constantsService.siteTitle} - Anunciantes`);
       this.goToTheTopWindow();
       this.getParams();
       this.getListingsAll();
@@ -64,7 +64,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    ngOnDestroy(): void {
-      this.titleService.setTitle(this.globalVariablesService.title);
+      this.titleService.setTitle(this.constantsService.siteTitle);
    }
 
    toggleIconCategories() {
@@ -73,7 +73,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
 
    getListingsAll() {
       this.searching = true;
-      this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords).subscribe((response) => {
+      this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords, "ativo").subscribe((response) => {
          this.listings = response;
          this.searchItensListing = response;
          this.searching = false;
@@ -86,7 +86,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    searchListingByFilter() {
       this.queryParams.keywords = '';
       this.searching = true;
-      this.listingService.getAll(this.filters.category, this.filters.keywords).subscribe((response) => {
+      this.listingService.getAll(this.filters.category, this.filters.keywords, "ativo").subscribe((response) => {
          this.searchItensListing = response;
          this.searching = false;
 

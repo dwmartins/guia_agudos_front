@@ -6,13 +6,13 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
-import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/components/alert.service';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
    selector: 'app-forgot-password',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, SpinnerLoadingComponent],
    templateUrl: './forgot-password.component.html',
    styleUrl: './forgot-password.component.css'
 })
@@ -26,7 +26,6 @@ export class ForgotPasswordComponent {
    @ViewChild('success', { static: true }) success!: ElementRef;
    
    formForgotPassword: FormGroup;
-   alert: any[] = [];
    loadSpinner: boolean = false;
 
    constructor() {

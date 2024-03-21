@@ -9,20 +9,25 @@ import { User } from '../../../models/user';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/components/alert.service';
+import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
+import { ImageValidationService } from '../../../services/helpers/image-validation.service';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
    selector: 'app-register',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component, SpinnerLoadingComponent],
    templateUrl: './register.component.html',
    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-   formBuilder    = inject(FormBuilder);
-   router         = inject(Router);
-   userService    = inject(UserService);
-   modalRegister  = inject(NgbModal);
-   alertService   = inject(AlertService);
+   validErrorsService   = inject(ValidErrorsService);
+   formBuilder          = inject(FormBuilder);
+   router               = inject(Router);
+   userService          = inject(UserService);
+   modalRegister        = inject(NgbModal);
+   alertService         = inject(AlertService);
+   imageService         = inject(ImageValidationService);
 
    @ViewChild('register', { static: true }) register!: ElementRef;
 
@@ -33,8 +38,6 @@ export class RegisterComponent {
 
    formRegister: FormGroup
    user: Partial<User> = {};
-
-   alert: any[] = [];
 
    loadSpinner: boolean = false;
 
@@ -49,23 +52,18 @@ export class RegisterComponent {
          password: ['', [Validators.required]],
       })
    }
+
    submitForm() {
       if (this.formRegister.valid) {
          this.loadSpinner = true;
          this.userService.newUser(this.formRegister.value, this.userPhoto).subscribe((response) => {
             this.loadSpinner = false;
-
-            if ('alert' in response) {
-               this.alertService.showAlert('info', response.alert);
-               return;
-            }
-
+            this.formRegister.reset();
             this.modalRegister.open(this.register, { centered: true });
 
          }, (error) => {
+            this.validErrorsService.validError(error, "Falha ao realizar o login");
             this.loadSpinner = false;
-            this.alertService.showAlert('error', 'Falha ao criar a sua conta.');
-            console.error('ERROR: ', error);
          })
       } else {
          this.formRegister.markAllAsTouched();
@@ -82,25 +80,16 @@ export class RegisterComponent {
       const file = fileInput.files?.[0];
 
       if (file) {
-         if (file.size > 5 * 1024 * 1024) {
-            this.alertService.showAlert('info', 'A imagem de perfil deve ter no máximo 5MB.');
-            this.previewPhoto = null;
-            return;
-         }
-
-         const validExtensions = ['image/jpeg', 'image/jpg', 'image/png'];
-
-         if(validExtensions.includes(file.type)) {
+         if(this.imageService.validImage(file)) {
+            this.userPhoto = file;
             const reader = new FileReader();
-
+            
             reader.onload = () => {
                this.previewPhoto = reader.result?.toString();
                this.userPhoto = file;
             };
 
             reader.readAsDataURL(file);
-         } else {
-            this.alertService.showAlert('info', 'O formato da imagem deve ser (png, jpg, jpeg)');
          }
 
       } else {

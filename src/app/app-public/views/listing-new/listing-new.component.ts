@@ -17,6 +17,7 @@ import { Listing } from '../../../models/listing';
 import { User } from '../../../models/user';
 import { AuthService } from '../../../services/auth.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -26,6 +27,7 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
     styleUrl: './listing-new.component.css'
 })
 export class ListingNewComponent implements OnInit{
+    constants               = inject(ConstantsService);
     categoryService         = inject(ListingCategoryService);
     alertService            = inject(AlertService);
     route                   = inject(ActivatedRoute);
@@ -251,8 +253,8 @@ export class ListingNewComponent implements OnInit{
         const file = fileInput.files?.[0];
         
         if(file) {
-            this.logoImage = file;
             if(this.imageService.validImage(file)) {
+                this.logoImage = file;
                 const reader = new FileReader();
 
                 reader.onload = () => {
@@ -268,8 +270,8 @@ export class ListingNewComponent implements OnInit{
         const file = fileInput.files?.[0];
 
         if(file) {
-            this.coverImage = file;
             if(this.imageService.validImage(file)) {
+                this.coverImage = file;
                 const reader = new FileReader();
 
                 reader.onload = () => {
@@ -327,12 +329,6 @@ export class ListingNewComponent implements OnInit{
         }
 
         this.promotionalCodeService.validCode(this.promotionalCode).subscribe(response => {
-            if(response.alert) {
-                this.alertService.showAlert('info', response.alert);
-                this.promotionalCode = '';
-                return;
-            }
-
             this.codeValid = true;
             this.alertService.showAlert('success', response.success);
 
@@ -377,13 +373,10 @@ export class ListingNewComponent implements OnInit{
 
             this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
                 this.spinnerService.hide();
-
-                if('alert' in response) {
-                    this.alertService.showAlert('info', response.alert);
-                    return;
-                }
-
                 this.listing = response;
+                this.formListing.reset();
+                this.keywords = [];
+                this.categoriesSelect = [];
 
                 this.modalListing.open(this.newListing, { centered: true });
             }, error => {
@@ -394,6 +387,16 @@ export class ListingNewComponent implements OnInit{
             this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios');
             this.formListing.markAllAsTouched();
         }
+    }
+
+    finalizeOrder(listing: Listing) {
+        const msg = `
+            Olá, gostaria de finalizar meu pedido.\n
+            *ID do anúncio:* ${listing.id}\n
+            *Titulo:* ${listing.title}\n
+            *Plano:* ${listing.plan}
+        `;
+        window.open(`https://wa.me/${this.constants.adminPhone}/?text=${window.encodeURIComponent(msg)}`)
     }
 
     goToTheTopWindow() {

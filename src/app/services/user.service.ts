@@ -16,11 +16,13 @@ export class UserService {
   user!: User;
 
   constructor() {
-    this.user = this.authService.getUserLogged() || {} as User;
-  }
+    this.authService.userData$.subscribe(userData => {
+      this.user = userData || {} as User;
+    });
 
-  sendNewPassword(user: User) {
-    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/new-password`, user);
+    if(!Object.keys(this.user).length) {
+      this.user = this.authService.getUserLogged() || {} as User;
+    }
   }
 
   newUser(user: User, photo: File) {
@@ -33,6 +35,15 @@ export class UserService {
     });
 
     return this.httpClient.post<User | Responses>(`${this.API_URL}/user/create`, formData);
+  }
+
+  updateUser(user: User) {
+    const headers = new HttpHeaders({
+      'user_id': this.user.id,
+      'token': this.user.token
+    });
+
+    return this.httpClient.put<User>(`${this.API_URL}/user/update`, user, {headers: headers})
   }
 
   updatePhoto(photo: File) {
@@ -50,5 +61,27 @@ export class UserService {
     });
 
     return this.httpClient.put<User>(`${this.API_URL}/user/update-photo`, formData, {headers: headers});
+  }
+
+  updatePassword(user: User) {
+    const headers = new HttpHeaders({
+      'user_id': this.user.id,
+      'token': this.user.token
+    });
+
+    return this.httpClient.put<Responses>(`${this.API_URL}/user/update-password`, user, {headers: headers});
+  }
+
+  deleteUser(id: number) {
+    const headers = new HttpHeaders({
+      'user_id': this.user.id,
+      'token': this.user.token
+    });
+
+    return this.httpClient.delete<Responses>(`${this.API_URL}/user/delete/${id}`, {headers: headers});
+  }
+
+  sendNewPassword(user: User) {
+    return this.httpClient.post<User | Responses>(`${this.API_URL}/user/new-password`, user);
   }
 }

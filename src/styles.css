@@ -54,6 +54,14 @@
     font-size: 0.6rem;
 }
 
+.fs-11 {
+    font-size: 0.5rem;
+}
+
+.fs-12 {
+    font-size: 0.4rem;
+}
+
 /* Custom colors */
 
 .bg-primary {
@@ -132,6 +140,10 @@
     cursor: pointer;
 }
 
+.cursor_wait {
+    cursor: wait;
+}
+
 .link_outline_none {
     text-decoration: none;
 }
@@ -155,7 +167,7 @@
 
 .custom_placeholder::placeholder {
     color: #b1b1b1 !important;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .invalid_input {
@@ -169,6 +181,11 @@
     animation: fadeIn 0.8s ease-in-out forwards;
 }
 
+.show-animation-2 {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -177,6 +194,7 @@
         opacity: 1;
     }
 }
+/* End Animations */
 
 .custom_spinner_btn {
     height: 22px;

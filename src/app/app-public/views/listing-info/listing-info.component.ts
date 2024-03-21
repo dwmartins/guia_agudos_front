@@ -17,11 +17,12 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { AlertService } from '../../../services/components/alert.service';
 import { RedirectService } from '../../../services/helpers/redirect.service';
 import { Redirect } from '../../../models/Redirect';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { OpeningHours } from '../../../models/OpeningHours';
 import { AuthService } from '../../../services/auth.service';
 import { DateService } from '../../../services/helpers/date.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   	selector: 'app-listing-info',
@@ -33,7 +34,7 @@ import { DateService } from '../../../services/helpers/date.service';
 export class ListingInfoComponent implements OnInit, OnDestroy{
 	authService             = inject(AuthService);
 	titleService			= inject(Title);	
-	globalVariablesService  = inject(GlobalVariablesService);
+	constantsService  		= inject(ConstantsService);
 	route 					= inject(ActivatedRoute);
 	router 					= inject(Router);
 	lightbox 				= inject(Lightbox);
@@ -104,7 +105,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	}
 
 	ngOnDestroy(): void {
-		this.titleService.setTitle(this.globalVariablesService.title);
+		this.titleService.setTitle(this.constantsService.siteTitle);
 	}
 
 	getParams() {
@@ -112,32 +113,41 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 			this.listingId = params['id'];
 		})
 
-		this.getListing();
-		this.getReviews();
+		this.getData();
 	}
 
-	getListing() {
+	getData() {
 		this.spinnerService.show("Buscando anúncio, aguarde...");
-		this.listingService.getById(this.listingId).subscribe((response) => {
-			this.spinnerService.hide();
-			this.listing = response;
 
-			this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+		const listingsObservable = this.listingService.getById(this.listingId);
+		const reviewsObservable = this.reviewService.fetchAllByListing(this.listingId);
 
-			if(this.listing.galleryImage) {
-				this.galleryImages = this.listing.galleryImage;
+		forkJoin([listingsObservable, reviewsObservable]).subscribe(
+			([listingResponse, reviewsResponse]) => {
+				this.spinnerService.hide();
+				this.listing = listingResponse;
+				this.reviews = reviewsResponse;
+				this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+
+				if(this.listing.status != "ativo" && !this.authService.getUserLogged()) {
+					this.alertService.showAlert('info', 'Este anúncio não está disponível.');
+					this.router.navigate(['/anunciantes']);
+				}
+
+				if(this.listing.galleryImage) {
+					this.galleryImages = this.listing.galleryImage;
+				}
+
+				this.titleService.setTitle(this.listing.title!);
+				this.setMap();
+			}, (error) => {
+				this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 			}
-
-			this.setMap();
-			this.titleService.setTitle(this.listing.title!);
-		}, (error) => {
-			this.spinnerService.hide();
-			this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
-		})
+		)
 	}
 
 	getReviews() {
-		this.reviewService.fetchAll(this.listingId).subscribe((response) => {
+		this.reviewService.fetchAllByListing(this.listingId).subscribe((response) => {
 			this.reviews = response;
 		}, (error) => {
 			this.validErrorsService.validError(error, 'Falha ao buscar as avaliações');

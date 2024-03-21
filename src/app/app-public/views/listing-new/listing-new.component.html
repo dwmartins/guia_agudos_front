@@ -37,7 +37,7 @@
                     <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
                 </div>
                 <div class="col-12 col-md-7 mb-3">
-                    <label class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
+                    <label for="search" class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
 
                     @if (categoriesSelect.length) {
                         <div class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
@@ -53,7 +53,7 @@
                             CATEGORIAS
                         </button>
                         <ul class="dropdown-menu p-2">
-                            <input [(ngModel)]="searchItem" [ngModelOptions]="{ standalone: true }" type="text" name="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
+                            <input [(ngModel)]="searchItem" [ngModelOptions]="{ standalone: true }" type="text" name="search" id="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
 
                             @for (category of searchItensCategory; track $index) {
                                 <li (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
@@ -62,7 +62,7 @@
                         </ul>
                     </div>
                     <div>
-                        <label class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
+                        <label for="keywords" class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
                         
                         @if (keywords.length) {
                             <div class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
@@ -89,7 +89,7 @@
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
-                        <input type="text" name="address" formControlName="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço">
+                        <input type="text" name="address" formControlName="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço" autocomplete="street-address">
                     </div>
                     <div class="container mb-3">
                         <div class="row">
@@ -150,11 +150,11 @@
                 <div class="col-12 col-md-7">
                     <div class="mb-3">
                         <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
-                        <input type="text" name="phone" formControlName="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000">
+                        <input type="text" name="phone" formControlName="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000" autocomplete="tel">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="mb-2 custom-subtitle-dark letter-spacing-1">E-MAIL</label>
-                        <input type="email" name="email" formControlName="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com">
+                        <input type="email" name="email" formControlName="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com" autocomplete="email">
                     </div>
 
                     @if(getFieldPlans('URL')) {
@@ -311,7 +311,7 @@
                 <div>
                     <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo, entre em contato conosco para finalizar seu pedido clicando no botão abaixo.</p>
                     <div class="d-flex justify-content-end">
-                        <a [href]="'https://wa.me/14991882505/?text=Olá,%20meu%20pedido%20foi%20finalizado%20com%20sucesso!%20ID%20do%20Pedido:%20' + listing.id" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</a>
+                        <button type="button" (click)="finalizeOrder(listing)" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</button>
                     </div>
                 </div>
             }  
@@ -349,5 +349,3 @@
         <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancelar</button>
     </div>
 </ng-template>
-
-<app-footer></app-footer>

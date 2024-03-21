@@ -14,7 +14,7 @@ export class ImageValidationService {
 
     validImage(image: File): boolean {
         if(image.size > this.fileSize) {
-            this.alertService.showAlert('info', 'A imagem de perfil deve ter no máximo 5MB.');
+            this.alertService.showAlert('info', 'A imagem deve ter no máximo 5MB.');
             return false;
         }
 

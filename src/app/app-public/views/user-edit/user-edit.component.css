@@ -1,0 +1,53 @@
+.img_user {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.img_user img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.change-photo-user {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #000000cc;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.img_user:hover .change-photo-user  {
+    opacity: 1;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.eye_password, .eye_newPassword {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 21px;
+    cursor: pointer;
+}
+
+#modal_delete_account .fa-triangle-exclamation{
+    font-size: 40px;
+}

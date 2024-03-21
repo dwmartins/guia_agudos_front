@@ -9,7 +9,7 @@ import { ListingService } from '../../../services/listing.service';
 import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { AlertService } from '../../../services/components/alert.service';
-import { GlobalVariablesService } from '../../../services/helpers/global-variables.service';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbModal, NgbRatingConfig, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
@@ -27,6 +27,7 @@ import { UserService } from '../../../services/user.service';
     styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit, OnDestroy{
+    constants               = inject(ConstantsService);
     titleService		    = inject(Title);	
     modal 					= inject(NgbModal);
     authService             = inject(AuthService);
@@ -35,7 +36,6 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     listingService          = inject(ListingService);
     validErrorsService  	= inject(ValidErrorsService);
     alertService 			= inject(AlertService);
-    globalVariablesService  = inject(GlobalVariablesService);
     route 					= inject(ActivatedRoute);
 	router 					= inject(Router);
     spinnerService          = inject(SpinnerService);
@@ -58,6 +58,8 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
     imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
 
+    textFinisListing: string = "Olá gostaria de finalizar meu pedido. \n lds,d,sl,dl,s,dl"
+
     spinnerDeleteListing: boolean = false;
     spinnerChangePhotoUser: boolean = false;
 
@@ -73,7 +75,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy(): void {
-        this.titleService.setTitle(this.globalVariablesService.title);
+        this.titleService.setTitle(this.constants.siteTitle);
     }
 
     getUserLogged() {
@@ -178,8 +180,8 @@ export class UserProfileComponent implements OnInit, OnDestroy{
         const file = fileInput.files?.[0];
 
         if(file) {
-            this.newPhotoUser = file;
             if(this.imageService.validImage(file)){
+                this.newPhotoUser = file;
                 const reader = new FileReader();
 
                 reader.onload = () => {
@@ -207,5 +209,15 @@ export class UserProfileComponent implements OnInit, OnDestroy{
             this.spinnerChangePhotoUser = false;
             this.validErrorsService.validError(error, "Falha ao atualizar sua foto de perfil.");
         })
+    }
+
+    finalizeOrder(listing: Listing) {
+        const msg = `
+            Olá, gostaria de finalizar meu pedido.\n
+            *ID do anúncio:* ${listing.id}\n
+            *Titulo:* ${listing.title}\n
+            *Plano:* ${listing.plan}
+        `;
+        window.open(`https://wa.me/${this.constants.adminPhone}/?text=${window.encodeURIComponent(msg)}`)
     }
 }

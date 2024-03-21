@@ -25,7 +25,7 @@ export class ReviewService {
       'token': user.token
     }); 
 
-    return this.httpClient.post<Review | Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
+    return this.httpClient.post<Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
   }
 
   updateReview(review: Review) {
@@ -36,10 +36,10 @@ export class ReviewService {
       'token': user.token
     }); 
 
-    return this.httpClient.put<Review | Responses>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
+    return this.httpClient.put<Review>(`${this.API_URL}/anuncios/avaliacoes`, review, {headers: headers});
   }
 
-  fetchAll(listingId: number){
+  fetchAllByListing(listingId: number){
     return this.httpClient.get<Review[]>(`${this.API_URL}/anuncios/avaliacoes?listingId=${listingId}`);
   }
 

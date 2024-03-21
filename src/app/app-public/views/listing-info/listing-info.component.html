@@ -1,4 +1,4 @@
-<section class="container-fluid px-0">
+<section class="container-fluid px-0 show-animation-2">
     <!-- Banner -->
     <div class="bg-primary img_banner position-relative ">
         @if (listing.coverImage) {
@@ -90,7 +90,7 @@
                 @if(listing.address) {
                     <h3 class="my-4 custom-dark fw-bold">Localização</h3>
 
-                    <div class="col-12 py-2 d-xl-none">
+                    <div class="col-12 py-2">
                         @if (listing.address) {
                             <div class="custom-dark mb-2 fs-5">
                                 <i class="bi bi-geo-alt-fill me-1"></i>
@@ -139,10 +139,9 @@
 
                     <hr class="custom-hr-dark">
                 }
-            </div>
-
-            @if(listing.openingHours) {
-                <div class="col-12 col-lg-4 p-0">
+        </div>
+            <div class="col-12 col-lg-4 p-0">
+                @if(listing.openingHours) {
                     <div class="px-3 mb-4">
                         <div class="shadow rounded-2">
                             <div class="p-4 bg-ice-white">
@@ -184,7 +183,9 @@
                             </div>
                         </div>
                     </div>
+                }
 
+                @if(listing.phone || listing.email || listing.url || listing.facebook || listing.instagram || listing.linkedIn || listing.email){
                     <div class="px-3">
                         <div class="shadow rounded-2">
                             <div class="p-4 bg-ice-white">
@@ -201,45 +202,48 @@
                                         <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-whatsapp me-3"></i>{{ listing.phone }}</span>
                                     </a>
                                 }
-
+    
                                 @if (listing.email) {
                                     <a class="link_outline_none" href="mailto:{{listing.email}}" target="_blank">
                                         <span class="custom-dark fs-6 opacity-75"><i class="fa-regular fa-envelope me-3"></i>{{ listing.email }}</span>
                                     </a>
                                 }
-
+    
                                 @if(listing.url) {
                                     <a class="link_outline_none" [href]="listing.url" target="_blank">
                                         <span class="custom-dark fs-6 opacity-75"><i class="fa-solid fa-globe me-3"></i>{{ listing.url }}</span>
                                     </a>
                                 }
-
+    
                                 @if(listing.facebook) {
                                     <a class="link_outline_none" [href]="listing.facebook" target="_blank">
                                         <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-facebook me-3"></i>Facebook</span>
                                     </a>
                                 }
-
+    
                                 @if(listing.instagram) {
                                     <a class="link_outline_none" [href]="listing.instagram" target="_blank">
                                         <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-instagram me-3"></i>Instagram</span>
                                     </a>
                                 }
-
+    
                                 @if(listing.linkedIn) {
                                     <a class="link_outline_none" [href]="listing.linkedIn" target="_blank">
                                         <span class="custom-dark fs-6 opacity-75"><i class="fa-brands fa-linkedin me-3"></i>LinkedIn</span>
                                     </a>
                                 }
-
-                                <div class="d-flex justify-content-center mt-3 my-2">
-                                    <a href="mailto:{{listing.email}}" class="btn btn-outline-primary"><i class="fa-regular fa-paper-plane me-2"></i>ENVIE UM MENSAGEM</a>
-                                </div>
+    
+                                @if (listing.email) {
+                                    <div class="d-flex justify-content-center mt-3 my-2">
+                                        <a href="mailto:{{listing.email}}" class="btn btn-outline-primary"><i class="fa-regular fa-paper-plane me-2"></i>ENVIE UM MENSAGEM</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
+            
         </div>
 
         <!-- Reviews -->
@@ -364,4 +368,3 @@
         </div>
     </ng-template>
 </section>
-<app-footer></app-footer>
