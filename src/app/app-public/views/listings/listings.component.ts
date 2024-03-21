@@ -73,7 +73,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
 
    getListingsAll() {
       this.searching = true;
-      this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords).subscribe((response) => {
+      this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords, "ativo").subscribe((response) => {
          this.listings = response;
          this.searchItensListing = response;
          this.searching = false;
@@ -86,7 +86,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    searchListingByFilter() {
       this.queryParams.keywords = '';
       this.searching = true;
-      this.listingService.getAll(this.filters.category, this.filters.keywords).subscribe((response) => {
+      this.listingService.getAll(this.filters.category, this.filters.keywords, "ativo").subscribe((response) => {
          this.searchItensListing = response;
          this.searching = false;
 
