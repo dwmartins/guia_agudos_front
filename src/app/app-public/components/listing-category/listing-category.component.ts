@@ -51,7 +51,7 @@ export class ListingCategoryComponent implements OnInit {
    }
 
    searchListingByCategory(categoryId: number) {
-      this.router.navigate(['/anunciantes'], {queryParams: {category: categoryId}});
+      this.router.navigate(['/anuncios'], {queryParams: {category: categoryId}});
    }
 
    filterCategories(): void {

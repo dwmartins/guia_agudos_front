@@ -51,7 +51,7 @@ export class PlansComponent implements OnInit {
             return;
         }
 
-        this.router.navigate([`/anunciantes/novo/${planId}`]);
+        this.router.navigate([`/anuncio/novo/${planId}`]);
     }
 
     getAllPlans() {

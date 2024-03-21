@@ -126,7 +126,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
 
    viewListing(listing: Listing) {
       if(listing.plan != "GRÁTIS") {
-         this.router.navigate(['/anunciante', listing.id]);
+         this.router.navigate(['/anuncio', listing.id]);
       }
    }
 

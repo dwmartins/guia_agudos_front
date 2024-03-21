@@ -85,6 +85,8 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 	maxLengthComment: number = 130;
 	currentLengthComment: number = 130
 
+	showView: boolean= false;
+
 	constructor() {
 		this.formReview = this.formBuilder.group({
 			id: [0],
@@ -127,20 +129,30 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 				this.spinnerService.hide();
 				this.listing = listingResponse;
 				this.reviews = reviewsResponse;
-				this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+				
+				if(this.listing) {
+					if(this.listing.status != "ativo" && !this.authService.getUserLogged()) {
+						this.alertService.showAlert('info', 'Este anúncio não está disponível.');
+						return this.router.navigate(['/anuncios']);
+					}
 
-				if(this.listing.status != "ativo" && !this.authService.getUserLogged()) {
-					this.alertService.showAlert('info', 'Este anúncio não está disponível.');
-					this.router.navigate(['/anunciantes']);
+					this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
+
+					if(this.listing.galleryImage) {
+						this.galleryImages = this.listing.galleryImage;
+					}
+	
+					this.titleService.setTitle(this.listing.title!);
+					this.setMap();
+					this.showView = true;
+					return
 				}
-
-				if(this.listing.galleryImage) {
-					this.galleryImages = this.listing.galleryImage;
-				}
-
-				this.titleService.setTitle(this.listing.title!);
-				this.setMap();
+				
+				this.alertService.showAlert('info', 'Este anúncio não está disponível.');
+				return this.router.navigate(['/anuncios']);
+				
 			}, (error) => {
+				this.spinnerService.hide();
 				this.validErrorsService.validError(error, 'Falha ao buscar o anúncio');
 			}
 		)

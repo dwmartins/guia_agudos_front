@@ -158,7 +158,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
 
     viewListing(listing: Listing) {
         if(this.hasDetailsPage(listing)) {
-            this.router.navigate(['/anunciante', listing.id]);
+            this.router.navigate(['/anuncio', listing.id]);
         }
     }
 
