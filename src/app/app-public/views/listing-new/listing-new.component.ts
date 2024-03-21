@@ -124,6 +124,11 @@ export class ListingNewComponent implements OnInit{
     getListingPlans() {
         this.spinnerService.show();
         this.listingPlansService.getPlansById(this.planId,"Y").subscribe(response => {
+            if(!response.length) {
+                this.spinnerService.hide()
+                return this.router.navigate(['/']);
+            }
+
             this.spinnerService.hide(); 
             this.showView = true;
             this.listingPlans = response;
@@ -131,6 +136,8 @@ export class ListingNewComponent implements OnInit{
             this.formListing.patchValue({
                 plan_id: this.listingPlans[0].id
             });
+
+            return 
         }, error => {
             this.showView = true;
             this.spinnerService.hide(); 
@@ -230,7 +237,7 @@ export class ListingNewComponent implements OnInit{
 
     getParameterData() {
         this.route.params.subscribe(params => {
-            this.planId = params['planId'];
+            this.planId = params['id'];
         })
     }
 

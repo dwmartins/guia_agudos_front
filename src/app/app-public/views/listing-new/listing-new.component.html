@@ -37,7 +37,8 @@
                     <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
                 </div>
                 <div class="col-12 col-md-7 mb-3">
-                    <label for="search" class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
+                    @if(categories.length) {
+                        <label for="search" class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
 
                     @if (categoriesSelect.length) {
                         <div class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
@@ -61,6 +62,7 @@
 
                         </ul>
                     </div>
+                    }
                     <div>
                         <label for="keywords" class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
                         

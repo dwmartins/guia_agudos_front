@@ -9,6 +9,7 @@ export const validParams: CanActivateFn = async (route, state) => {
     if(!isNaN(params)){
         return true;
     }
+    console.log(false)
     
     router.navigate(['/']);
     return false;
