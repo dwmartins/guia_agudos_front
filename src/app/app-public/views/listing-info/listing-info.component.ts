@@ -23,11 +23,12 @@ import { OpeningHours } from '../../../models/OpeningHours';
 import { AuthService } from '../../../services/auth.service';
 import { DateService } from '../../../services/helpers/date.service';
 import { forkJoin } from 'rxjs';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
   	selector: 'app-listing-info',
   	standalone: true,
-  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent, NgbRatingModule],
+  	imports: [RouterModule, CommonModule, LightboxModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, FooterComponent, NgbRatingModule, SpinnerLoadingComponent],
   	templateUrl: './listing-info.component.html',
   	styleUrl: './listing-info.component.css'
 })

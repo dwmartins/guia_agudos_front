@@ -42,22 +42,22 @@
                             search
                         </span>
                         <input [(ngModel)]="searchItem" type="text" (input)="searchListingFilter()"
-                            class="form-control custom_focus custom_placeholder bg-transparen" placeholder="Buscar anúncio...">
+                            class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Buscar anúncio...">
                     </div>
                 </div>
             </div>
         }
 
         @if (searching) {
-            <div class="d-flex align-items-center">
-                <div class="spinner-border text-primary custom_spinner" role="status"></div>
-                <h4 class="ms-2 m-0 custom-dark fw-bolder">Buscando anúncios, aguarde...</h4>
+            <div class="d-flex align-items-center py-3">
+                <app-spinner-loading />
+                <p class="ms-2 m-0 custom-dark fs-5">Buscando anúncios, aguarde...</p>
             </div>
         } @else if(searchItensListing.length) {
             @if (searchItensListing.length == 1) {
-                <p class="fw-bold">{{ searchItensListing.length }} <span>resultado encontrado</span></p>
+                <p class="fw-bold text-secondary">{{ searchItensListing.length }} <span>resultado encontrado</span></p>
             } @else {
-                <p class="fw-bold">{{ searchItensListing.length }} <span>resultados encontrados</span></p>
+                <p class="fw-bold text-secondary">{{ searchItensListing.length }} <span>resultados encontrados</span></p>
             }
     
             <div class="py-1 row show-animation">
@@ -107,9 +107,10 @@
                 </div>
             </div>
         } @else if(!searchItensListing.length){
-            <div class="d-flex flex-column align-items-center show-animation">
-                <h2 class="custom-dark fw-bolder text-center">Nenhum anúncio encontrado!</h2>
+            <div class="d-flex flex-column align-items-center show-animation py-3">
                 <img src="../../../../assets/img/notFound.png" class="img-notFound" alt="Nenhum resultado encontrado">
+                <h4 class="custom-dark text-center text-center">Nenhum anúncio encontrado!</h4>
+                <p class="text-center custom-dark">Use palavras-chaves diferentes ou remova os filtros aplicados.</p>
             </div>
         }
     </div>

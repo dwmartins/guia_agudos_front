@@ -12,11 +12,12 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ConstantsService } from '../../../services/helpers/constants.service';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
    selector: 'app-listings',
    standalone: true,
-   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule, FormsModule],
+   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule, FormsModule, SpinnerLoadingComponent],
    templateUrl: './listings.component.html',
    styleUrl: './listings.component.css'
 })
