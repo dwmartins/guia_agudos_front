@@ -7,56 +7,80 @@
 
             <div class="w-100">
                 <label for="imagemInput" class="d-flex justify-content-center">
-                  <img id="previewImage" class="img-fluid" *ngIf="previewPhoto" [src]="previewPhoto" alt="Preview da Imagem" >
-                  <div *ngIf="!previewPhoto" class="placeholder z-3" >
-                    <p class="text-dark m-0">Selecionar imagem</p>
-                  </div>
+                    @if (previewPhoto) {
+                        <img id="previewImage" class="img-fluid" [src]="previewPhoto" alt="Preview da Imagem" >
+                    }@else {
+                        <div class="placeholder z-3" >
+                            <p class="text-dark m-0">Selecionar imagem</p>
+                        </div>
+                    }
                 </label>
                 <input type="file" id="imagemInput" (change)="previewImage($event)" style="display: none;" accept="image/*">
             </div>
             
             <div class="w-100">
                 <div class="position-relative">
-                    <input type="text" name="name" id="name" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="name" [ngClass]="{'invalid_input': formRegister.get('name')?.invalid && formRegister.get('name')?.touched}" placeholder="Nome">
+                    <input type="text" name="name" id="name" class="form-control custom_focus invalid_input custom_placeholder rounded-1" 
+                    formControlName="name" [ngClass]="{'invalid_input': formRegister.get('name')?.invalid && formRegister.get('name')?.touched}" 
+                    placeholder="Nome" autocomplete="name">
                 </div>
-                <div *ngIf="formRegister.get('name')?.hasError('required') && formRegister.get('name')?.touched" class="text-danger msg_alert opacity-75">
-                    Digite seu nome.
-                </div>
+
+                @if (formRegister.get('name')?.hasError('required') && formRegister.get('name')?.touched) {
+                    <div class="text-danger msg_alert opacity-75">
+                        Digite seu nome.
+                    </div>
+                }
+                
             </div>
 
             <div class="w-100">
                 <div class="position-relative">
                     <input type="text" name="lastName" id="lastName" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="lastName" [ngClass]="{'invalid_input': formRegister.get('lastName')?.invalid && formRegister.get('lastName')?.touched}" placeholder="Sobrenome">
                 </div>
-                <div *ngIf="formRegister.get('lastName')?.hasError('required') && formRegister.get('lastName')?.touched" class="text-danger msg_alert opacity-75">
-                    Digite seu Sobrenome.
-                </div>
+
+                @if (formRegister.get('lastName')?.hasError('required') && formRegister.get('lastName')?.touched) {
+                    <div class="text-danger msg_alert opacity-75">
+                        Digite seu Sobrenome.
+                    </div>
+                }
+                
             </div>
 
             <div class="w-100">
                 <div class="position-relative">
-                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="email" [ngClass]="{'invalid_input': formRegister.get('email')?.invalid && formRegister.get('email')?.touched}" placeholder="Seu e-mail">
+                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input custom_placeholder rounded-1" 
+                    formControlName="email" [ngClass]="{'invalid_input': formRegister.get('email')?.invalid && formRegister.get('email')?.touched}" 
+                    placeholder="Seu e-mail" autocomplete="email">
                 </div>
-                <div *ngIf="formRegister.get('email')?.hasError('required') && formRegister.get('email')?.touched" class="text-danger msg_alert opacity-75">
-                    Digite seu e-mail.
-                </div>
+
+                @if (formRegister.get('email')?.hasError('required') && formRegister.get('email')?.touched) {
+                    <div class="text-danger msg_alert opacity-75">
+                        Digite seu e-mail.
+                    </div>
+                }
+                
             </div>
             <div class="w-100">
                 <div class="position-relative">
                     <input [type]="showPassword" name="password" id="password" class="form-control custom_focus custom_placeholder rounded-1" formControlName="password" [ngClass]="{'invalid_input': formRegister.get('password')?.invalid && formRegister.get('password')?.touched}" placeholder="Senha">
                     <i (click)="viePassword()" [class]="icon_password" class="cursor_pointer position-absolute icon_password fs-4 text-black-50"></i>
                 </div>
-                <div *ngIf="formRegister.get('password')?.hasError('required') && formRegister.get('password')?.touched" class="text-danger msg_alert opacity-75">
-                    Digite sua senha.
-                </div>
+
+                @if (formRegister.get('password')?.hasError('required') && formRegister.get('password')?.touched) {
+                    <div class="text-danger msg_alert opacity-75">
+                        Digite sua senha.
+                    </div>
+                }
+                
             </div>
 
             <div class="w-100">
                 <button class="btn btn-primary fw-semibold w-100 d-flex justify-content-center rounded-1" [disabled]="loadSpinner">
-                    <span *ngIf="!loadSpinner">Criar conta</span>
-                    <div *ngIf="loadSpinner" class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                    @if (!loadSpinner) {
+                        <span>Criar conta</span>
+                    }@else {
+                        <app-spinner-loading color="text-white" text="Aguarde..." />
+                    }
                 </button>
             </div>
 
@@ -96,5 +120,3 @@
     </ng-template>
 
 </section>
-<app-footer-2></app-footer-2>
-<!-- <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts> -->

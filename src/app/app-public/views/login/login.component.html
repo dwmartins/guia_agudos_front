@@ -1,25 +1,35 @@
 <section class="container-fluid my-0 py-3 bg-primary">
     <div class="container d-flex justify-content-center  my-5">
         <form [formGroup]="formLogin" (ngSubmit)="submitForm()" class="row justify-content-center gap-3 py-4 px-3 border border-1 rounded-2 bg-white shadow show-animation">
-            <h2 class="fs-2 text-center custom-dark my-2">Entrar</h2>
+            <h2 class="fs-2 text-center custom-dark my-2 opacity-75">Entrar</h2>
 
             <div class="w-100">
                 <div class="position-relative">
-                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input custom_placeholder rounded-1" formControlName="email" [ngClass]="{'invalid_input': formLogin.get('email')?.invalid && formLogin.get('email')?.touched}" placeholder="Seu e-mail">
+                    <input type="email" name="email" id="email" class="form-control custom_focus invalid_input custom_placeholder rounded-1"
+                    formControlName="email" [ngClass]="{'invalid_input': formLogin.get('email')?.invalid && formLogin.get('email')?.touched}" 
+                    placeholder="Seu e-mail" autocomplete="email">
                     <i class="bi bi-person position-absolute icon_user fs-4 text-black-50"></i>
                 </div>
-                <div *ngIf="formLogin.get('email')?.hasError('required') && formLogin.get('email')?.touched" class="text-danger msg_alert opacity-75">
-                    Digite seu e-mail.
-                </div>
+
+                @if (formLogin.get('email')?.hasError('required') && formLogin.get('email')?.touched) {
+                    <div class="text-danger msg_alert opacity-75">
+                        Digite seu e-mail.
+                    </div>
+                }
+
             </div>
             <div class="w-100">
                 <div class="position-relative">
                     <input [type]="showPassword" name="password" id="password" class="form-control custom_focus custom_placeholder rounded-1" formControlName="password" [ngClass]="{'invalid_input': formLogin.get('password')?.invalid && formLogin.get('password')?.touched}" placeholder="Sua senha">
                     <i (click)="viePassword()" [class]="icon_password" class="cursor_pointer position-absolute icon_password fs-4 text-black-50"></i>
                 </div>
-                <div *ngIf="formLogin.get('password')?.hasError('required') && formLogin.get('password')?.touched" class="text-danger msg_alert opacity-75">
-                    Digite sua senha.
-                </div>
+
+                @if (formLogin.get('password')?.hasError('required') && formLogin.get('password')?.touched) {
+                    <div class="text-danger msg_alert opacity-75">
+                        Digite sua senha.
+                    </div>
+                }
+                
                 <a [routerLink]="['/recuperacao-senha']" class="fw-semibold opacity-75 link_outline_none text-forgot-password bg-primary">
                     <p class="my-2">Esqueci minha senha</p>
                 </a>
@@ -27,10 +37,11 @@
 
             <div class="w-100">
                 <button class="btn btn-primary fw-semibold w-100 d-flex justify-content-center rounded-1" [disabled]="loadSpinner">
-                    <span *ngIf="!loadSpinner">Entrar</span>
-                    <div *ngIf="loadSpinner" class="spinner-border spinner-border custom_spinner_btn m-0 text-light" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                    @if (!loadSpinner) {
+                        <span>Entrar</span>
+                    }@else {
+                        <app-spinner-loading color="text-white" text="Aguarde..." />
+                    }
                 </button>
             </div>
 
@@ -41,6 +52,4 @@
             <p class="custom-dark">Não possui conta? <a [routerLink]="['/nova-conta']" class="fw-semibold opacity-75 link_outline_none">Criar conta</a></p>
         </form>
     </div>
-    <!-- <app-alerts *ngFor="let alerts of alert" [type]="alerts.type" [description]="alerts.description"></app-alerts> -->
 </section>
-<app-footer-2></app-footer-2>

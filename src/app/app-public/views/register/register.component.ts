@@ -11,11 +11,12 @@ import { Footer2Component } from '../../components/footer-2/footer-2.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
    selector: 'app-register',
    standalone: true,
-   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component],
+   imports: [CommonModule, RouterModule, ReactiveFormsModule, HttpClientModule, AlertsComponent, Footer2Component, SpinnerLoadingComponent],
    templateUrl: './register.component.html',
    styleUrl: './register.component.css'
 })
