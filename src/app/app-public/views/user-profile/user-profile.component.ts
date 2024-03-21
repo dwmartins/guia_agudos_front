@@ -58,6 +58,8 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     imgDefaultLogo: string = '../../../../assets/img/logoDefault.png';
     imgDefaultUser: string = '../../../../assets/img/no-image-user.jpg';
 
+    textFinisListing: string = "Olá gostaria de finalizar meu pedido. \n lds,d,sl,dl,s,dl"
+
     spinnerDeleteListing: boolean = false;
     spinnerChangePhotoUser: boolean = false;
 
@@ -207,5 +209,15 @@ export class UserProfileComponent implements OnInit, OnDestroy{
             this.spinnerChangePhotoUser = false;
             this.validErrorsService.validError(error, "Falha ao atualizar sua foto de perfil.");
         })
+    }
+
+    finalizeOrder(listing: Listing) {
+        const msg = `
+            Olá, gostaria de finalizar meu pedido.\n
+            *ID do anúncio:* ${listing.id}\n
+            *Titulo:* ${listing.title}\n
+            *Plano:* ${listing.plan}
+        `;
+        window.open(`https://wa.me/14991882505/?text=${window.encodeURIComponent(msg)}`)
     }
 }
