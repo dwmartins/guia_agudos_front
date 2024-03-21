@@ -311,7 +311,7 @@
                 <div>
                     <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo, entre em contato conosco para finalizar seu pedido clicando no botão abaixo.</p>
                     <div class="d-flex justify-content-end">
-                        <a [href]="'https://wa.me/14991882505/?text=Olá,%20meu%20pedido%20foi%20finalizado%20com%20sucesso!%20ID%20do%20Pedido:%20' + listing.id" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</a>
+                        <button type="button" (click)="finalizeOrder(listing)" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</button>
                     </div>
                 </div>
             }  

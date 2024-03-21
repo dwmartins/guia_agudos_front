@@ -27,6 +27,7 @@ import { UserService } from '../../../services/user.service';
     styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit, OnDestroy{
+    constants               = inject(ConstantsService);
     titleService		    = inject(Title);	
     modal 					= inject(NgbModal);
     authService             = inject(AuthService);
@@ -35,7 +36,6 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     listingService          = inject(ListingService);
     validErrorsService  	= inject(ValidErrorsService);
     alertService 			= inject(AlertService);
-    constantsService        = inject(ConstantsService);
     route 					= inject(ActivatedRoute);
 	router 					= inject(Router);
     spinnerService          = inject(SpinnerService);
@@ -75,7 +75,7 @@ export class UserProfileComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy(): void {
-        this.titleService.setTitle(this.constantsService.siteTitle);
+        this.titleService.setTitle(this.constants.siteTitle);
     }
 
     getUserLogged() {
@@ -218,6 +218,6 @@ export class UserProfileComponent implements OnInit, OnDestroy{
             *Titulo:* ${listing.title}\n
             *Plano:* ${listing.plan}
         `;
-        window.open(`https://wa.me/14991882505/?text=${window.encodeURIComponent(msg)}`)
+        window.open(`https://wa.me/${this.constants.adminPhone}/?text=${window.encodeURIComponent(msg)}`)
     }
 }
