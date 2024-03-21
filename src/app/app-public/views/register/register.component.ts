@@ -58,6 +58,7 @@ export class RegisterComponent {
          this.loadSpinner = true;
          this.userService.newUser(this.formRegister.value, this.userPhoto).subscribe((response) => {
             this.loadSpinner = false;
+            this.formRegister.reset();
             this.modalRegister.open(this.register, { centered: true });
 
          }, (error) => {
