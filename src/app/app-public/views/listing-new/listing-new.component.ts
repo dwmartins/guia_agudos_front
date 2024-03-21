@@ -327,12 +327,6 @@ export class ListingNewComponent implements OnInit{
         }
 
         this.promotionalCodeService.validCode(this.promotionalCode).subscribe(response => {
-            if(response.alert) {
-                this.alertService.showAlert('info', response.alert);
-                this.promotionalCode = '';
-                return;
-            }
-
             this.codeValid = true;
             this.alertService.showAlert('success', response.success);
 
@@ -377,13 +371,10 @@ export class ListingNewComponent implements OnInit{
 
             this.listingService.newListing(this.formListing.value, this.logoImage, this.coverImage, this.galleryImages).subscribe(response => {
                 this.spinnerService.hide();
-
-                if('alert' in response) {
-                    this.alertService.showAlert('info', response.alert);
-                    return;
-                }
-
                 this.listing = response;
+                this.formListing.reset();
+                this.keywords = [];
+                this.categoriesSelect = [];
 
                 this.modalListing.open(this.newListing, { centered: true });
             }, error => {

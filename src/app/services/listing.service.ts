@@ -62,7 +62,7 @@ export class ListingService {
             }
         }
 
-        return this.httpClient.post<Responses | Listing>(`${this.API_URL}/anuncios`, formData, {headers})
+        return this.httpClient.post<Listing>(`${this.API_URL}/anuncios`, formData, {headers})
     }
 
     delete(id: number) {
