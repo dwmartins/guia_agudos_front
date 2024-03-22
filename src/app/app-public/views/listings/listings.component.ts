@@ -57,6 +57,8 @@ export class ListingsComponent implements OnInit, OnDestroy{
       category: 0
    }
 
+   logoDefault: string = "../../../../assets/img/logoDefault.png";
+
    rating = 4
 
    constructor() {
@@ -65,7 +67,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    ngOnInit(): void {
-      this.titleService.setTitle(`${this.constantsService.siteTitle} - Anunciantes`);
+      this.titleService.setTitle(`${this.constantsService.siteTitle} - Anúncios`);
       this.goToTheTopWindow();
       this.getParams();
       this.getListingsAll();
@@ -84,7 +86,6 @@ export class ListingsComponent implements OnInit, OnDestroy{
       this.searching = true;
       this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords, "ativo").subscribe((response) => {
          this.listings = response;
-         console.log(response)
          this.searchItensListing = response;
          this.searching = false;
       }, (error) => {
@@ -92,6 +93,16 @@ export class ListingsComponent implements OnInit, OnDestroy{
          this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
       });
    }
+
+   getAllRating(listing: Listing) {
+		if(!listing.reviews.length) {
+			return 0;
+		}
+
+		const sum = listing.reviews.reduce((acc, review) => acc + review.review, 0);
+		const result =  sum / listing.reviews.length;
+		return result
+	}
 
    searchListingByFilter() {
       this.queryParams.keywords = '';

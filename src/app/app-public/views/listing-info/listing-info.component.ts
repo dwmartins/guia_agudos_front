@@ -137,6 +137,11 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 						return this.router.navigate(['/anuncios']);
 					}
 
+					if(this.listing.plan === "GRÁTIS") {
+						this.alertService.showAlert('info', 'Este anúncio não possui página de detalhes.');
+						return this.router.navigate(['/anuncios']);
+					}
+
 					this.openingHours = this.listing.openingHours ? JSON.parse(this.listing.openingHours!) : {};
 
 					if(this.listing.galleryImage) {
