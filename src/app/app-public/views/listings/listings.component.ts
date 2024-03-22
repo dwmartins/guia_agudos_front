@@ -8,7 +8,7 @@ import { ListingService } from '../../../services/listing.service';
 import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRatingConfig, NgbRatingModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ConstantsService } from '../../../services/helpers/constants.service';
@@ -17,7 +17,7 @@ import { SpinnerLoadingComponent } from '../../../shared/components/spinner-load
 @Component({
    selector: 'app-listings',
    standalone: true,
-   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule, FormsModule, SpinnerLoadingComponent],
+   imports: [CommonModule, RouterModule, FooterComponent, NgbTooltipModule, FormsModule, SpinnerLoadingComponent, NgbRatingModule],
    templateUrl: './listings.component.html',
    styleUrl: './listings.component.css'
 })
@@ -30,6 +30,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    router                  = inject(Router);
    validErrorsService      = inject(ValidErrorsService);
    spinnerService          = inject(SpinnerService);
+   ngbRatingConfig			= inject(NgbRatingConfig);
 
    iconCategories: boolean = false;
 
@@ -56,6 +57,13 @@ export class ListingsComponent implements OnInit, OnDestroy{
       category: 0
    }
 
+   rating = 4
+
+   constructor() {
+      this.ngbRatingConfig.max = 5;
+		this.ngbRatingConfig.readonly = true;
+   }
+
    ngOnInit(): void {
       this.titleService.setTitle(`${this.constantsService.siteTitle} - Anunciantes`);
       this.goToTheTopWindow();
@@ -76,6 +84,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
       this.searching = true;
       this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords, "ativo").subscribe((response) => {
          this.listings = response;
+         console.log(response)
          this.searchItensListing = response;
          this.searching = false;
       }, (error) => {

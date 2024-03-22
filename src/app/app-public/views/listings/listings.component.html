@@ -61,14 +61,30 @@
             }
     
             <div class="py-1 row show-animation">
-                <div *ngFor="let listing of searchItensListing" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 cursor_pointer card_listing">
+                <div *ngFor="let listing of searchItensListing" class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 card_listing" [ngClass]="{'cursor_pointer': listing.plan != 'GRÁTIS'}">
                     <div class="card border-0 shadow">
                         <div class="row g-0">
                             <div class="col-md-4 img_container rounded p-4 p-sm-2" (click)="viewListing(listing)">
                                 @if (listing.logoImage) {
-                                    <img [src]="listing.logoImage" class="img-fluid img_listing rounded" alt="Imagem de logo">
+                                    <div class="position-relative">
+                                        <img [src]="listing.logoImage" class="img-fluid img_listing rounded" alt="Imagem de logo">
+
+                                        @if (listing.reviews.length) {
+                                            <div class="text-center w-100 custom-rating position-absolute rating_gradient rounded-bottom">
+                                                <ngb-rating [(rate)]="rating" class="pt-5"></ngb-rating>
+                                            </div>
+                                        }
+                                    </div>
                                 } @else {
-                                    <img src="../../../../assets/img/logoDefault.png" class="img-fluid img_listing rounded" alt="Imagem de logo">
+                                    <div class="position-relative">
+                                        <img src="../../../../assets/img/logoDefault.png" class="img-fluid img_listing rounded" alt="Imagem de logo">
+
+                                        @if (listing.reviews.length) {
+                                            <div class="text-center w-100 rating position-absolute rounded-bottom">
+                                                <ngb-rating (rate)="3" class="pt-5"></ngb-rating>
+                                            </div>
+                                        }
+                                    </div>
                                 }
                             </div>
                             <div class="col-md-8">

@@ -1,323 +1,352 @@
-<section *ngIf="showView" class="container-fluid bg-ice-white show-animation">
-    <div class="container py-5">
-        <p class="text-primary fw-semibold letter-spacing-2 mb-1">ADICIONAR UM NOVO ANÚNCIO</p>
-        <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
-        <hr class="custom-hr-dark">
-
-        <form [formGroup]="formListing" class="py-4">
-            <div class="row">
-                <div class="col-12 col-md-5 pe-3 py-2">
-                    <h4 class="custom-dark fw-bolder">Básico</h4>
-                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Conecte-se ao nosso portal de anúncios para impulsionar de forma significativa o crescimento da sua marca. Ao cadastrar a sua empresa em nosso site, não apenas estará optando por uma parceria estratégica, mas também estará desbloqueando oportunidades para explorar novos horizontes de sucesso e alcançar resultados excepcionais</p>
-                </div>
-                
-                <div class="col-12 col-md-7">
-                    <div class="mb-3">
-                        <label for="title" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
-                        <input type="text" name="title" id="title" formControlName="title" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('title')?.invalid && formListing.get('title')?.touched}" placeholder="Digite o título do seu anúncio">
-                    </div>
-                    <div class="mb-3">
-                        <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
-                        <input type="text" name="summary" id="summary" formControlName="summary" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('summary')?.invalid && formListing.get('summary')?.touched}" placeholder="Digite uma simples descrição">
-                    </div>
-
-                    @if(getFieldPlans('Descrição detalhada')){
-                        <div class="mb-3">
-                            <label for="description" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
-                            <textarea name="description" formControlName="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
-                        </div>
-                    }
-                    
-                </div>
-            </div>
+@if (showView) {
+    <section class="container-fluid bg-ice-white show-animation">
+        <div class="container py-5">
+            <p class="text-primary fw-semibold letter-spacing-2 mb-1">ADICIONAR UM NOVO ANÚNCIO</p>
+            <h1 class="custom-dark fw-bolder mb-5">Novo anúncio {{ listingPlans[0].level }}</h1>
             <hr class="custom-hr-dark">
-            <div class="row py-3">
-                <div class="col-12 col-md-5 pe-3 py-2">
-                    <h4 class="custom-dark fw-bolder">SEO</h4>
-                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
-                </div>
-                <div class="col-12 col-md-7 mb-3">
-                    @if(categories.length) {
-                        <label for="search" class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
-
-                    @if (categoriesSelect.length) {
-                        <div class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
-                            <!-- Categorias Selected-->
-                            @for (category of categoriesSelect; track $index) {
-                                <span class="bg-primary text-white p-1 rounded-1 d-flex align-items-center">{{ category.cat_name}} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeCategory(category.id)"></i></span>
-                            }
-                        </div>
-                    }
-
-                    <div class="dropdown mb-3">
-                        <button class="btn btn-light dropdown-toggle custom-subtitle-dark letter-spacing-1 border" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            CATEGORIAS
-                        </button>
-                        <ul class="dropdown-menu p-2">
-                            <input [(ngModel)]="searchItem" [ngModelOptions]="{ standalone: true }" type="text" name="search" id="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
-
-                            @for (category of searchItensCategory; track $index) {
-                                <li (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
-                            }
-
-                        </ul>
+    
+            <form [formGroup]="formListing" class="py-4">
+                <div class="row">
+                    <div class="col-12 col-md-5 pe-3 py-2">
+                        <h4 class="custom-dark fw-bolder">Básico</h4>
+                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Conecte-se ao nosso portal de anúncios para impulsionar de forma significativa o crescimento da sua marca. Ao cadastrar a sua empresa em nosso site, não apenas estará optando por uma parceria estratégica, mas também estará desbloqueando oportunidades para explorar novos horizontes de sucesso e alcançar resultados excepcionais</p>
                     </div>
-                    }
-                    <div>
-                        <label for="keywords" class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
+                    
+                    <div class="col-12 col-md-7">
+                        <div class="mb-3">
+                            <label for="title" class="mb-2 custom-subtitle-dark letter-spacing-1">TÍTULO DO ANÚNCIO<span class="text-danger">*</span></label>
+                            <input type="text" name="title" id="title" formControlName="title" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('title')?.invalid && formListing.get('title')?.touched}" placeholder="Digite o título do seu anúncio">
+                        </div>
+                        <div class="mb-3">
+                            <label for="summary" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO SIMPLES<span class="text-danger">*</span></label>
+                            <input type="text" name="summary" id="summary" formControlName="summary" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('summary')?.invalid && formListing.get('summary')?.touched}" placeholder="Digite uma simples descrição">
+                        </div>
+    
+                        @if(getFieldPlans('Descrição detalhada')){
+                            <div class="mb-3">
+                                <label for="description" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
+                                <textarea name="description" formControlName="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
+                            </div>
+                        }
                         
-                        @if (keywords.length) {
+                    </div>
+                </div>
+                <hr class="custom-hr-dark">
+                <div class="row py-3">
+                    <div class="col-12 col-md-5 pe-3 py-2">
+                        <h4 class="custom-dark fw-bolder">SEO</h4>
+                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Explore o poder do SEO (Search Engine Optimization) para impulsionar a visibilidade online da sua empresa! Ao escolher as categorias adequadas e selecionar palavras-chave estratégicas, você estará dando passos importantes para otimizar o seu anúncio, aumentar o tráfego orgânico e alcançar um público mais amplo. </p>
+                    </div>
+                    <div class="col-12 col-md-7 mb-3">
+                        @if(categories.length) {
+                            <label for="search" class="mb-2 custom-subtitle-dark letter-spacing-1">ESCOLHA SUAS CATEGORIAS</label>
+    
+                        @if (categoriesSelect.length) {
                             <div class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
-                                <!-- Keywords Selected -->
-                                @for (keyword of keywords; track $index) {
-                                    <span class="bg-secondary text-white p-1 rounded-1 d-flex align-items-center">{{ keyword }} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeKeyword(keyword)"></i></span>
+                                <!-- Categorias Selected-->
+                                @for (category of categoriesSelect; track $index) {
+                                    <span class="bg-primary text-white p-1 rounded-1 d-flex align-items-center">{{ category.cat_name}} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeCategory(category.id)"></i></span>
                                 }
-
                             </div>
                         }
-                        <div class="d-flex gap-1">
-                            <input [(ngModel)]="searchKeywords" [ngModelOptions]="{ standalone: true }" type="text" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite suas palavras chaves">
-                            <button type="button" class="btn btn-primary" (click)="setKeywords(searchKeywords)">ADICIONAR</button>
+    
+                        <div class="dropdown mb-3">
+                            <button class="btn btn-light dropdown-toggle custom-subtitle-dark letter-spacing-1 border" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                CATEGORIAS
+                            </button>
+                            <ul class="dropdown-menu p-2">
+                                <input [(ngModel)]="searchItem" [ngModelOptions]="{ standalone: true }" type="text" name="search" id="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
+    
+                                @for (category of searchItensCategory; track $index) {
+                                    <li (click)="setCategory(category)" class="dropdown-item cursor_pointer">{{ category.cat_name }}</li>
+                                }
+    
+                            </ul>
+                        </div>
+                        }
+                        <div>
+                            <label for="keywords" class="mb-2 custom-subtitle-dark letter-spacing-1">PALAVRAS-CHAVES<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.keywords"></i></label>
+                            
+                            @if (keywords.length) {
+                                <div class="d-flex flex-wrap gap-1 my-2 border rounded-1 p-2">
+                                    <!-- Keywords Selected -->
+                                    @for (keyword of keywords; track $index) {
+                                        <span class="bg-secondary text-white p-1 rounded-1 d-flex align-items-center">{{ keyword }} <i class="fa-solid fa-xmark text-danger fs-5 ms-1 cursor_pointer" (click)="removeKeyword(keyword)"></i></span>
+                                    }
+    
+                                </div>
+                            }
+                            <div class="d-flex gap-1">
+                                <input [(ngModel)]="searchKeywords" [ngModelOptions]="{ standalone: true }" type="text" id="keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Digite suas palavras chaves">
+                                <button type="button" class="btn btn-primary" (click)="setKeywords(searchKeywords)">ADICIONAR</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <hr class="custom-hr-dark">
-            <div class="row py-2">
-                <div class="col-12 col-md-5 pe-3 py-2">
-                    <h4 class="custom-dark fw-bolder">Localização</h4>
-                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Visibilidade e proximidade com seu público-alvo. Desfrute dos benefícios de uma localização estratégica e posicione sua empresa para o sucesso. A geografia certa faz toda a diferença no seu caminho para o topo.</p>
-                </div>
-                <div class="col-12 col-md-7">
-                    <div class="mb-3">
-                        <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
-                        <input type="text" name="address" formControlName="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço" autocomplete="street-address">
+                <hr class="custom-hr-dark">
+                <div class="row py-2">
+                    <div class="col-12 col-md-5 pe-3 py-2">
+                        <h4 class="custom-dark fw-bolder">Localização</h4>
+                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Visibilidade e proximidade com seu público-alvo. Desfrute dos benefícios de uma localização estratégica e posicione sua empresa para o sucesso. A geografia certa faz toda a diferença no seu caminho para o topo.</p>
                     </div>
-                    <div class="container mb-3">
-                        <div class="row">
-                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
-                                <label for="city" class="mb-2 custom-subtitle-dark letter-spacing-1">CIDADE</label>
-                                <input type="text" name="city" formControlName="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
+                    <div class="col-12 col-md-7">
+                        <div class="mb-3">
+                            <label for="address" class="mb-2 custom-subtitle-dark letter-spacing-1">ENDEREÇO</label>
+                            <input type="text" name="address" formControlName="address" id="address" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu endereço" autocomplete="street-address">
+                        </div>
+                        <div class="container mb-3">
+                            <div class="row">
+                                <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
+                                    <label for="city" class="mb-2 custom-subtitle-dark letter-spacing-1">CIDADE</label>
+                                    <input type="text" name="city" formControlName="city" id="city" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Sua cidade">
+                                </div>
+                                <div class="col-12 col-md-6 p-0 ps-md-2 mb-3">
+                                    <label for="state" class="mb-2 custom-subtitle-dark letter-spacing-1">ESTADO</label>
+                                    <input type="text" name="state" formControlName="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
+                                </div>
+                                <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
+                                    <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
+                                    <input type="text" name="zipCode" formControlName="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
+                                </div>
+    
+                                @if (getFieldPlans('Mapa')) {
+                                    <div class="col-12 col-md-6 p-0 ps-md-2">
+                                        <label for="map" class="mb-2 custom-subtitle-dark letter-spacing-1">MAPA<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.map"></i></label>
+                                        <input type="text" name="map" formControlName="map" id="map" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Tag <iframe> do google maps">
+                                    </div>
+                                }
                             </div>
-                            <div class="col-12 col-md-6 p-0 ps-md-2 mb-3">
-                                <label for="state" class="mb-2 custom-subtitle-dark letter-spacing-1">ESTADO</label>
-                                <input type="text" name="state" formControlName="state" id="state" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu estado">
+                        </div>
+                    </div>
+                </div>
+                <hr class="custom-hr-dark">
+    
+                @if(listingPlans[0].level != "GRÁTIS") {
+                    <div class="row py-2">
+                        <div class="col-12 col-md-5 pe-3 py-2">
+                            <h4 class="custom-dark fw-bolder">Redes sociais</h4>
+                            <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Ao integrar estratégias eficazes em plataformas como Facebook, Instagram, Twitter e outras, você abre as portas para a conexão direta com seu público-alvo. Construa relacionamentos sólidos, compartilhe histórias envolventes e promova sua marca de maneira autêntica. </p>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <div class="mb-3">
+                                <label for="facebook" class="mb-2 custom-subtitle-dark letter-spacing-1">FACEBOOK</label>
+                                <input type="text" name="facebook" formControlName="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
                             </div>
-                            <div class="col-12 col-md-6 p-0 pe-md-2 mb-3">
-                                <label for="zipCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CEP</label>
-                                <input type="text" name="zipCode" formControlName="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
+                            <div class="mb-3">
+                                <label for="instagram" class="mb-2 custom-subtitle-dark letter-spacing-1">INSTAGRAM</label>
+                                <input type="text" name="instagram" formControlName="instagram" id="instagram" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://instagran.com/usuario">
                             </div>
-
-                            @if (getFieldPlans('Mapa')) {
-                                <div class="col-12 col-md-6 p-0 ps-md-2">
-                                    <label for="map" class="mb-2 custom-subtitle-dark letter-spacing-1">MAPA<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.map"></i></label>
-                                    <input type="text" name="map" formControlName="map" id="map" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Tag <iframe> do google maps">
+                            <div class="mb-3">
+                                <label for="linkedIn" class="mb-2 custom-subtitle-dark letter-spacing-1">LINKEDIN</label>
+                                <input type="text" name="linkedIn" formControlName="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://linkedIn.com/usuario">
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="custom-hr-dark">
+                }
+                
+                <div class="row py-2">
+                    <div class="col-12 col-md-5 pe-3 py-2">
+                        <h4 class="custom-dark fw-bolder">Contato</h4>
+                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Facilite o contato e fortaleça os laços com seus clientes ao fornecer informações de contato claras e acessíveis. Seja por telefone, e-mail ou até mesmo através das redes sociais, estamos aqui para estar ao seu alcance.</p>
+                    </div>
+                    <div class="col-12 col-md-7">
+                        <div class="mb-3">
+                            <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
+                            <input type="text" name="phone" formControlName="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000" autocomplete="tel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="mb-2 custom-subtitle-dark letter-spacing-1">E-MAIL</label>
+                            <input type="email" name="email" formControlName="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com" autocomplete="email">
+                        </div>
+    
+                        @if(getFieldPlans('URL')) {
+                            <div class="mb-3">
+                                <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
+                                <input type="text" name="url" formControlName="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
+                            </div>
+                        }
+                        
+                    </div>
+                </div>
+                <hr class="custom-hr-dark">
+    
+                @if (getFieldPlans('Horário de trabalho')) {
+                    <div class="row py-2">
+                        <div class="col-12 col-md-5 pe-3 py-2">
+                            <h4 class="custom-dark fw-bolder">Horário</h4>
+                            <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Garanta uma experiência ainda mais próxima e conveniente para seus clientes ao disponibilizar informações claras sobre nosso horário de funcionamento. Estejamos disponíveis para atendê-lo não apenas por telefone, e-mail ou redes sociais.</p>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            @if (!this.formListing.value.openingHours) {
+                                <div class="d-flex flex-column align-items-center gap-2">
+                                    <i class="fa-regular fa-clock fs-1 mb-3"></i>
+                                    <h5 class="custom-subtitle-dark text-center">Nenhum horário de funcionamento adicionado</h5>
+                                    <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Adicionar horário</button>
+                                </div>
+                            } @else {
+                                <div class="d-flex flex-column align-items-center gap-2">
+                                    <i class="fa-regular fa-clock fs-1 mb-3"></i>
+                                    <h5 class="custom-subtitle-dark text-center">Horário de funcionamento adicionado!</h5>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Atualizar horário</button>
+                                        <button type="button" class="btn btn-sm btn-danger" (click)="removeSchedule()">Remover</button>
+                                    </div>
                                 </div>
                             }
                         </div>
                     </div>
-                </div>
-            </div>
-            <hr class="custom-hr-dark">
-
-            @if(listingPlans[0].level != "GRÁTIS") {
+                    <hr class="custom-hr-dark">
+                }
+    
                 <div class="row py-2">
                     <div class="col-12 col-md-5 pe-3 py-2">
-                        <h4 class="custom-dark fw-bolder">Redes sociais</h4>
-                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Ao integrar estratégias eficazes em plataformas como Facebook, Instagram, Twitter e outras, você abre as portas para a conexão direta com seu público-alvo. Construa relacionamentos sólidos, compartilhe histórias envolventes e promova sua marca de maneira autêntica. </p>
+                        <h4 class="custom-dark fw-bolder">Fotos</h4>
+                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Imortalize momentos e conte histórias visualmente através de nossa galeria de fotos. Cada imagem captura a essência única da nossa jornada, destacando experiências, produtos e momentos especiais. Explore a riqueza visual que temos a oferecer e permita que as imagens falem por si mesmas.</p>
                     </div>
                     <div class="col-12 col-md-7">
-                        <div class="mb-3">
-                            <label for="facebook" class="mb-2 custom-subtitle-dark letter-spacing-1">FACEBOOK</label>
-                            <input type="text" name="facebook" formControlName="facebook" id="facebook" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://www.facebook.com/pagina">
-                        </div>
-                        <div class="mb-3">
-                            <label for="instagram" class="mb-2 custom-subtitle-dark letter-spacing-1">INSTAGRAM</label>
-                            <input type="text" name="instagram" formControlName="instagram" id="instagram" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://instagran.com/usuario">
-                        </div>
-                        <div class="mb-3">
-                            <label for="linkedIn" class="mb-2 custom-subtitle-dark letter-spacing-1">LINKEDIN</label>
-                            <input type="text" name="linkedIn" formControlName="linkedIn" id="linkedIn" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: https://linkedIn.com/usuario">
-                        </div>
-                    </div>
-                </div>
-                <hr class="custom-hr-dark">
-            }
-            
-            <div class="row py-2">
-                <div class="col-12 col-md-5 pe-3 py-2">
-                    <h4 class="custom-dark fw-bolder">Contato</h4>
-                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Facilite o contato e fortaleça os laços com seus clientes ao fornecer informações de contato claras e acessíveis. Seja por telefone, e-mail ou até mesmo através das redes sociais, estamos aqui para estar ao seu alcance.</p>
-                </div>
-                <div class="col-12 col-md-7">
-                    <div class="mb-3">
-                        <label for="phone" class="mb-2 custom-subtitle-dark letter-spacing-1">TELEFONE<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.phone"></i></label>
-                        <input type="text" name="phone" formControlName="phone" id="phone" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: 14991000000" autocomplete="tel">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="mb-2 custom-subtitle-dark letter-spacing-1">E-MAIL</label>
-                        <input type="email" name="email" formControlName="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com" autocomplete="email">
-                    </div>
-
-                    @if(getFieldPlans('URL')) {
-                        <div class="mb-3">
-                            <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
-                            <input type="text" name="url" formControlName="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
-                        </div>
-                    }
-                    
-                </div>
-            </div>
-            <hr class="custom-hr-dark">
-
-            @if (getFieldPlans('Horário de trabalho')) {
-                <div class="row py-2">
-                    <div class="col-12 col-md-5 pe-3 py-2">
-                        <h4 class="custom-dark fw-bolder">Horário</h4>
-                        <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Garanta uma experiência ainda mais próxima e conveniente para seus clientes ao disponibilizar informações claras sobre nosso horário de funcionamento. Estejamos disponíveis para atendê-lo não apenas por telefone, e-mail ou redes sociais.</p>
-                    </div>
-                    <div class="col-12 col-md-7">
-                        @if (!this.formListing.value.openingHours) {
-                            <div class="d-flex flex-column align-items-center gap-2">
-                                <i class="fa-regular fa-clock fs-1 mb-3"></i>
-                                <h5 class="custom-subtitle-dark text-center">Nenhum horário de funcionamento adicionado</h5>
-                                <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Adicionar horário</button>
-                            </div>
-                        } @else {
-                            <div class="d-flex flex-column align-items-center gap-2">
-                                <i class="fa-regular fa-clock fs-1 mb-3"></i>
-                                <h5 class="custom-subtitle-dark text-center">Horário de funcionamento adicionado!</h5>
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Atualizar horário</button>
-                                    <button type="button" class="btn btn-sm btn-danger" (click)="removeSchedule()">Remover</button>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-                <hr class="custom-hr-dark">
-            }
-
-            <div class="row py-2">
-                <div class="col-12 col-md-5 pe-3 py-2">
-                    <h4 class="custom-dark fw-bolder">Fotos</h4>
-                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Imortalize momentos e conte histórias visualmente através de nossa galeria de fotos. Cada imagem captura a essência única da nossa jornada, destacando experiências, produtos e momentos especiais. Explore a riqueza visual que temos a oferecer e permita que as imagens falem por si mesmas.</p>
-                </div>
-                <div class="col-12 col-md-7">
-                    <div class="mb-3 primary_images">
-                        <div class="border rounded-1 p-3 py-2 mb-3">
-                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
-                                <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
-                                <label class="btn btn-primary btn-sm" for="previewLogoImg"><span *ngIf="!previewLogoImg">Adicionar</span><span *ngIf="previewLogoImg">Trocar</span></label>
-                            </div>
-                            <hr class="custom-hr-dark m-0">
-                            <div class="py-2 d-flex justify-content-center">
-                                <input type="file" id="previewLogoImg" name="previewLogoImg" (change)="previewLogo($event)" style="display: none;" accept="image/*">
-                                <img alt="Imagem de logo" class="img-logo rounded-1" *ngIf="previewLogoImg" [src]="previewLogoImg">
-                            </div>
-                            <hr *ngIf="previewLogoImg" class="custom-hr-dark m-0">
-                            <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
-                        </div>
-
-                        @if (getFieldPlans('Imagem de capa')) {
+                        <div class="mb-3 primary_images">
                             <div class="border rounded-1 p-3 py-2 mb-3">
                                 <div class="w-100 d-flex justify-content-between align-items-center mb-2">
-                                    <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
-                                    <label class="btn btn-primary btn-sm" for="previewCoverImg"><span *ngIf="!previewCoverImg">Adicionar</span><span *ngIf="previewCoverImg">Trocar</span></label>
+                                    <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
+                                    <label class="btn btn-primary btn-sm" for="previewLogoImg">
+                                        @if (previewLogoImg) {
+                                            <span>Alterar logo</span>
+                                        }@else {
+                                            <span>Adicionar</span>
+                                        }
+                                    </label>
                                 </div>
                                 <hr class="custom-hr-dark m-0">
                                 <div class="py-2 d-flex justify-content-center">
-                                    <input type="file" id="previewCoverImg" name="previewCoverImg" (change)="previewCapa($event)" style="display: none;" accept="image/*">
-                                    <img src="" alt="Imagem de logo" class="img-cover rounded-1" *ngIf="previewCoverImg" [src]="previewCoverImg">
+                                    <input type="file" id="previewLogoImg" name="previewLogoImg" (change)="previewLogo($event)" style="display: none;" accept="image/*">
+                                    @if(previewLogoImg){
+                                        <img alt="Imagem de logo" class="img-logo rounded-1" [src]="previewLogoImg">
+                                    }
                                 </div>
-                                <hr *ngIf="previewCoverImg" class="custom-hr-dark m-0">
-                                <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 1280 x 430 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                                @if(previewLogoImg){
+                                    <hr class="custom-hr-dark m-0">
+                                }
+                                <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                             </div>
-                        }
-                        
-                        @if(getFieldPlans('Galeria de imagens')) {
-                            <div *ngIf="getFieldPlans('Galeria de imagens')" class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
-                                <div class="w-100 d-flex justify-content-between align-items-center mb-2">
-                                    <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
-                                    <label class="btn btn-primary btn-sm" for="previewGalleryImg"><span>Adicionar</span></label>
-                                </div>
-                                <div>
-                                    <input type="file" id="previewGalleryImg" name="previewGalleryImg" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
-                                    <div class="d-flex flex-wrap">
-                                        <img *ngFor="let image of previewGalleryImg" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
+    
+                            @if (getFieldPlans('Imagem de capa')) {
+                                <div class="border rounded-1 p-3 py-2 mb-3">
+                                    <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                        <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
+                                        <label class="btn btn-primary btn-sm" for="previewCoverImg">
+                                            @if (previewCoverImg) {
+                                                <span>Alterar capa</span>
+                                            }@else {
+                                                <span>Adicionar</span>
+                                            }
+                                        </label>
                                     </div>
-                                    <hr *ngIf="previewGalleryImg.length" class="custom-hr-dark m-0">
-                                    <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                                    <hr class="custom-hr-dark m-0">
+                                    <div class="py-2 d-flex justify-content-center">
+                                        <input type="file" id="previewCoverImg" name="previewCoverImg" (change)="previewCapa($event)" style="display: none;" accept="image/*">
+                                        @if(previewCoverImg){
+                                            <img alt="Imagem de logo" class="img-cover rounded-1" [src]="previewCoverImg">
+                                        }
+                                    </div>
+                                    @if(previewCoverImg) {
+                                        <hr class="custom-hr-dark m-0">
+                                    }
+                                    <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 1280 x 430 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                                 </div>
-                            </div>
-                        }
-                        
+                            }
+                            
+                            @if(getFieldPlans('Galeria de imagens')) {
+                                <div class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                                    <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                        <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
+                                        <label class="btn btn-primary btn-sm" for="previewGalleryImg"><span>Adicionar</span></label>
+                                    </div>
+                                    <div>
+                                        <input type="file" id="previewGalleryImg" name="previewGalleryImg" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
+                                        <div class="d-flex flex-wrap">
+                                            <img *ngFor="let image of previewGalleryImg" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
+                                        </div>
+                                        @if(previewGalleryImg.length) {
+                                            <hr class="custom-hr-dark m-0">
+                                        }
+                                        <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                                    </div>
+                                </div>
+                            }
+                            
+                        </div>
                     </div>
-                </div>
-            </div>
-            <hr class="custom-hr-dark">
-            <div *ngIf="listingPlans[0].isFree === 'N'" class="row py-2">
-                <div class="col-12 col-md-5 pe-3 py-2">
-                    <h4 class="custom-dark fw-bolder">Desconto</h4>
-                    <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Desbloqueie benefícios exclusivos com nossos códigos promocionais especiais. Cada código é uma chave para descontos, ofertas e vantagens que elevam a sua experiência. Insira o código e embarque em uma jornada de economia e satisfação.</p>
-                </div>
-                <div class="col-12 col-md-7">
-                    <label for="promotionalCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CUPOM DE DESCONTO</label>
-                    <div class="d-flex gap-1">
-                        <input [(ngModel)]="promotionalCode" type="text" [ngModelOptions]="{ standalone: true }" id="promotionalCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="coque seu cupom de desconto">
-                        <button type="button" class="btn btn-primary" (click)="validPromotionalCode()">VALIDAR</button>
-                    </div>
-                    <p *ngIf="codeValid" class="text-success fw-semibold fs-7 py-1">Cupom de desconto validado.</p>
                 </div>
                 <hr class="custom-hr-dark">
-            </div>
-            <div class="d-flex justify-content-end">
-                <button type="button" (click)="submitForm()" class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
-            </div>
-        </form>
-    </div>
-</section>
+
+                @if(listingPlans[0].isFree === 'N') {
+                    <div class="row py-2">
+                        <div class="col-12 col-md-5 pe-3 py-2">
+                            <h4 class="custom-dark fw-bolder">Desconto</h4>
+                            <p class="custom-subtitle-dark opacity-75 text-justify d-none d-md-block">Desbloqueie benefícios exclusivos com nossos códigos promocionais especiais. Cada código é uma chave para descontos, ofertas e vantagens que elevam a sua experiência. Insira o código e embarque em uma jornada de economia e satisfação.</p>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <label for="promotionalCode" class="mb-2 custom-subtitle-dark letter-spacing-1">CUPOM DE DESCONTO</label>
+                            <div class="d-flex gap-1">
+                                <input [(ngModel)]="promotionalCode" type="text" [ngModelOptions]="{ standalone: true }" id="promotionalCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="coque seu cupom de desconto">
+                                <button type="button" class="btn btn-primary" (click)="validPromotionalCode()">VALIDAR</button>
+                            </div>
+                            @if(codeValid) {
+                                <p class="text-success fw-semibold fs-7 py-1">Cupom de desconto validado.</p>
+                            }
+                        </div>
+                        <hr class="custom-hr-dark">
+                    </div>
+                }
+                
+                <div class="d-flex justify-content-end">
+                    <button type="button" (click)="submitForm()" class="btn btn-outline-primary letter-spacing-1 d-flex align-items-center">Finalizar anúncio<i class="bi bi-check-lg fs-5"></i></button>
+                </div>
+            </form>
+        </div>
+    </section>
+}
+
 <ng-template #newListing let-modal>
     <div class="d-flex justify-content-end rounded-top">
         <i class="bi bi-x-lg fs-5 p-2 text-black-50 cursor_pointer" aria-label="Close" (click)="modal.dismiss('Cross click')"></i>
     </div>
 
     <div class="p-3 pt-0">
-        <div class="">
-            <h2 class="text-primary letter-spacing-1 fs-6 text-center fw-bolder">ANÚNCIO CRIADO</h2>
-            <h1 class="custom-dark fs-5 text-center fw-bolder">Seu anúncio foi criado com sucesso!</h1>
-            <hr class="custom-hr-dark">
+        <h2 class="text-primary letter-spacing-1 fs-6 text-center fw-bolder">ANÚNCIO CRIADO</h2>
+        <h1 class="custom-dark fs-5 text-center fw-bolder">Seu anúncio foi criado com sucesso!</h1>
+        <hr class="custom-hr-dark">
 
-            <div>
-                <p class="custom-dark">Dados do seu anúncio:</p>
-                <ul>
-                    <li><span class="fw-semibold">id:</span> {{ listing.id }}</li>
-                    <li><span class="fw-semibold">Título:</span> {{ listing.title }}</li>
+        <div>
+            <p class="custom-dark">Dados do seu anúncio:</p>
+            <ul>
+                <li><span class="fw-semibold">id:</span> {{ listing.id }}</li>
+                <li><span class="fw-semibold">Título:</span> {{ listing.title }}</li>
 
-                    @if (!listing.freePlan) {
-                        <li><span class="fw-semibold">Valor:</span> R${{ listing.payment }}</li>
-                        <li><span class="fw-semibold">Expiração:</span> {{ listing.expiration | date: 'dd/MM/yyyy' }}</li>
-                    }
-                </ul>
-            </div>
-            <hr class="custom-hr-dark">
-
-            @if (listing.freePlan) {
-                <div>
-                    <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo com sucesso, ele já esta disponível no site.</p>
-                    <div class="d-flex justify-content-end">
-                        <a [routerLink]="['/anuncios']" class="btn btn-outline-primary btn-sm" aria-label="Close" (click)="modal.dismiss('Cross click')">Finalizar</a>
-                    </div>
-                </div>
-            } @else {
-                <div>
-                    <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo, entre em contato conosco para finalizar seu pedido clicando no botão abaixo.</p>
-                    <div class="d-flex justify-content-end">
-                        <button type="button" (click)="finalizeOrder(listing)" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</button>
-                    </div>
-                </div>
-            }  
+                @if (!listing.freePlan) {
+                    <li><span class="fw-semibold">Valor:</span> R${{ listing.payment }}</li>
+                    <li><span class="fw-semibold">Expiração:</span> {{ listing.expiration | date: 'dd/MM/yyyy' }}</li>
+                }
+            </ul>
         </div>
+        <hr class="custom-hr-dark">
+
+        @if (listing.freePlan) {
+            <div>
+                <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo com sucesso, ele já esta disponível no site.</p>
+                <div class="d-flex justify-content-end">
+                    <a [routerLink]="['/anuncios']" class="btn btn-outline-primary btn-sm" aria-label="Close" (click)="modal.dismiss('Cross click')">Finalizar</a>
+                </div>
+            </div>
+        } @else {
+            <div>
+                <p class="custom-subtitle-dark fs-7">Obrigado {{ user.name }}. Seu anúncio foi salvo, entre em contato conosco para finalizar seu pedido clicando no botão abaixo.</p>
+                <div class="d-flex justify-content-end">
+                    <button type="button" (click)="finalizeOrder(listing)" class="btn btn-outline-primary btn-sm"><i class="bi bi-whatsapp me-2"></i>Finalizar pedido</button>
+                </div>
+            </div>
+        }  
     </div>
 </ng-template>
 
