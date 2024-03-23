@@ -19,17 +19,17 @@
             </div>
             <div class="col-12 col-sm-12 col-md-4 mb-3">
                 <div class="dropdown mb-3 w-100">
-                    <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
+                    <label for="searchCategory" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
                     <button class="btn btn-light dropdown-toggle custom-subtitle-dark border w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown">
                         @if (!filters.categoryId) {
                             <span>Selecionar categoria</span>
                         }@else {
-                            <span>{{ getCategoryById(filters.categoryId)?.cat_name }}</span>
+                            <span>{{ searchCategoryById(filters.categoryId)?.cat_name }}</span>
                         }
                         
                     </button>
                     <ul class="dropdown-menu p-2 custom_scroll w-100">
-                        <input [(ngModel)]="searchCategory" [ngModelOptions]="{ standalone: true }" type="text" name="search" id="search"
+                        <input [(ngModel)]="searchCategory" [ngModelOptions]="{ standalone: true }" type="text" name="searchCategory" id="searchCategory"
                             class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria" (input)="searchCategoryFilter()">
 
                         @for (category of searchItensCategory; track $index) {

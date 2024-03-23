@@ -13,6 +13,8 @@ import { FormsModule, } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
+import { ListingPlansService } from '../../../services/listingPlans.service';
+import { ListingPlans } from '../../../models/ListingPlans';
 
 @Component({
    selector: 'app-listings',
@@ -31,10 +33,12 @@ export class ListingsComponent implements OnInit, OnDestroy{
    validErrorsService      = inject(ValidErrorsService);
    spinnerService          = inject(SpinnerService);
    ngbRatingConfig			= inject(NgbRatingConfig);
+   listingPlansService     = inject(ListingPlansService);
 
    spinnerSearching: boolean = false;
    categories: ListingCategory[] = [];
    listings: Listing[] = [];
+   listingPlans: ListingPlans[] = [];
 
    searchItensListing: Listing[] = [];
    searchItensCategory: ListingCategory[] = [];
@@ -69,8 +73,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
       this.titleService.setTitle(`${this.constantsService.siteTitle} - Anúncios`);
       this.goToTheTopWindow();
       this.getParams();
-      this.getListingsAll();
-      this.getCategories();
+      this.getListingPlans();
    }
 
    ngOnDestroy(): void {
@@ -81,9 +84,20 @@ export class ListingsComponent implements OnInit, OnDestroy{
       this.filters.categoryId = category.id;
    }
 
-   getCategoryById(id: number) {
+   searchCategoryById(id: number) {
       const item = this.categories.find(item => item.id === id);
       return item;
+   }
+
+   getListingPlans() {
+      this.listingPlansService.getPlans("Y").subscribe((response) => {
+         this.listingPlans= response;
+         console.log(this.getFieldPlans("Página de detalhes", 19));
+         this.getListingsAll();
+         this.getCategories();
+      },(error) => {
+         this.validErrorsService.validError(error, 'Falha ao buscar os planos.');
+      })
    }
 
    getListingsAll() {
@@ -134,6 +148,21 @@ export class ListingsComponent implements OnInit, OnDestroy{
 		return result
 	}
 
+   getFieldPlans(field: string, planId: number) {
+      const [plan] = this.listingPlans.filter(item => item.id === planId);
+      const planField = plan.plansInfo;
+
+      const active = planField.find(item => {
+         return item.description === field;
+      });
+
+      if(active && active.active === "Y") {
+         return true;
+      }
+
+      return false;
+   }
+
    searchListingFilter() {
       this.searchItensListing = this.listings.filter(object =>
          object.title.toLowerCase().includes(this.searchListing.toLowerCase()) ||
@@ -157,7 +186,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    viewListing(listing: Listing) {
-      if(listing.plan != "GRÁTIS") {
+      if(this.getFieldPlans("Página de detalhes", listing.planId)) {
          this.router.navigate(['/anuncio', listing.id]);
       }
    }
