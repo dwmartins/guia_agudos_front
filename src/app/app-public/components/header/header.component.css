@@ -15,3 +15,7 @@ nav {
         display: none;
     }
 }
+
+.dropdown-menu {
+    z-index: 999999;
+}

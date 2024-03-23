@@ -1,5 +1,30 @@
 <section class="container-fluid p-0">
-    <div id="listing_carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div>
+        <div class="carousel-item active">
+            <img src="../../../../assets/img/carousel-default.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <div>
+        <div class="shadow_img d-flex justify-content-center align-items-center">
+            <div class="mx-2">
+                <h1 class="text-light text-center fw-bolder ">Inicie sua busca aqui</h1>
+                <h3 class="text-light text-center ">O que você está procurando?</h3>
+
+                <div class="container mt-5">
+                    <form class="row g-3" (submit)="getListings()">
+                        <div class="col-sm-10 position-relative">
+                            <input [(ngModel)]="search" name="search" type="text" class="ps-5 form-control form-control-lg rounded-1 custom_search" placeholder="Lanchonetes, pizzarias...">
+                            <i class="bi bi-search position-absolute fs-4 text-black-50 icon_search_carousel"></i>
+                        </div>
+                        <div class="col-sm-2 ">
+                            <button class="btn btn-lg btn-primary w-100 fw-medium rounded-1 px-1 ">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="listing_carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner carousel_field">
 
             <div *ngIf="!carousel.length">
@@ -14,12 +39,12 @@
                 </div>
             </div>
 
-            <button class="carousel-control-prev z-3" type="button" data-bs-target="#listing_carousel"
+            <button class="carousel-control-prev" type="button" data-bs-target="#listing_carousel"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next z-3" type="button" data-bs-target="#listing_carousel"
+            <button class="carousel-control-next" type="button" data-bs-target="#listing_carousel"
                 data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
@@ -44,5 +69,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </section>

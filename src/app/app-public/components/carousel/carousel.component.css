@@ -5,14 +5,14 @@
 
 .carousel-item img {
     object-fit: cover;
-    height: 100vh;
+    height: calc(100vh - 78px);
 }
 
 .shadow_img {
     position: relative;
-    z-index: 2;
+    /* z-index: 2; */
     width: 100%;
-    height: calc(100vh - 68px);
+    height: calc(100vh - 78px);
     top: 0;
     left: 0;
     box-shadow: inset 0px 0px 100px 500px rgba(0, 0, 0, 0.5);

@@ -75,7 +75,7 @@
     
             <div class="py-1 row show-animation">
                 @for (listing of searchItensListing; track $index) {
-                    <div class="p-2 col-12 col-sm-6 col-md-12 col-lg-6 card_listing" [ngClass]="{'cursor_pointer': listing.plan != 'GRÁTIS'}">
+                    <div class="p-2 col-12 col-sm-6 col-md-12 col-lg-6 card_listing" [ngClass]="{'cursor_pointer': getFieldPlans('Página de detalhes', listing.planId)}">
                         <div class="card border-0 shadow">
                             <div class="row g-0">
                                 <div class="col-md-4 img_container rounded p-4 p-sm-2" (click)="viewListing(listing)">
