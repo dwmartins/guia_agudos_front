@@ -18,6 +18,7 @@ import { User } from '../../../models/user';
 import { AuthService } from '../../../services/auth.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { ConstantsService } from '../../../services/helpers/constants.service';
+import { PlansInfoService } from '../../../services/helpers/plans-info.service';
 
 @Component({
     selector: 'app-listing-new',
@@ -28,6 +29,7 @@ import { ConstantsService } from '../../../services/helpers/constants.service';
 })
 export class ListingNewComponent implements OnInit{
     constants               = inject(ConstantsService);
+    plansInfo               = inject(PlansInfoService);
     categoryService         = inject(ListingCategoryService);
     alertService            = inject(AlertService);
     route                   = inject(ActivatedRoute);
@@ -165,7 +167,7 @@ export class ListingNewComponent implements OnInit{
         const categoryInfo = this.listingPlans[0].plansInfo;
 
         const maxCategory = categoryInfo.find(item => {
-            return item.description === "Categorias";
+            return item.description === this.plansInfo.categories;
         });
 
         if(this.categoriesSelect.length === maxCategory?.value) {
@@ -198,7 +200,7 @@ export class ListingNewComponent implements OnInit{
         const keywordsInfo = this.listingPlans[0].plansInfo;
         
         const maxKeywords = keywordsInfo.find(item => {
-            return item.description === "Palavras-chave";
+            return item.description === this.plansInfo.keyWords;
         });
 
         if(!keywords) {

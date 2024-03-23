@@ -22,7 +22,7 @@
                             <input type="text" name="summary" id="summary" formControlName="summary" class="form-control custom_focus custom_placeholder bg-transparent" [ngClass]="{'invalid_input': formListing.get('summary')?.invalid && formListing.get('summary')?.touched}" placeholder="Digite uma simples descrição">
                         </div>
     
-                        @if(getFieldPlans('Descrição detalhada')){
+                        @if(getFieldPlans(plansInfo.detailedDescription)){
                             <div class="mb-3">
                                 <label for="description" class="mb-2 custom-subtitle-dark letter-spacing-1">DESCRIÇÃO</label>
                                 <textarea name="description" formControlName="description" id="description" cols="30" rows="5" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Fale um pouco sobre seu negocio"></textarea>
@@ -109,7 +109,7 @@
                                     <input type="text" name="zipCode" formControlName="zipCode" id="zipCode" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Seu CEP">
                                 </div>
     
-                                @if (getFieldPlans('Mapa')) {
+                                @if (getFieldPlans(plansInfo.map)) {
                                     <div class="col-12 col-md-6 p-0 ps-md-2">
                                         <label for="map" class="mb-2 custom-subtitle-dark letter-spacing-1">MAPA<i class="fa-regular fa-circle-question ms-1 cursor_pointer" [ngbTooltip]="tooltips.map"></i></label>
                                         <input type="text" name="map" formControlName="map" id="map" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Tag <iframe> do google maps">
@@ -160,7 +160,7 @@
                             <input type="email" name="email" formControlName="email" id="email" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos@email.com" autocomplete="email">
                         </div>
     
-                        @if(getFieldPlans('URL')) {
+                        @if(getFieldPlans(plansInfo.url)) {
                             <div class="mb-3">
                                 <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
                                 <input type="text" name="url" formControlName="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
@@ -171,7 +171,7 @@
                 </div>
                 <hr class="custom-hr-dark">
     
-                @if (getFieldPlans('Horário de trabalho')) {
+                @if (getFieldPlans(plansInfo.workSchedule)) {
                     <div class="row py-2">
                         <div class="col-12 col-md-5 pe-3 py-2">
                             <h4 class="custom-dark fw-bolder">Horário</h4>
@@ -230,7 +230,7 @@
                                 <p class="custom-subtitle-dark m-0 fs-7 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
                             </div>
     
-                            @if (getFieldPlans('Imagem de capa')) {
+                            @if (getFieldPlans(plansInfo.coverImage)) {
                                 <div class="border rounded-1 p-3 py-2 mb-3">
                                     <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                         <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
@@ -256,7 +256,7 @@
                                 </div>
                             }
                             
-                            @if(getFieldPlans('Galeria de imagens')) {
+                            @if(getFieldPlans(plansInfo.imageGallery)) {
                                 <div class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
                                     <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                         <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>

@@ -15,6 +15,7 @@ import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 import { ListingPlansService } from '../../../services/listingPlans.service';
 import { ListingPlans } from '../../../models/ListingPlans';
+import { PlansInfoService } from '../../../services/helpers/plans-info.service';
 
 @Component({
    selector: 'app-listings',
@@ -25,6 +26,7 @@ import { ListingPlans } from '../../../models/ListingPlans';
 })
 export class ListingsComponent implements OnInit, OnDestroy{
    titleService		      = inject(Title);	
+   plansInfo               = inject(PlansInfoService);
    constantsService        = inject(ConstantsService);
    categoryService         = inject(ListingCategoryService);
    listingService          = inject(ListingService);
@@ -186,7 +188,7 @@ export class ListingsComponent implements OnInit, OnDestroy{
    }
 
    viewListing(listing: Listing) {
-      if(this.getFieldPlans("Página de detalhes", listing.planId)) {
+      if(this.getFieldPlans(this.plansInfo.detailsPage, listing.planId)) {
          this.router.navigate(['/anuncio', listing.id]);
       }
    }
