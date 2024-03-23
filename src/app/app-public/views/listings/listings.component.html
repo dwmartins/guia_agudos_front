@@ -12,19 +12,32 @@
             <h4 class="custom-dark fw-semibold mb-4">Buscar por: <span class="fw-normal">{{ categoryParamsSearch[0].cat_name }}</span></h4>
         }
 
-        <form class="row py-3" (submit)="searchListingByFilter()">
+        <form class="row py-3" (submit)="getListingByFilter()">
             <div class="col-12 col-sm-12 col-md-4 mb-3">
-                <label for="keywords" class="custom-subtitle-dark letter-spacing-1 mb-1">PALAVRA-CHAVE</label>
+                <label for="keywords" class="custom-subtitle-dark letter-spacing-1 mb-1">PALAVRAS-CHAVE</label>
                 <input type="text" name="keywords" id="keywords" [(ngModel)]="filters.keywords" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Palavras-chaves">
             </div>
             <div class="col-12 col-sm-12 col-md-4 mb-3">
-                <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
-                <select name="category" id="category" [(ngModel)]="filters.category" class="form-select custom_focus bg-transparent">
-                    <option value=""></option>
-                    <option *ngFor="let category of categories" value="{{ category.id }}">
-                        {{ category.cat_name }}
-                    </option>
-                </select>
+                <div class="dropdown mb-3 w-100">
+                    <label for="category" class="custom-subtitle-dark letter-spacing-1 mb-1">CATEGORIA</label>
+                    <button class="btn btn-light dropdown-toggle custom-subtitle-dark border w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown">
+                        @if (!filters.categoryId) {
+                            <span>Selecionar categoria</span>
+                        }@else {
+                            <span>{{ getCategoryById(filters.categoryId)?.cat_name }}</span>
+                        }
+                        
+                    </button>
+                    <ul class="dropdown-menu p-2 custom_scroll w-100">
+                        <input [(ngModel)]="searchCategory" [ngModelOptions]="{ standalone: true }" type="text" name="search" id="search"
+                            class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria" (input)="searchCategoryFilter()">
+
+                        @for (category of searchItensCategory; track $index) {
+                            <li class="dropdown-item cursor_pointer" [ngClass]="{'fw-bolder bg-body-secondary': category.id === filters.categoryId}" (click)="setFilterCategory(category)">{{ category.cat_name }}</li>
+                        }
+
+                    </ul>
+                </div>
             </div>
             <div class="col-12 d-flex gap-2">
                 <button type="submit" class="letter-spacing-1 btn btn-primary btn-sm"><i class="fa-solid fa-filter me-1"></i>FILTRAR</button>
@@ -41,14 +54,14 @@
                         <span class="material-symbols-outlined input-group-text">
                             search
                         </span>
-                        <input [(ngModel)]="searchItem" type="text" name="search" (input)="searchListingFilter()"
+                        <input [(ngModel)]="searchListing" type="text" name="search" (input)="searchListingFilter()"
                             class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Buscar anúncio...">
                     </div>
                 </div>
             </div>
         }
 
-        @if (searching) {
+        @if (spinnerSearching) {
             <div class="d-flex align-items-center py-3">
                 <app-spinner-loading />
                 <p class="ms-2 m-0 custom-dark fs-5">Buscando anúncios, aguarde...</p>
@@ -62,7 +75,7 @@
     
             <div class="py-1 row show-animation">
                 @for (listing of searchItensListing; track $index) {
-                    <div class="p-3 col-12 col-sm-6 col-md-12 col-lg-6 card_listing" [ngClass]="{'cursor_pointer': listing.plan != 'GRÁTIS'}">
+                    <div class="p-2 col-12 col-sm-6 col-md-12 col-lg-6 card_listing" [ngClass]="{'cursor_pointer': listing.plan != 'GRÁTIS'}">
                         <div class="card border-0 shadow">
                             <div class="row g-0">
                                 <div class="col-md-4 img_container rounded p-4 p-sm-2" (click)="viewListing(listing)">
@@ -71,33 +84,30 @@
     
                                         @if (listing.reviews.length) {
                                             <div class="text-center w-100 custom-rating position-absolute rating_gradient rounded-bottom">
-                                                <ngb-rating [rate]="getAllRating(listing)" class="pt-5"></ngb-rating>
+                                                <ngb-rating [rate]="getAllRating(listing)" [ngbTooltip]="listing.reviews.length + ' Avaliações'" class="pt-5"></ngb-rating>
                                             </div>
                                         }
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <div class="card-body pt-2">
-                                        <h5 class="card-title fw-bold listing_title" (click)="viewListing(listing)" [ngbTooltip]="listing.title">{{ listing.title }}</h5>
-                                        <p class="card-text custom-subtitle-dark listing_description mb-2" (click)="viewListing(listing)" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
-        
-                                        @if (listing.phone) {
-                                            <a class="link_outline_none custom-subtitle-dark fs-6" href="https://wa.me/{{listing.phone}}" target="_blank">
-                                                <i class="bi bi-whatsapp me-2"></i>
-                                                <span class="fw-light">{{ listing.phone }}</span>
-                                            </a>
-                                        }
-                                        
-                                        @if (listing.email) {
-                                            <div class="text-dark d-flex">
-                                                <i class="bi bi-envelope me-2 fs-6"></i>
-                                                <a href="mailto:{{listing.email}}" class="fw-light text-break custom-subtitle-dark link_outline_none">{{ listing.email }}</a>
+                                    <div class="card-body pt-2 ps-md-1">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="card-title fw-semibold listing_title mb-1" (click)="viewListing(listing)" [ngbTooltip]="listing.title">{{ listing.title }}</h5>
+                                            <div class="d-none d-md-flex justify-content-between gap-2 fs-5 text-primary opacity-75">
+                                                @if(listing.phone) {
+                                                    <a href="https://wa.me/{{listing.phone}}" target="_blank" class="link_outline_none"><i class="fa-brands fa-whatsapp"></i></a>
+                                                }
+
+                                                @if (listing.email) {
+                                                    <a href="mailto:{{listing.email}}" class="link_outline_none"><i class="fa-regular fa-envelope"></i></a>
+                                                }
                                             </div>
-                                        }
+                                        </div>
+                                        <p class="card-text custom-subtitle-dark listing_description mb-2 fs-7" (click)="viewListing(listing)" [ngbTooltip]="listing.summary">{{ listing.summary }}</p>
         
                                         @if (listing.address) {
                                             <div class="text-dark">
-                                                <i class="bi bi-geo-alt-fill fs-6 px-0 me-1"></i>
+                                                <i class="bi bi-geo-alt-fill fs-7 px-0 me-1"></i>
                                                 <span class="fw-light custom-subtitle-dark">
                                                     <span *ngIf="listing.address">{{ listing.address }}</span>
                                                     <span *ngIf="listing.city">, {{ listing.city }}</span>
@@ -105,6 +115,31 @@
                                                 </span>
                                             </div>
                                         }
+                                        
+                                        @if (listing.email) {
+                                            <div class="text-dark d-flex">
+                                                <i class="bi bi-envelope me-2 fs-7"></i>
+                                                <a href="mailto:{{listing.email}}" class="fw-light text-break custom-subtitle-dark link_outline_none">{{ listing.email }}</a>
+                                            </div>
+                                        }
+
+                                        @if (listing.phone) {
+                                            <a class="link_outline_none custom-subtitle-dark fs-7 mb-1" href="https://wa.me/{{listing.phone}}" target="_blank">
+                                                <i class="bi bi-whatsapp me-2"></i>
+                                                <span class="fw-light">{{ listing.phone }}</span>
+                                            </a>
+                                        }
+
+                                        <div class="d-flex d-md-none justify-content-end gap-3 fs-4 text-primary opacity-75">
+                                            @if(listing.phone) {
+                                                <a href="https://wa.me/{{listing.phone}}" target="_blank" class="link_outline_none"><i class="fa-brands fa-whatsapp"></i></a>
+                                            }
+
+                                            @if (listing.email) {
+                                                <a href="mailto:{{listing.email}}" class="link_outline_none"><i class="fa-regular fa-envelope"></i></a>
+                                            }
+                                        </div>
+        
                                     </div>
                                 </div>
                             </div>

@@ -9,7 +9,7 @@ import { Listing } from '../../../models/listing';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { NgbRatingConfig, NgbRatingModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule, } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ConstantsService } from '../../../services/helpers/constants.service';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
@@ -32,29 +32,28 @@ export class ListingsComponent implements OnInit, OnDestroy{
    spinnerService          = inject(SpinnerService);
    ngbRatingConfig			= inject(NgbRatingConfig);
 
-   iconCategories: boolean = false;
-
+   spinnerSearching: boolean = false;
    categories: ListingCategory[] = [];
+   listings: Listing[] = [];
 
-   searching: boolean = false;
+   searchItensListing: Listing[] = [];
+   searchItensCategory: ListingCategory[] = [];
 
+   categoryParamsSearch: ListingCategory[] = [];
+
+   
    searchListing: string = '';
-   searchListingByCategory!: number;
+   searchCategory: string = '';
+  
 
-   queryParams = {
+   filters = {
       keywords: '',
       categoryId: 0
    }
 
-   categoryParamsSearch: ListingCategory[] = [];
-
-   listings: Listing[] = [];
-   searchItem: string = '';
-   searchItensListing: Listing[] = [];
-
-   filters = {
+   queryParams = {
       keywords: '',
-      category: 0
+      categoryId: 0
    }
 
    logoDefault: string = "../../../../assets/img/logoDefault.png";
@@ -78,18 +77,49 @@ export class ListingsComponent implements OnInit, OnDestroy{
       this.titleService.setTitle(this.constantsService.siteTitle);
    }
 
-   toggleIconCategories() {
-      this.iconCategories = !this.iconCategories;
+   setFilterCategory(category: ListingCategory) {
+      this.filters.categoryId = category.id;
+   }
+
+   getCategoryById(id: number) {
+      const item = this.categories.find(item => item.id === id);
+      return item;
    }
 
    getListingsAll() {
-      this.searching = true;
+      this.spinnerSearching = true;
       this.listingService.getAll(this.queryParams.categoryId, this.queryParams.keywords, "ativo").subscribe((response) => {
          this.listings = response;
          this.searchItensListing = response;
-         this.searching = false;
+         this.spinnerSearching = false;
       }, (error) => {
-         this.searching = false;
+         this.spinnerSearching = false;
+         this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
+      });
+   }
+
+   getCategories() {
+      this.spinnerSearching = true;
+      this.categoryService.categories(null).subscribe((response) => {
+         this.spinnerSearching = false;
+         this.categories = response;
+         this.searchItensCategory = response;
+         this.categoryParamsSearch = this.categories.filter(object => object.id === this.queryParams.categoryId);
+      }, (error) => {
+         this.spinnerSearching = false;
+         console.error('ERROR: ', error);
+      })
+   }
+
+   getListingByFilter() {
+      this.queryParams.keywords = '';
+      this.spinnerSearching = true;
+      this.listingService.getAll(this.filters.categoryId, this.filters.keywords, "ativo").subscribe((response) => {
+         this.searchItensListing = response;
+         this.spinnerSearching = false;
+
+      }, (error) => {
+         this.spinnerSearching = false;
          this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
       });
    }
@@ -104,45 +134,26 @@ export class ListingsComponent implements OnInit, OnDestroy{
 		return result
 	}
 
-   searchListingByFilter() {
-      this.queryParams.keywords = '';
-      this.searching = true;
-      this.listingService.getAll(this.filters.category, this.filters.keywords, "ativo").subscribe((response) => {
-         this.searchItensListing = response;
-         this.searching = false;
-
-      }, (error) => {
-         this.searching = false;
-         this.validErrorsService.validError(error, 'Falha ao buscar os anúncios');
-      });
-   }
-
    searchListingFilter() {
       this.searchItensListing = this.listings.filter(object =>
-         object.title.toLowerCase().includes(this.searchItem.toLowerCase()) ||
-         object.summary.toLowerCase().includes(this.searchItem.toLowerCase())
+         object.title.toLowerCase().includes(this.searchListing.toLowerCase()) ||
+         object.summary.toLowerCase().includes(this.searchListing.toLowerCase())
+      );
+   }
+
+   searchCategoryFilter() {
+      this.searchItensCategory = this.categories.filter(Object => 
+         Object.cat_name.toLocaleLowerCase().includes(this.searchCategory.toLowerCase())
       );
    }
 
    cleanFilters() {
-      this.filters.category = 0;
+      this.filters.categoryId = 0;
       this.filters.keywords = '';
       this.queryParams.keywords = '';
       this.queryParams.categoryId = 0;
       this.categoryParamsSearch = [];
       this.getListingsAll();
-   }
-
-   getCategories() {
-      this.searching = true;
-      this.categoryService.categories(null).subscribe((response) => {
-         this.searching = false;
-         this.categories = response;
-         this.categoryParamsSearch = this.categories.filter(object => object.id === this.queryParams.categoryId);
-      }, (error) => {
-         this.searching = false;
-         console.error('ERROR: ', error);
-      })
    }
 
    viewListing(listing: Listing) {

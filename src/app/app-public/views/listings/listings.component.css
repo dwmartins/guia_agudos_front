@@ -1,3 +1,8 @@
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 .img_container  {
     overflow: hidden;
     position: relative;
@@ -24,7 +29,7 @@
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
 }
 
 .custom_spinner {
@@ -81,4 +86,4 @@
     .rating {
         font-size: 30px;
     }
-}
+} 

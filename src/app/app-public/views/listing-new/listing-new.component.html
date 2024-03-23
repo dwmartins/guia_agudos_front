@@ -54,7 +54,7 @@
                             <button class="btn btn-light dropdown-toggle custom-subtitle-dark letter-spacing-1 border" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 CATEGORIAS
                             </button>
-                            <ul class="dropdown-menu p-2">
+                            <ul class="dropdown-menu p-2 custom_scroll">
                                 <input [(ngModel)]="searchItem" [ngModelOptions]="{ standalone: true }" type="text" name="search" id="search" (input)="filterCategories()" class="form-control-sm form-control custom_focus custom_placeholder rounded-1" placeholder="Buscar categoria">
     
                                 @for (category of searchItensCategory; track $index) {
