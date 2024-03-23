@@ -18,6 +18,7 @@ import { ListingPlans } from '../../../models/ListingPlans';
 import { forkJoin } from 'rxjs';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { UserService } from '../../../services/user.service';
+import { PlansInfoService } from '../../../services/helpers/plans-info.service';
 
 @Component({
     selector: 'app-user-profile',
@@ -27,6 +28,7 @@ import { UserService } from '../../../services/user.service';
     styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit, OnDestroy{
+    plansInfo               = inject(PlansInfoService);
     constants               = inject(ConstantsService);
     titleService		    = inject(Title);	
     modal 					= inject(NgbModal);
@@ -156,23 +158,25 @@ export class UserProfileComponent implements OnInit, OnDestroy{
         });
     }
 
-    viewListing(listing: Listing) {
-        if(this.hasDetailsPage(listing)) {
-            this.router.navigate(['/anuncio', listing.id]);
+    getFieldPlans(field: string, planId: number) {
+        const [plan] = this.listingPlans.filter(item => item.id === planId);
+        const planField = plan.plansInfo;
+  
+        const active = planField.find(item => {
+           return item.description === field;
+        });
+  
+        if(active && active.active === "Y") {
+           return true;
         }
+  
+        return false;
     }
 
-    hasDetailsPage(listing: Listing) {
-        const plan = this.listingPlans.find(plan => plan.id === listing.planId);
-        const plansInfo = plan?.plansInfo;
-
-        const detailPage = plansInfo?.find(obj => obj.description === "Página de detalhes");
-
-        if(detailPage?.active === "Y") {
-            return true;
+    viewListing(listing: Listing) {
+        if(this.getFieldPlans(this.plansInfo.detailsPage, listing.planId)) {
+           this.router.navigate(['/anuncio', listing.id]);
         }
-
-        return false;
     }
 
     previewPhotoUser(event: Event) {

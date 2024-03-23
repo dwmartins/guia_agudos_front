@@ -82,7 +82,7 @@
                                     <div class="position-relative">
                                         <img [src]="listing.logoImage ? listing.logoImage : logoDefault" class="img-fluid img_listing rounded" alt="Imagem de logo">
     
-                                        @if (listing.reviews.length) {
+                                        @if (getFieldPlans(plansInfo.commentsAndRatings, listing.planId) && listing.reviews.length) {
                                             <div class="text-center w-100 custom-rating position-absolute rating_gradient rounded-bottom">
                                                 <ngb-rating [rate]="getAllRating(listing)" [ngbTooltip]="listing.reviews.length + ' Avaliações'" class="pt-5"></ngb-rating>
                                             </div>

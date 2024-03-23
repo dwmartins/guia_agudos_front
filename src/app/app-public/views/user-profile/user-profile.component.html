@@ -47,8 +47,8 @@
                                     <div class="p-0 py-3 col-12 p-sm-3">
                                         <div class="shadow d-flex flex-column flex-md-row p-2 py-3 rounded">
                                             <div class="logo-listing pb-3 pb-md-0 d-flex flex-column justify-content-center rounded rounded w-100">
-                                                <img class="rounded" [ngClass]="{'cursor_pointer': hasDetailsPage(listing)}" (click)="viewListing(listing)" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
-                                                @if(listing.reviews.length) {
+                                                <img class="rounded" [ngClass]="{'cursor_pointer': getFieldPlans(plansInfo.detailsPage, listing.planId)}" (click)="viewListing(listing)" [src]="listing.logoImage ? listing.logoImage : imgDefaultLogo" alt="Imagem de logo">
+                                                @if(getFieldPlans(plansInfo.commentsAndRatings, listing.planId)) {
                                                     <ngb-rating [rate]="getAllRating(listing)" class="fs-2 iconAllReviews"></ngb-rating>
                                                 }
                                             </div>
@@ -65,7 +65,7 @@
                                                     <i (click)="openModalDeleteReview(listing)" class="fa-solid fa-trash-can text-danger fs-5 cursor_pointer"></i>
                                                 </div>
 
-                                                <h5 class="custom-dark fw-bold listing_title d-inline" [ngClass]="{'cursor_pointer': hasDetailsPage(listing)}" (click)="viewListing(listing)">{{ listing.title }}</h5>
+                                                <h5 class="custom-dark fw-bold listing_title d-inline" [ngClass]="{'cursor_pointer': getFieldPlans(plansInfo.detailsPage, listing.planId)}" (click)="viewListing(listing)">{{ listing.title }}</h5>
                                                 <p (click)="getAllRating(listing)" class="custom-subtitle-dark listing_summary mb-1">{{ listing.summary }}</p>
                                                 
                                                 @if (listing.phone) {
