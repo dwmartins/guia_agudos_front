@@ -15,26 +15,28 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <!-- Logged -->
-                <div *ngIf="userLogged">
-                    <li class="nav-item logged_small">
-                        <i class="bi bi-person-fill me-1 "></i>
-                        <span>{{ user.name }}</span>
-                    </li>
-                    <hr>
-                    @if (user.user_type === "admin") {
+                @if (userLogged) {
+                    <div>
                         <li class="nav-item logged_small">
-                            <a (click)="closeNavbar()" class="nav-link" href="#">Painel</a>
+                            <i class="bi bi-person-fill me-1 "></i>
+                            <span>{{ user.name }}</span>
                         </li>
-                    }
-                    <li class="nav-item logged_small">
-                        <a (click)="closeNavbar()" [routerLink]="['/perfil']" class="nav-link">
-                            Perfil
-                        </a>
-                    </li>
-                    <li class="nav-item logged_small">
-                        <a (click)="logout()" class="nav-link cursor_pointer">Sair</a>
-                    </li>
-                </div>
+                        <hr>
+                        @if (user.user_type === "admin") {
+                            <li class="nav-item logged_small">
+                                <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/admin']">Painel</a>
+                            </li>
+                        }
+                        <li class="nav-item logged_small">
+                            <a (click)="closeNavbar()" [routerLink]="['/perfil']" class="nav-link">
+                                Perfil
+                            </a>
+                        </li>
+                        <li class="nav-item logged_small">
+                            <a (click)="logout()" class="nav-link cursor_pointer">Sair</a>
+                        </li>
+                    </div>
+                }
                 <!-- Logged -->
                 <hr>
                     <li class="nav-item">
@@ -42,12 +44,12 @@
                     </li>
 
                     <li class="nav-item">
-                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/anuncios']">Anunciantes</a>
+                        <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/anuncios']">Anúncios</a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a (click)="closeNavbar()" class="nav-link" href="#">Produtos</a>
-                    </li>
+                    </li> -->
 
                     <li class="nav-item">
                         <a (click)="closeNavbar()" class="nav-link" href="#">Empregos</a>
@@ -67,37 +69,43 @@
 
                 <hr>
                 <!-- not logged in -->
-                <li *ngIf="!userLogged" class="nav-item logged_small">
+               @if (!userLogged) {
+                <li class="nav-item logged_small">
                     <a (click)="closeNavbar()" class="nav-link" [routerLink]="['/login']">Entrar</a>
                 </li>
+               }
                 <!-- not logged in -->
 
             </ul>
-            <div *ngIf="userLogged" class="logged_large">
-                <button (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light border btn-sm me-2">
-                    Anuncie aqui
-                </button>
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        {{ user.name }}
+            @if (userLogged) {
+                <div class="logged_large">
+                    <button (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light border btn-sm me-2">
+                        Anuncie aqui
                     </button>
-                    <ul class="dropdown-menu">
-
-                        @if (user.user_type === "admin") {
-                            <button class="dropdown-item mb-1"><i class="fa-solid fa-chart-line me-2"></i>Painel</button>
-                        }
-
-                        <button class="dropdown-item mb-1" [routerLink]="['/perfil']"><i class="fa-regular fa-user me-2"></i>Perfil</button>
-                        <button (click)="logout()" class="dropdown-item cursor_pointer mb-1"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</button>
-                    </ul>
+    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ user.name }}
+                        </button>
+                        <ul class="dropdown-menu">
+    
+                            @if (user.user_type === "admin") {
+                                <button class="dropdown-item mb-1"><i class="fa-solid fa-chart-line me-2"></i>Painel</button>
+                            }
+    
+                            <button class="dropdown-item mb-1" [routerLink]="['/perfil']"><i class="fa-regular fa-user me-2"></i>Perfil</button>
+                            <button (click)="logout()" class="dropdown-item cursor_pointer mb-1"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</button>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="!userLogged" class="flex-column logged_large">
-                <a (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light border btn-sm me-2 fw-semibold text-dark opacity-75">Anuncie aqui</a>
-                <a (click)="closeNavbar()" [routerLink]="['/login']" type="button" class="btn btn-primary btn-sm fw-bold rounded-1">Entrar</a>
-            </div>
+            }
+            @if (!userLogged) {
+                <div class="flex-column logged_large">
+                    <a (click)="closeNavbar()" [routerLink]="['/planos']" class="btn btn-light border btn-sm me-2 fw-semibold text-dark opacity-75">Anuncie aqui</a>
+                    <a (click)="closeNavbar()" [routerLink]="['/login']" type="button" class="btn btn-primary btn-sm fw-bold rounded-1">Entrar</a>
+                </div>
+            }
         </div>
     </div>
 </nav>
