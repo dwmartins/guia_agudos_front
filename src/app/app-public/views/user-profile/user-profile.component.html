@@ -5,7 +5,7 @@
                 <!-- profile -->
                 <div class="d-flex flex-column align-items-center shadow rounded py-4 mb-3">
                     <div class="img_user shadow border border-5 border-white position-relative cursor_pointer mb-2">
-                        <img [src]="user.photo_url ? user.photo_url : imgDefaultUser" alt="Usuário">
+                        <img [src]="user.photo_url ? constants.user_photos + user.photo_url : constants.system_photos + 'user_image.png'" alt="Usuário">
                        
                         <div class="text-center position-absolute change-photo-user cursor_pointer">
                             <label for="img_user" class="text-white fw-semibold cursor_pointer w-100 h-100 d-flex flex-column justify-content-center align-items-center"><i class="fa-solid fa-camera fs-3"></i><span>Alterar foto</span></label>
@@ -101,10 +101,10 @@
                                                     }
 
                                                     @if (listing.status != 'pendente') {
-                                                        <a class="btn btn-sm btn-outline-info" [routerLink]="['/perfil/anuncio/estatisticas/{{ listing.id }}']">Estatísticas</a>
+                                                        <a class="btn btn-sm btn-outline-info" routerLink="/anuncio/estatisticas/{{ listing.id }}">Estatísticas</a>
                                                     }
 
-                                                    <a class="btn btn-sm btn-outline-primary" [routerLink]="['/perfil/anuncio/editar/{{ listing.id }}']">Editar</a>
+                                                    <a class="btn btn-sm btn-outline-primary" routerLink="/anuncio/editar/{{ listing.id }}">Editar</a>
                                                 </div>
                                             </div>
                                         </div>

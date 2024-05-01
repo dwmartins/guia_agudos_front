@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -14,6 +14,8 @@ import { AlertService } from '../../../services/components/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
+import { Title } from '@angular/platform-browser';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
    selector: 'app-login',
@@ -22,7 +24,9 @@ import { SpinnerLoadingComponent } from '../../../shared/components/spinner-load
    templateUrl: './login.component.html',
    styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, OnDestroy{
+   titleService		   = inject(Title);
+   constants            = inject(ConstantsService);
    validErrorsService   = inject(ValidErrorsService);
    route                = inject(ActivatedRoute);
    router               = inject(Router);
@@ -53,9 +57,14 @@ export class LoginComponent implements OnInit{
    }
 
    ngOnInit(): void {
+      this.titleService.setTitle(`${this.constants.siteTitle} - Entrar`);
       this.checkUserLogged();
       this.goToTheTopWindow();
       this.getRedirect();
+   }
+
+   ngOnDestroy(): void {
+      this.titleService.setTitle(this.constants.siteTitle);
    }
 
    submitForm() {

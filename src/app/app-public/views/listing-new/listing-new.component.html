@@ -121,7 +121,7 @@
                 </div>
                 <hr class="custom-hr-dark">
     
-                @if(listingPlans[0].level != "GRÁTIS") {
+                @if(getFieldPlans(plansInfo.detailsPage)) {
                     <div class="row py-2">
                         <div class="col-12 col-md-5 pe-3 py-2">
                             <h4 class="custom-dark fw-bolder">Redes sociais</h4>
@@ -163,7 +163,7 @@
                         @if(getFieldPlans(plansInfo.url)) {
                             <div class="mb-3">
                                 <label for="url" class="mb-2 custom-subtitle-dark letter-spacing-1">URL</label>
-                                <input type="text" name="url" formControlName="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: guiaagudos.com.br">
+                                <input type="text" name="url" formControlName="url" id="url" class="form-control custom_focus custom_placeholder bg-transparent" placeholder="Ex: {{ constants.webSiteDomain }}">
                             </div>
                         }
                         

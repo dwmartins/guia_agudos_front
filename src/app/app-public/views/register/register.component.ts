@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,8 @@ import { AlertService } from '../../../services/components/alert.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
+import { Title } from '@angular/platform-browser';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
    selector: 'app-register',
@@ -20,7 +22,9 @@ import { SpinnerLoadingComponent } from '../../../shared/components/spinner-load
    templateUrl: './register.component.html',
    styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit, OnDestroy{
+   titleService		   = inject(Title);
+   constants            = inject(ConstantsService);
    validErrorsService   = inject(ValidErrorsService);
    formBuilder          = inject(FormBuilder);
    router               = inject(Router);
@@ -51,6 +55,14 @@ export class RegisterComponent {
          email: ['', [Validators.required, Validators.email]],
          password: ['', [Validators.required]],
       })
+   }
+
+   ngOnInit(): void {
+      this.titleService.setTitle(`${this.constants.siteTitle} - Criar conta`);
+   }
+
+   ngOnDestroy(): void {
+      this.titleService.setTitle(this.constants.siteTitle);
    }
 
    submitForm() {

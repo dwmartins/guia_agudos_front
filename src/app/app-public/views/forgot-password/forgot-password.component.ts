@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,8 @@ import { UserService } from '../../../services/user.service';
 import { AlertsComponent } from '../../../shared/components/alerts/alerts.component';
 import { AlertService } from '../../../services/components/alert.service';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
+import { Title } from '@angular/platform-browser';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
    selector: 'app-forgot-password',
@@ -16,7 +18,9 @@ import { SpinnerLoadingComponent } from '../../../shared/components/spinner-load
    templateUrl: './forgot-password.component.html',
    styleUrl: './forgot-password.component.css'
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent  implements OnInit, OnDestroy{
+   titleService		   = inject(Title);
+   constants            = inject(ConstantsService);
    modalForgotPassword  = inject(NgbModal);
    formBuilder          = inject(FormBuilder);
    router               = inject(Router);
@@ -32,6 +36,14 @@ export class ForgotPasswordComponent {
       this.formForgotPassword = this.formBuilder.group({
          email: ['', [Validators.required, Validators.email]]
       })
+   }
+
+   ngOnInit(): void {
+      this.titleService.setTitle(`${this.constants.siteTitle} - Recuperar senha`);
+   }
+
+   ngOnDestroy(): void {
+      this.titleService.setTitle(this.constants.siteTitle);
    }
 
    submitForm() {

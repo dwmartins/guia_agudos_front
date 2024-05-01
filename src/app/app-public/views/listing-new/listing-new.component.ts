@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ListingCategoryService } from '../../../services/listing-category.service';
@@ -19,6 +19,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { ConstantsService } from '../../../services/helpers/constants.service';
 import { PlansInfoService } from '../../../services/helpers/plans-info.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-listing-new',
@@ -27,7 +28,8 @@ import { PlansInfoService } from '../../../services/helpers/plans-info.service';
     templateUrl: './listing-new.component.html',
     styleUrl: './listing-new.component.css'
 })
-export class ListingNewComponent implements OnInit{
+export class ListingNewComponent implements OnInit, OnDestroy{
+    titleService		    = inject(Title);
     constants               = inject(ConstantsService);
     plansInfo               = inject(PlansInfoService);
     categoryService         = inject(ListingCategoryService);
@@ -116,11 +118,16 @@ export class ListingNewComponent implements OnInit{
     }
 
     ngOnInit(): void {
+        this.titleService.setTitle(`${this.constants.siteTitle} - Novo anúncio`);
         this.goToTheTopWindow();
         this.getParameterData();
         this.getListingPlans();
         this.getCategories();
         this.user = this.authService.getUserLogged() || {} as User;
+    }
+
+    ngOnDestroy(): void {
+        this.titleService.setTitle(this.constants.siteTitle);
     }
 
     getListingPlans() {

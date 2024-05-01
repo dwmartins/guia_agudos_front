@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ListingPlansService } from '../../../services/listingPlans.service';
@@ -11,6 +11,8 @@ import { AuthService } from '../../../services/auth.service';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { SpinnerService } from '../../../services/components/spinner.service';
+import { Title } from '@angular/platform-browser';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
     selector: 'app-plans',
@@ -19,22 +21,29 @@ import { SpinnerService } from '../../../services/components/spinner.service';
     templateUrl: './plans.component.html',
     styleUrl: './plans.component.css'
 })
-export class PlansComponent implements OnInit {
-    route 			= inject(ActivatedRoute);
-	router 			= inject(Router);
-    listingPlansService    = inject(ListingPlansService);
-    redirectService = inject(RedirectService);
-    alertService    = inject(AlertService);
-    authService     = inject(AuthService);
-    spinnerService  = inject(SpinnerService);
+export class PlansComponent implements OnInit, OnDestroy {
+    titleService		    = inject(Title);
+    constants               = inject(ConstantsService);
+    route 			        = inject(ActivatedRoute);
+	router 			        = inject(Router);
+    listingPlansService     = inject(ListingPlansService);
+    redirectService         = inject(RedirectService);
+    alertService            = inject(AlertService);
+    authService             = inject(AuthService);
+    spinnerService          = inject(SpinnerService);
 
     banners: BannerPrice[] = [];
     listingPlans: ListingPlans[] = [];
     user: Partial<User> = {};
 
     ngOnInit(): void {
+        this.titleService.setTitle(`${this.constants.siteTitle} - Planos`);
         this.goToTheTopWindow();
         this.getAllPlans();
+    }
+
+    ngOnDestroy(): void {
+        this.titleService.setTitle(this.constants.siteTitle);
     }
 
     createListing(planId: number) {

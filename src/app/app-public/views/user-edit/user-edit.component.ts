@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { User } from '../../../models/user';
@@ -12,6 +12,8 @@ import { ValidErrorsService } from '../../../services/helpers/valid-errors.servi
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageValidationService } from '../../../services/helpers/image-validation.service';
+import { Title } from '@angular/platform-browser';
+import { ConstantsService } from '../../../services/helpers/constants.service';
 
 @Component({
     selector: 'app-user-edit',
@@ -20,7 +22,9 @@ import { ImageValidationService } from '../../../services/helpers/image-validati
     templateUrl: './user-edit.component.html',
     styleUrl: './user-edit.component.css'
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, OnDestroy {
+    titleService		= inject(Title);
+    constants           = inject(ConstantsService);
     modal 			    = inject(NgbModal);
     authService         = inject(AuthService);
     dateService         = inject(DateService);
@@ -80,7 +84,12 @@ export class UserEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.titleService.setTitle("Editar perfil");
         this.getUserLogged()
+    }
+
+    ngOnDestroy(): void {
+        this.titleService.setTitle(this.constants.siteTitle);
     }
 
     getUserLogged() {
