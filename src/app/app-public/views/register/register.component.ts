@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
    @ViewChild('register', { static: true }) register!: ElementRef;
 
-   registerData: { photo_url: string | null } = { photo_url: null };
+   registerData: { photo: string | null } = { photo: null };
 
    icon_password: string = 'bi bi-eye';
    showPassword: string = 'password';

@@ -15,7 +15,7 @@ export interface User {
     newPassword: string;
     active: 'Y' | 'N';
     user_type: 'admin' | 'common';
-    photo_url: string;
+    photo: string;
     createdAt: string;
     updatedAt: string;
     token: string;

@@ -257,7 +257,7 @@
                         @for (review of reviews; track $index) {
                             <div class="d-flex w-100">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="review.photo_url ? review.photo_url : imgDefaultUser" alt="Usuário">
+                                    <img class="img-fluid rounded-circle img_user border border-5 border-white shadow" [src]="review.photo ? constantsService.user_photos + review.photo : constantsService.system_photos + 'user_image.png'" alt="Usuário">
                                     <p class="custom-dark opacity-75 fs-7 text-center">{{ dateService.getDateAsString(review.createdAt) }}</p>
                                 </div>
                                 <div class="ms-3 w-100">

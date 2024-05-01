@@ -9,5 +9,5 @@ export interface Review {
 
     name: string;
     lastName: string;
-    photo_url: string;
+    photo: string;
 }
