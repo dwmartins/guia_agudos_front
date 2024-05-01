@@ -20,10 +20,13 @@ export class ConstantsService {
   // Dados da api
   api_url = environment.API_URL;
 
-  system_photos   = `${this.api_url}/files/system_photos/`;
   user_photos     = `${this.api_url}/files/user_photos/`;
+  listing_logo    = `${this.api_url}/files/listing_logo/`;
   listing_cover   = `${this.api_url}/files/listing_cover/`;
   listing_gallery = `${this.api_url}/files/listing_gallery/`;
+
+  user_photo_default = `${this.api_url}/files/system_photos/user_image.png`;
+  listing_logo_default = `${this.api_url}/files/system_photos/listing_image.png`;
 
   constructor() { }
 }

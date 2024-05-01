@@ -2,6 +2,7 @@
     height: 430px;
     object-fit: cover;
     object-position: center;
+    width: 100%;
 }
 
 .shadow_img {

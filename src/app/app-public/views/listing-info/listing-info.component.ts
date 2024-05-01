@@ -208,7 +208,7 @@ export class ListingInfoComponent implements OnInit, OnDestroy{
 
 	openLightbox(index: number): void {
 		const album = this.galleryImages.map(link => {
-		  return { src: link.imgUrl, caption: '', thumb: '' };
+		  return { src: this.constantsService.listing_gallery + link.imgUrl, caption: '', thumb: '' };
 		});
 	  
 		this.lightbox.open(album, index);
