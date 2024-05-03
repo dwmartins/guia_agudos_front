@@ -19,6 +19,7 @@ import { ListingPlans } from '../../../models/ListingPlans';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
+import { User } from '../../../models/user';
 
 @Component({
     selector: 'app-listing-edit',
@@ -47,6 +48,8 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     navbarActive = 1;
 
     formListing: FormGroup;
+
+    user!: User;
 
     listingId: number = 0;
     listing!: Listing;
@@ -95,6 +98,7 @@ export class ListingEditComponent implements OnInit, OnDestroy{
 
     ngOnInit(): void {
         this.titleService.setTitle("Editar anúncio");
+        this.user = this.authService.getUserLogged() as User;
         this.goToTheTopWindow();
         this.getParameterData();
         this.getData()
@@ -119,6 +123,11 @@ export class ListingEditComponent implements OnInit, OnDestroy{
         forkJoin([listingObservable, categoriesObservable]).subscribe(
             ([listingResponse, categoryResponse]) => {
                 this.spinnerService.hide();
+
+                if(listingResponse.user_id != this.user.id) {
+                    this.router.navigate(['/']);
+                }
+
                 this.listing = listingResponse;
                 this.categories = categoryResponse;
                 this.searchItensCategory = categoryResponse;
