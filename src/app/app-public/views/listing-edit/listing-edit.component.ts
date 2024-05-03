@@ -8,7 +8,7 @@ import { ImageValidationService } from '../../../services/helpers/image-validati
 import { SpinnerService } from '../../../services/components/spinner.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ListingService } from '../../../services/listing.service';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth.service';
 import { ValidErrorsService } from '../../../services/helpers/valid-errors.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -18,11 +18,12 @@ import { forkJoin } from 'rxjs';
 import { ListingPlans } from '../../../models/ListingPlans';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 
 @Component({
     selector: 'app-listing-edit',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, NgbTooltipModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, NgbTooltipModule, SpinnerLoadingComponent, NgbNavModule],
     templateUrl: './listing-edit.component.html',
     styleUrl: './listing-edit.component.css'
 })
@@ -43,6 +44,8 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     route               = inject(ActivatedRoute);
     router 			    = inject(Router);
 
+    navbarActive = 1;
+
     formListing: FormGroup;
 
     listingId: number = 0;
@@ -57,6 +60,8 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     searchKeywords: string = "";
 
     listingPlans: Partial<ListingPlans> = {};
+
+    spinnerEdit: boolean = false;
 
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
