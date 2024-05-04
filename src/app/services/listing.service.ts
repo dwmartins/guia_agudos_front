@@ -32,6 +32,15 @@ export class ListingService {
         return this.httpClient.get<Listing[]>(`${this.API_URL}/anuncios/usuario?userId=${userId}`);
     }
 
+    updateListing(listing: Listing) {
+        const headers = new HttpHeaders({
+            'user_id': this.user.id,
+            'token': this.user.token
+        });
+        
+        return this.httpClient.put<Listing>(`${this.API_URL}/anuncios`, listing, {headers})
+    }
+
     newListing(listing: Listing, logoImage: File, coverImage: File, galleryImages: File[]) {
         const headers = new HttpHeaders({
             'user_id': this.user.id,

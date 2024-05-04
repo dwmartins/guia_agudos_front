@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ConstantsService } from '../../../services/helpers/constants.service';
 import { PlansInfoService } from '../../../services/helpers/plans-info.service';
 import { ListingCategoryService } from '../../../services/listing-category.service';
@@ -45,6 +45,8 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     route               = inject(ActivatedRoute);
     router 			    = inject(Router);
 
+    @ViewChild('openingHours', { static: true }) openingHours!: ElementRef;
+
     navbarActive = 1;
 
     formListing: FormGroup;
@@ -64,7 +66,8 @@ export class ListingEditComponent implements OnInit, OnDestroy{
 
     listingPlans: Partial<ListingPlans> = {};
 
-    spinnerEdit: boolean = false;
+    daysOfWeek: string[] = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    schedules: { [key: string]: { open: string; close: string } } = {};
 
     tooltips = {
         keywords: 'Palavras-chaves para as pessoas encontrarem seu negocio mais fácil',
@@ -74,7 +77,9 @@ export class ListingEditComponent implements OnInit, OnDestroy{
 
     constructor() {
         this.formListing = this.formBuilder.group({
+            id: [],
             plan_id: [],
+            user_id: [],
             title: ['', [Validators.required]],
             summary: ['', [Validators.required]],
             description: [''],
@@ -133,6 +138,8 @@ export class ListingEditComponent implements OnInit, OnDestroy{
                 this.searchItensCategory = categoryResponse;
 
                 this.formListing.patchValue({
+                    id: this.listing.id,
+                    user_id: this.listing.user_id,
                     title: this.listing.title,
                     summary: this.listing.summary,
                     description: this.listing.description,
@@ -228,6 +235,14 @@ export class ListingEditComponent implements OnInit, OnDestroy{
         }
     }
 
+    removeCategory(id: number) {
+        this.categoriesSelect = this.categoriesSelect.filter(category => category.id !== id);
+
+        this.formListing.patchValue({
+            categories: this.categoriesSelect
+        });
+    }
+
     setKeywords(keywords: string){
         const keywordsInfo = this.listingPlans.plansInfo;
 
@@ -262,20 +277,67 @@ export class ListingEditComponent implements OnInit, OnDestroy{
         }
     }
 
-    removeCategory(id: number) {
-        this.categoriesSelect = this.categoriesSelect.filter(category => category.id !== id);
-
-        this.formListing.patchValue({
-            categories: this.categoriesSelect
-        });
-    }
-
     removeKeyword(keywords: string) {
         this.keywords = this.keywords.filter(item => item !== keywords);
 
         this.formListing.patchValue({
             keywords: this.keywords
         });
+    }
+
+    openOpiningHours() {
+        
+        if(this.listing.openingHours) {
+            const openingHours = JSON.parse(this.listing.openingHours);
+            console.log(openingHours)
+            
+            this.daysOfWeek.forEach(day => {
+                this.schedules[day] = {open: openingHours[day].open, close: openingHours[day].close};
+            })
+        } else {
+            this.daysOfWeek.forEach(day => {
+                this.schedules[day] = { open: '09:00', close: '18:00' };
+            });
+        }
+
+        this.modalListing.open(this.openingHours, { centered: true });
+    }
+
+    saveSchedule() {
+        this.modalListing.dismissAll();
+
+        this.formListing.patchValue({
+            openingHours: JSON.stringify(this.schedules)
+        });
+    }
+
+    cleanScheduleByDay(day: string) {
+        this.schedules[day] = { open: '', close: '' };
+    }
+
+    removeSchedule() {
+        this.formListing.patchValue({
+            openingHours: ''
+        });
+    }
+
+    submitFormInfos() {
+        if(this.formListing.valid) {
+            this.spinnerService.show('Salvando seu anúncio, aguarde...');
+            console.log(this.formListing.value)
+            this.listingService.updateListing(this.formListing.value).subscribe(response => {
+                this.spinnerService.hide();
+                this.alertService.showAlert('success', 'Anúncio atualizado com sucesso.');
+
+            }, error => {
+                this.spinnerService.hide();
+                this.validErrorsService.validError(error, 'Falha ao atualizar o anúncio');
+            });
+
+        } else {
+            this.alertService.showAlert('info', 'Preencha todos os campos obrigatórios.');
+            this.formListing.markAllAsTouched();
+        }
     }
 
     goToTheTopWindow() {

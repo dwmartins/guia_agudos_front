@@ -173,19 +173,35 @@
                                     </div>
                                 </div>
                             }
+
+                            @if(getFieldPlans(plansInfo.workSchedule)) {
+                                <div class="col-md-12 col-lg-5 my-3">
+                                    @if (!this.formListing.value.openingHours) {
+                                        <div class="d-flex flex-column align-items-center gap-2">
+                                            <i class="fa-regular fa-clock fs-1 mb-3"></i>
+                                            <h5 class="custom-subtitle-dark text-center">Nenhum horário de funcionamento adicionado</h5>
+                                            <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Adicionar horário</button>
+                                        </div>
+                                    } @else {
+                                        <div class="d-flex flex-column align-items-center gap-2">
+                                            <i class="fa-regular fa-clock fs-1 mb-3"></i>
+                                            <h5 class="custom-subtitle-dark text-center">Horário de funcionamento adicionado!</h5>
+                                            <div class="d-flex gap-2">
+                                                <button type="button" class="btn btn-sm btn-primary" (click)="openOpiningHours()">Atualizar horário</button>
+                                                <button type="button" class="btn btn-sm btn-danger" (click)="removeSchedule()">Remover</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <hr class="custom-hr-dark mb-4 mb-md-5">
+                            }
                             
                             <div class="d-flex justify-content-end my-3">
-                                <button type="submit" class="btn btn-outline-primary fw-semibold letter-spacing-1 cursor_wait" [disabled]="spinnerEdit">
-                                    @if(spinnerEdit) {
-                                        <app-spinner-loading text="Aguarde..."/>
-                                    }@else {
-                                        SALVAR ALTERAÇÕES
-                                    }
+                                <button type="submit" class="btn btn-outline-primary fw-semibold letter-spacing-1 cursor_wait" (click)="submitFormInfos()">
+                                    SALVAR ALTERAÇÕES
                                 </button>
                             </div>
-            
-                            <hr class="custom-hr-dark mb-4 mb-md-5">
-            
                         </div>
                     </form>
                 </ng-template>
@@ -201,3 +217,34 @@
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
 </section>
+
+<ng-template #openingHours let-modal>
+    <div class="d-flex justify-content-end rounded-top">
+        <i class="bi bi-x-lg fs-5 p-2 text-black-50 cursor_pointer" aria-label="Close" (click)="modal.dismiss('Cross click')"></i>
+    </div>
+
+    <div class="py-3 pt-0">
+        @for (day of daysOfWeek; track $index) {
+            <div class="d-flex flex-column align-items-center p-1">
+                <p class="custom-subtitle-dark fw-semibold mb-1 letter-spacing-1">{{ day | uppercase }}</p>
+                <div class="w-100 d-flex align-items-center justify-content-evenly border-bottom py-2">
+                    <div class="d-flex">
+                        <input type="time" class="form-control form-control-sm custom_focus custom_placeholder" [(ngModel)]="schedules[day].open">
+                    </div>
+                        <label class="custom-subtitle-dark opacity-75 mx-2">Até</label>
+                    <div class="d-flex">
+                        <input type="time" class="form-control form-control-sm custom_focus custom_placeholder" [(ngModel)]="schedules[day].close">
+                    </div>
+                    <div>
+                        <button (click)="cleanScheduleByDay(day)" type="button" class="btn btn-sm btn-light ms-2"><i class="fa-solid fa-eraser"></i></button>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+    <div class="d-flex justify-content-center gap-2 p-2">
+        <button type="button" class="btn btn-outline-primary" (click)="saveSchedule()">Salvar alterações</button>
+        <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancelar</button>
+    </div>
+</ng-template>
