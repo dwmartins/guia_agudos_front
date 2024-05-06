@@ -65,6 +65,13 @@
     height: 130px;
 }
 
+
+.banner_reviews .img_banner_review {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+}
+
 .shadow_img_reviews {
     position: absolute;
     z-index: 2;

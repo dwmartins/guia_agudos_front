@@ -293,7 +293,7 @@
     <div class="position-relative banner_reviews mb-5">
 
         @if(listing.coverImage) {
-            <img class="img-fluid rounded-top h-100" [src]="constantsService.listing_cover + listing.coverImage" alt="Imagem de capa">
+            <img class="img-fluid img_banner_review rounded-top h-100" [src]="constantsService.listing_cover + listing.coverImage" alt="Imagem de capa">
         }
 
         <i class="fs-4 bi bi-x-lg position-absolute close_modal_review text-white cursor_pointer" aria-label="Close" (click)="d('Cross click')"></i>
