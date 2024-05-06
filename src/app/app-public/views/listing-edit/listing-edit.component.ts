@@ -137,13 +137,17 @@ export class ListingEditComponent implements OnInit, OnDestroy{
                 this.categories = categoryResponse;
                 this.searchItensCategory = categoryResponse;
 
+                if (listingResponse.keywords && typeof listingResponse.keywords === 'string') {
+                    this.keywords = JSON.parse(listingResponse.keywords);
+                }
+
                 this.formListing.patchValue({
                     id: this.listing.id,
                     user_id: this.listing.user_id,
                     title: this.listing.title,
                     summary: this.listing.summary,
                     description: this.listing.description,
-                    keywords: this.listing.keywords,
+                    keywords: this.keywords,
                     address: this.listing.address,
                     city: this.listing.city,
                     state: this.listing.state,
@@ -158,10 +162,6 @@ export class ListingEditComponent implements OnInit, OnDestroy{
                     email: this.listing.email,
                     url: this.listing.url,
                 });
-
-                if (listingResponse.keywords && typeof listingResponse.keywords === 'string') {
-                    this.keywords = JSON.parse(listingResponse.keywords);
-                }
 
                 this.getListingPlans(this.listing.planId);
             }, (error) => {
