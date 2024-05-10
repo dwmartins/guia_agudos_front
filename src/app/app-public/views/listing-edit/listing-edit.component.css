@@ -7,3 +7,20 @@
     background-color: #f8f9fa;
     color: var(--custom-titles-black);
 }
+
+.img-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.img-cover {
+    width: 220px;
+    height: 120px;
+}
+
+.img-gallery {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}

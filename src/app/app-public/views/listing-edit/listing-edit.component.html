@@ -209,7 +209,132 @@
             <li [ngbNavItem]="2">
                 <button ngbNavLink class="fw-semibold opacity-75">Imagens</button>
                 <ng-template ngbNavContent>
-                    <h1>IMAGENS </h1>
+                    <div class="container">
+                        <div class="row my-4">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Nota:</strong> Às vezes, pode ser necessário <span class="alert-link cursor_pointer" (click)="reloadPage()">recarregar a página</span> ou limpar o cache do navegador para visualizar as imagens atualizadas.
+                            </div>
+
+                            <div class="col-12 col-md-6 my-3">
+                                <div class="border rounded-1 p-3 py-2 mb-3">
+                                    <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                        <p class="m-0 custom-subtitle-dark">Imagem de logo</p>
+                                        <div class="d-flex gap-1">
+                                            @if (!previewLogoImg) {
+                                                <label class="btn btn-primary btn-sm" for="previewLogoImg">
+                                                    @if (listing.logoImage) {
+                                                        <span>Alterar logo</span>
+                                                    } @else if(previewLogoImg) {
+                                                        <span>Alterar logo</span>
+                                                    } @else {
+                                                        <span>Adicionar</span>
+                                                    }
+                                                </label>
+                                            }
+
+                                            @if(!previewLogoImg) {
+                                                <button class="btn btn-sm btn-danger"> 
+                                                    <i class="fa-solid fa-trash-can text-white fs-6"></i>
+                                                </button>
+                                            }
+
+                                            @if (previewLogoImg) {
+                                                <button class="btn btn-sm btn-primary" (click)="updateLogo()">Salvar</button>
+                                            }
+
+                                            @if(previewLogoImg) {
+                                                <button class="btn btn-sm btn-danger ">Cancelar</button>
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <hr class="custom-hr-dark m-0">
+                                    <div class="py-2 d-flex justify-content-center">
+                                        <input type="file" id="previewLogoImg" name="previewLogoImg" (change)="previewLogo($event)" style="display: none;" accept="image/*">
+                                        @if(previewLogoImg) {
+                                            <img alt="Imagem de logo" class="img-logo rounded-1" [src]="previewLogoImg">
+                                        } @else if(listing.logoImage) {
+                                            <img alt="Imagem de logo" class="img-logo rounded-1" [src]="constants.listing_logo + listing.logoImage">
+                                        }
+
+                                        @if (!previewLogoImg && !listing.logoImage) {
+                                            <p class="custom-subtitle-dark px-3 text-center">Imagem de logo não encontrado. Clique em 'Adicionar' para incluir.</p>
+                                        }
+
+                                    </div>
+                                    @if(previewLogoImg || listing.logoImage) {
+                                        <hr class="custom-hr-dark m-0">
+                                    }
+                                    <p class="custom-subtitle-dark m-0 fs-8 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                                </div>
+                            </div>
+
+                            @if(getFieldPlans(plansInfo.coverImage)) {
+                                <div class="col-12 col-md-6 my-3">
+                                    <div class="border rounded-1 p-3 py-2 mb-3">
+                                        <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                            <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
+                                            <label class="btn btn-primary btn-sm" for="previewCoverImg">
+                                                @if (listing.coverImage) {
+                                                    <span>Alterar capa</span>
+                                                } @else if(previewCoverImg) {
+                                                    <span>Alterar capa</span>
+                                                } @else {
+                                                    <span>Adicionar</span>
+                                                }
+                                            </label>
+                                        </div>
+                                        <hr class="custom-hr-dark m-0">
+                                        <div class="py-2 d-flex justify-content-center">
+                                            <input type="file" id="previewCoverImg" name="previewCoverImg" (change)="previewCapa($event)" style="display: none;" accept="image/*">
+
+                                            @if(previewCoverImg) {
+                                                <img alt="Imagem de capa" class="img-cover rounded-1" [src]="previewCoverImg">
+                                            } @else if(listing.coverImage) {
+                                                <img alt="Imagem de capa" class="img-cover rounded-1" [src]="constants.listing_cover + listing.coverImage">
+                                            }
+
+                                            @if (!previewCoverImg && !listing.coverImage) {
+                                                <p class="custom-subtitle-dark px-3 text-center">Imagem de capa não encontrado. Clique em 'Adicionar' para incluir.</p>
+                                            }
+
+                                        </div>
+                                        @if(previewCoverImg || listing.coverImage) {
+                                            <hr class="custom-hr-dark m-0">
+                                        }
+                                        <p class="custom-subtitle-dark m-0 fs-8 opacity-75 text-center pt-1">Recomenda-se fotos com 1526 x 430 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                                    </div>
+                                </div>
+                            }
+
+                            @if(getFieldPlans(plansInfo.imageGallery)) {
+                                <div class="col-12 col-md-6 my-3">
+                                    <div class="d-flex flex-column align-items-center border rounded-1 p-3 mb-3">
+                                        <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                            <p class="m-0 custom-subtitle-dark">Galeria de Fotos</p>
+                                            <label class="btn btn-primary btn-sm" for="previewGalleryImg"><span>Adicionar</span></label>
+                                        </div>
+                                        <div>
+                                            <input type="file" id="previewGalleryImg" name="previewGalleryImg" (change)="previewGallery($event)" style="display: none;" accept="image/*" multiple>
+                                            <div class="d-flex gap-3 flex-wrap justify-content-center py-3">
+                                                <div>
+                                                    <img *ngFor="let image of previewGalleryImg" [src]="image" alt="Gallery Image" class="rounded-1 img-gallery m-1">
+                                                </div>
+
+                                                @if (!previewGalleryImg.length) {
+                                                    <p class="custom-subtitle-dark px-3 text-center">Não foram encontradas imagens. Clique em 'Adicionar' para incluir imagens.</p>
+                                                }
+                                            </div>
+                                            @if(previewGalleryImg.length) {
+                                                <hr class="custom-hr-dark m-0">
+                                            }
+                                            <p class="custom-subtitle-dark m-0 fs-8 opacity-75 text-center pt-1">Recomenda-se fotos com 250 x 250 px (JPG, JPEG e PNG). Tamanho máximo de 5 MB.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </ng-template>
             </li>
         </ul>

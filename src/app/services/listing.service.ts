@@ -82,4 +82,15 @@ export class ListingService {
 
         return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/${id}`, {headers: headers});
     }
+
+    updateLogo(logoImage: File, listingId: number) {
+        const headers = new HttpHeaders({
+            'user_id': this.user.id,
+            'token': this.user.token
+        });
+
+        const formData = new FormData();
+        formData.append('logoImage', logoImage);
+        return this.httpClient.put<Listing>(`${this.API_URL}/anuncios/updatelogo/${listingId}`, formData, {headers})
+    }
 }

@@ -56,6 +56,16 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     listingId: number = 0;
     listing!: Listing;
 
+    logoImage!: File;
+    coverImage!: File;
+    galleryImages: File[] = [];
+
+    previewLogoImg!: string | null | undefined;
+    previewCoverImg!: string | null | undefined;
+    previewGalleryImg: (string | ArrayBuffer)[] = [];
+
+    temporaryLogoImgPreview!: File;
+
     categories: ListingCategory[] = [];
     searchItensCategory: ListingCategory[] = [];
     categoriesSelect: ListingCategory[] = [];
@@ -324,7 +334,6 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     submitFormInfos() {
         if(this.formListing.valid) {
             this.spinnerService.show('Salvando seu anúncio, aguarde...');
-            console.log(this.formListing.value)
             this.listingService.updateListing(this.formListing.value).subscribe(response => {
                 this.spinnerService.hide();
                 this.alertService.showAlert('success', 'Anúncio atualizado com sucesso.');
@@ -340,7 +349,99 @@ export class ListingEditComponent implements OnInit, OnDestroy{
         }
     }
 
+    previewLogo(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const file = fileInput.files?.[0];
+        
+        if(file) {
+            if(this.imageService.validImage(file)) {
+                this.logoImage = file;
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    this.previewLogoImg = reader.result?.toString();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    updateLogo() {
+        this.spinnerService.show('Atualizando a imagem de logotipo, aguarde...');
+        this.listingService.updateLogo(this.logoImage, this.listingId).subscribe(response => {
+            this.previewLogoImg = '';
+            this.spinnerService.hide();
+            this.alertService.showAlert('success', 'O logotipo foi atualizado com sucesso');
+
+
+        }, error => {
+            this.spinnerService.hide();
+            this.validErrorsService.validError(error, 'Falha ao atualizar a logotipo');
+        })
+    }
+
+    previewCapa(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const file = fileInput.files?.[0];
+
+        if(file) {
+            if(this.imageService.validImage(file)) {
+                this.coverImage = file;
+                const reader = new FileReader();
+
+                reader.onload = () => {
+                    this.previewCoverImg = reader.result?.toString();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    previewGallery(event: Event) {
+        const fileInput = event.target as HTMLInputElement;
+        const files = fileInput.files;
+
+        const galleryInfo = this.listingPlans.plansInfo;
+
+        const maxImgs = galleryInfo?.find(item => {
+            return item.description === "Galeria de imagens";
+        });
+        
+        if(this.galleryImages && maxImgs?.value && this.galleryImages.length >= maxImgs?.value ) {
+            this.alertService.showAlert('info', 'Você atingiu o limite máximo de imagens do seu plano.');
+            return;
+        }
+      
+        if (files) {
+            if(maxImgs?.value && (files.length + this.previewGalleryImg.length) > maxImgs?.value) {
+                this.alertService.showAlert('info', 'Você ultrapassou o limite máximo de imagens do seu plano.');
+                return;
+            }
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (this.imageService.validImage(file)) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = () => {
+                        const result = reader.result;
+                        if (result) {
+                            this.previewGalleryImg.push(result.toString());
+                            this.galleryImages.push(file);
+                        }
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    }
+
     goToTheTopWindow() {
         window.scrollTo(0, 0);
+    }
+
+    reloadPage() {
+        window.location.reload();
     }
 }
