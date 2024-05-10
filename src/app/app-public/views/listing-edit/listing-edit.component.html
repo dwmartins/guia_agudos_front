@@ -222,13 +222,7 @@
                                         <div class="d-flex gap-1">
                                             @if (!previewLogoImg) {
                                                 <label class="btn btn-primary btn-sm" for="previewLogoImg">
-                                                    @if (listing.logoImage) {
-                                                        <span>Alterar logo</span>
-                                                    } @else if(previewLogoImg) {
-                                                        <span>Alterar logo</span>
-                                                    } @else {
-                                                        <span>Adicionar</span>
-                                                    }
+                                                    <span>Alterar logo</span>
                                                 </label>
                                             }
 
@@ -239,7 +233,7 @@
                                             }
 
                                             @if (previewLogoImg) {
-                                                <button class="btn btn-sm btn-primary" (click)="updateLogo()">Salvar</button>
+                                                <button class="btn btn-sm btn-primary" (click)="updateLogoImage()">Salvar</button>
                                             }
 
                                             @if(previewLogoImg) {
@@ -274,15 +268,28 @@
                                     <div class="border rounded-1 p-3 py-2 mb-3">
                                         <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                                             <p class="m-0 custom-subtitle-dark">Imagem de capa</p>
-                                            <label class="btn btn-primary btn-sm" for="previewCoverImg">
-                                                @if (listing.coverImage) {
-                                                    <span>Alterar capa</span>
-                                                } @else if(previewCoverImg) {
-                                                    <span>Alterar capa</span>
-                                                } @else {
-                                                    <span>Adicionar</span>
+                                            <div class="d-flex gap-1">
+                                                @if (!previewCoverImg) {
+                                                    <label class="btn btn-primary btn-sm" for="previewCoverImg">
+                                                        <span>Alterar capa</span>
+                                                    </label>
                                                 }
-                                            </label>
+
+                                                @if(!previewCoverImg) {
+                                                    <button class="btn btn-sm btn-danger"> 
+                                                        <i class="fa-solid fa-trash-can text-white fs-6"></i>
+                                                    </button>
+                                                }
+
+                                                @if (previewCoverImg) {
+                                                    <button class="btn btn-sm btn-primary" (click)="updateCoverImage()">Salvar</button>
+                                                }
+
+                                                @if(previewCoverImg) {
+                                                    <button class="btn btn-sm btn-danger ">Cancelar</button>
+                                                }
+                                            </div>
+                                            
                                         </div>
                                         <hr class="custom-hr-dark m-0">
                                         <div class="py-2 d-flex justify-content-center">

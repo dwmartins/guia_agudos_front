@@ -366,9 +366,9 @@ export class ListingEditComponent implements OnInit, OnDestroy{
         }
     }
 
-    updateLogo() {
+    updateLogoImage() {
         this.spinnerService.show('Atualizando a imagem de logotipo, aguarde...');
-        this.listingService.updateLogo(this.logoImage, this.listingId).subscribe(response => {
+        this.listingService.updateLogoImage(this.logoImage, this.listingId).subscribe(response => {
             this.previewLogoImg = '';
             this.spinnerService.hide();
             this.alertService.showAlert('success', 'O logotipo foi atualizado com sucesso');
@@ -395,6 +395,20 @@ export class ListingEditComponent implements OnInit, OnDestroy{
                 reader.readAsDataURL(file);
             }
         }
+    }
+
+    updateCoverImage() {
+        this.spinnerService.show('Atualizando a imagem de capa, aguarde...');
+        this.listingService.updateCoverImage(this.coverImage, this.listingId).subscribe(response => {
+            this.previewCoverImg = '';
+            this.spinnerService.hide();
+            this.alertService.showAlert('success', 'A imagem de capa foi atualizada com sucesso');
+
+
+        }, error => {
+            this.spinnerService.hide();
+            this.validErrorsService.validError(error, 'Falha ao atualizar a imagem de capa');
+        })
     }
 
     previewGallery(event: Event) {
