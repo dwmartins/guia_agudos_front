@@ -46,10 +46,15 @@ export class ListingEditComponent implements OnInit, OnDestroy{
     router 			    = inject(Router);
 
     @ViewChild('openingHours', { static: true }) openingHours!: ElementRef;
+    @ViewChild('modalDeleteImage', {static: true}) modalDeleteImage!: ElementRef;
 
     navbarActive = 1;
 
     formListing: FormGroup;
+
+    spinnerDeleteImage: boolean = false;
+    titleModalDeleteImage: string = '';
+    typeOfImageToDelete: string = '';
 
     user!: User;
 
@@ -378,6 +383,70 @@ export class ListingEditComponent implements OnInit, OnDestroy{
             this.spinnerService.hide();
             this.validErrorsService.validError(error, 'Falha ao atualizar a logotipo');
         })
+    }
+
+    openModalDeleteLogoImage(imageType: string) {
+        switch (imageType) {
+            case 'coverImage':
+                this.titleModalDeleteImage = 'Excluir Imagem de capa';
+                this.typeOfImageToDelete = 'coverImage';
+                break;
+            case 'logoImage':
+                this.titleModalDeleteImage = 'Excluir Logotipo';
+                this.typeOfImageToDelete = 'logoImage';
+                break;
+            case 'gallery':
+                this.titleModalDeleteImage = 'Excluir Imagem da galaria';
+                this.typeOfImageToDelete = 'gallery';
+                break;
+            case 'AllGallery':
+                this.titleModalDeleteImage = 'Excluir todas imagens da galeria';
+                this.typeOfImageToDelete = 'AllGallery';
+                break;
+            default:
+                break;
+        }
+
+        this.modalListing.open(this.modalDeleteImage, {centered: true});
+    }
+
+    deleteImagens() {
+        switch (this.typeOfImageToDelete) {
+            case 'coverImage':
+                this.spinnerDeleteImage = true;
+                this.listingService.deleteCoverImage(this.listingId).subscribe(response => {
+                    this.spinnerDeleteImage = false;
+                    this.modalListing.dismissAll();
+                    this.alertService.showAlert('success', 'A imagem de capa foi deletada com sucesso');
+                }, error => {
+                    this.spinnerDeleteImage = false;
+                    this.modalListing.dismissAll();
+                    this.validErrorsService.validError(error, 'Falha ao deletar a imagem de capa');
+                })
+
+                break;
+            case 'logoImage':
+                this.spinnerDeleteImage = true;
+                this.listingService.deleteLogoImage(this.listingId).subscribe(response => {
+                    this.spinnerDeleteImage = false;
+                    this.modalListing.dismissAll();
+                    this.alertService.showAlert('success', 'O logotipo foi deletado com sucesso');
+                }, error => {
+                    this.spinnerDeleteImage = false;
+                    this.modalListing.dismissAll();
+                    this.validErrorsService.validError(error, 'Falha ao deletar o logotipo');
+                })
+
+                break;
+            case 'gallery':
+
+                break;
+            case 'AllGallery':
+
+                break;
+            default:
+                break;
+        }
     }
 
     previewCapa(event: Event) {

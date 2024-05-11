@@ -24,3 +24,7 @@
     height: 120px;
     object-fit: cover;
 }
+
+#modal_delete_logo_image .fa-triangle-exclamation{
+    font-size: 40px;
+}

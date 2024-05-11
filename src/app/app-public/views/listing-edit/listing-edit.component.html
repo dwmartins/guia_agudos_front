@@ -227,7 +227,7 @@
                                             }
 
                                             @if(!previewLogoImg) {
-                                                <button class="btn btn-sm btn-danger"> 
+                                                <button class="btn btn-sm btn-danger" (click)="openModalDeleteLogoImage('logoImage')"> 
                                                     <i class="fa-solid fa-trash-can text-white fs-6"></i>
                                                 </button>
                                             }
@@ -252,7 +252,7 @@
                                         }
 
                                         @if (!previewLogoImg && !listing.logoImage) {
-                                            <p class="custom-subtitle-dark px-3 text-center">Imagem de logo não encontrado. Clique em 'Adicionar' para incluir.</p>
+                                            <p class="custom-subtitle-dark px-1 py-2 text-center">Imagem de logo não encontrado. Clique em 'Adicionar' para incluir.</p>
                                         }
 
                                     </div>
@@ -276,7 +276,7 @@
                                                 }
 
                                                 @if(!previewCoverImg) {
-                                                    <button class="btn btn-sm btn-danger"> 
+                                                    <button class="btn btn-sm btn-danger" (click)="openModalDeleteLogoImage('coverImage')"> 
                                                         <i class="fa-solid fa-trash-can text-white fs-6"></i>
                                                     </button>
                                                 }
@@ -302,7 +302,7 @@
                                             }
 
                                             @if (!previewCoverImg && !listing.coverImage) {
-                                                <p class="custom-subtitle-dark px-3 text-center">Imagem de capa não encontrado. Clique em 'Adicionar' para incluir.</p>
+                                                <p class="custom-subtitle-dark px-1 py-2 text-center">Imagem de capa não encontrado. Clique em 'Adicionar' para incluir.</p>
                                             }
 
                                         </div>
@@ -329,7 +329,7 @@
                                                 </div>
 
                                                 @if (!previewGalleryImg.length) {
-                                                    <p class="custom-subtitle-dark px-3 text-center">Não foram encontradas imagens. Clique em 'Adicionar' para incluir imagens.</p>
+                                                    <p class="custom-subtitle-dark px-1 py-2 text-center">Não foram encontradas imagens. Clique em 'Adicionar' para incluir imagens.</p>
                                                 }
                                             </div>
                                             @if(previewGalleryImg.length) {
@@ -378,5 +378,33 @@
     <div class="d-flex justify-content-center gap-2 p-2">
         <button type="button" class="btn btn-outline-primary" (click)="saveSchedule()">Salvar alterações</button>
         <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalDeleteImage let-c="close" let-d="dismiss">
+    <div class="p-3" id="modal_delete_logo_image">
+        <div class="d-flex gap-4">
+            <div class="pt-2">
+                <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+            </div>
+            <div>
+                <h4 class="custom-dark"> {{ titleModalDeleteImage }} </h4>
+                @if (typeOfImageToDelete != "AllGallery") {
+                    <p>Você tem certeza que deseja excluir esse imagem? Essa ação não poderá ser desfeita.</p>
+                } @else {
+                    <p>Você tem certeza que deseja excluir todas as imagens da galeria? Essa ação não poderá ser desfeita.</p>
+                }
+            </div>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn border" aria-label="Close" (click)="d('Cross click')">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="deleteImagens()" [disabled]="spinnerDeleteImage">
+                @if (!spinnerDeleteImage) {
+                    <span>Excluir</span>
+                }@else {
+                    <app-spinner-loading color="text-white" text="Aguarde..." />
+                }
+            </button>
+        </div>
     </div>
 </ng-template>

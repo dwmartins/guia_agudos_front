@@ -94,6 +94,15 @@ export class ListingService {
         return this.httpClient.put<Listing>(`${this.API_URL}/anuncios/updatelogoimage/${listingId}`, formData, {headers})
     }
 
+    deleteLogoImage(listingId: number) {
+        const headers = new HttpHeaders({
+            'user_id': this.user.id,
+            'token': this.user.token
+        });
+
+        return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/deletelogoimage/${listingId}`, {headers: headers});
+    }
+
     updateCoverImage(coverImage: File, listingId: number) {
         const headers = new HttpHeaders({
             'user_id': this.user.id,
@@ -103,5 +112,14 @@ export class ListingService {
         const formData = new FormData();
         formData.append('coverImage', coverImage);
         return this.httpClient.put<Listing>(`${this.API_URL}/anuncios/updatecoverimage/${listingId}`, formData, {headers})
+    }
+
+    deleteCoverImage(listingId: number) {
+        const headers = new HttpHeaders({
+            'user_id': this.user.id,
+            'token': this.user.token
+        });
+
+        return this.httpClient.delete<Responses>(`${this.API_URL}/anuncios/deletecoverimage/${listingId}`, {headers: headers});
     }
 }
